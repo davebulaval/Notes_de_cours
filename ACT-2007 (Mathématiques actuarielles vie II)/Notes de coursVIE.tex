@@ -1,0 +1,1375 @@
+\documentclass[11pt,french]{report}
+  \usepackage{babel}
+  \usepackage{amsmath}
+  \usepackage[utf8]{inputenc}   % LaTeX
+  \usepackage[T1]{fontenc}      % LaTeX
+  %\usepackage{fontspec}         % XeLaTeX
+  \usepackage[autolanguage]{numprint}
+  \usepackage{graphicx} %image
+  \setcounter{secnumdepth}{3} %profondeur de la numérotation
+  \usepackage[colorlinks]{hyperref}
+  \usepackage{titlesec}	%package pour modifier les chapitres #2
+  \frenchbsetup{ItemLabeli==$>$}
+  \usepackage{url}
+  \usepackage[autolanguage]{numprint}
+  \usepackage{tikz}
+  \usetikzlibrary{snakes}
+  \setlength{\parindent}{0pt}
+
+%nombre séparé au millier 
+%\numprint{205425213}
+  
+% déclaration de formule pour annuité
+\DeclareRobustCommand{\annuity}[1]{%
+\def\arraystretch{0}%
+\setlength\arraycolsep{.7pt}%
+\setlength\arrayrulewidth{.3pt}% 
+\begin{array}[b]{@{}c|}\hline
+\\[\arraycolsep]%
+\scriptstyle #1%
+\end{array}%
+}
+% exemple d'utilisation de la fonction annuity
+% \ddot{a}_{\annuity{n}i} 
+
+%fonction pour indice a gauche 
+\newcommand{\indiceGauche}[2]{{\vphantom{#2}}_{#1}#2}
+%ex utilisation
+%\indiceGauche{s}{P_{x+t}}
+
+%commande pour factoriel
+\newcommand{\fact}[1]{#1\mathpunct{}!}
+%\fact{n} %exemple utilisation
+
+%commande sur les chapitres pour ne pas avoir de numérotation dans le document (aucun indicage dans le TOC)
+%#1
+%\newcommand{\mychapter}[2] 
+%{
+%    \setcounter{chapter}{#1}
+%    \setcounter{section}{0}
+%    \chapter*{#2}
+%    \addcontentsline{toc}{chapter}{#2}
+%}
+
+%commande sur les chapitres pour ne pas avoir d'indicage (mais dans le TOC)
+%#2
+\titleformat{\chapter}
+  {\Large\bfseries} % format
+  {}                % label
+  {0pt}             % sep
+  {\huge}           % before-code
+
+
+\title{ACT 2007 \\ Notes de cours VIE II}
+\author{\textbf{David Beauchemin}}
+\date{\today}
+
+\begin{document}
+
+
+\makeatletter
+  \begin{titlepage}
+  \centering
+      {\large \textbf{\textsc{UNIVERSITÉ LAVAL}}}\\
+      \textsc{École d'actuariat}\\
+    \vspace{2cm}
+    \vspace{2cm}
+      {\LARGE \textbf{\@title}} \\
+    \vfill
+       {\large \@author} \\
+    \vspace{4cm}
+        {\large\textbf{\@date}}\\
+    \vfill
+    {\large\textbf{Version 4}}\\
+    \vfill
+  \end{titlepage}
+\makeatother
+
+
+\tableofcontents
+\newpage
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+Modification à la version 3: \\
+\begin{itemize}
+\item Correction d'une erreur à l'exemple 7.11 
+\item Clarification de l'exemple 7.12
+\item Correction erreur du montant de la prime exemple 7.15
+\end{itemize}
+
+\chapter{Provisions}
+\label{chap:provi}
+
+\section{Cas particulier 1 : (diapo 8)}
+Remarque: $ T_{x+t} = \lbrace T_x -t | T_x > t\rbrace $
+
+Preuve:
+\begin{align*}
+Y &= \lbrace T_x - t | T_x > t \rbrace
+\end{align*} 
+\begin{align*}
+S_y(s) &= P(y > s) \\
+&= P(T_x - t > s | T_x > t) \\
+&= P(T_x > t + s | T_x > t) \\
+&= \frac{P(T_x> t +s)}{P(T_x > t)}  \\
+&= \frac{\indiceGauche{t+x}{P_x}}{\indiceGauche{t}{P_x}} \\
+&= \frac{\indiceGauche{t}{P_x} \indiceGauche{s}{P_{(t+x)}}}{\indiceGauche{t}{P_x}} \\
+&= \indiceGauche{s}{P_{x+t}} \\
+\end{align*}
+Donc,
+\begin{align*}
+S_y(s) &= P(y>s) \\
+&= \indiceGauche{s}{P_{x+t}}\\
+&= P(T_{x+t} >s)\\
+&=S_{T_{x+t}}(s)\\
+\end{align*}
+Alors,
+\begin{align*}
+Y &= T_{x+t} \\
+\indiceGauche{t}{V} &= E[\indiceGauche{t}{L}] \\
+\end{align*}
+On obtient le résultat suivant,
+\begin{equation}
+b{A_{x+t}} - \pi \ddot{a}_{x+t} \Longleftrightarrow \indiceGauche{t}{L} = bv^{K_{x+t} + 1} - \pi\ddot{a}_{\annuity{K_{x+t}+1}} \\
+\end{equation}
+Maintenant, on regarde la variance:
+\begin{align*}
+Z_t &= M v^{K_{x+t}+1}\\
+Y_t &= \pi \ddot{a}_{\annuity{K_{x+t}+1}}\\
+\end{align*}
+On définit donc $\indiceGauche{t}{L}$ comme suit:
+\begin{equation}
+\indiceGauche{t}{L} = M v^{K_{x+t}+1} -  \pi \ddot{a}_{\annuity{K_{x+t}+1}}
+\end{equation}
+On développe pour trouver la variance:
+\begin{align*}
+\indiceGauche{t}{L} &= M v^{K_{x+t}+1} -  \pi \ddot{a}_{\annuity{K_{x+t}+1}} \\
+&= M v^{K_{x+t}+1} -  \pi \frac{1 - v^{K_{x+t}+1}}{d} \\
+&= \Big(m + \frac{\pi}{d}\Big)v^{K_{x+t}+1} - \frac{\pi}{d}\\
+Var(\indiceGauche{t}{L}) &= Var \Bigg( \Big(m + \frac{\pi}{d}\Big)v^{K_{x+t}+1} - \frac{\pi}{d} \Bigg)\\
+&=\Big(m + \frac{\pi}{d}\Big)^2 var\Big(v^{K_{x+t}+1}\Big)\\
+&= \Big(m + \frac{\pi}{d}\Big)^2 \Big( {}^2A_{x+t} - A_{x+t}^{2} \Big)
+\end{align*}
+
+\section{Cas particulier 2 : (diapo 9)}
+\label{sec:cas:2}
+
+\subsection*{a) Prime équivalence}
+
+\begin{align*}
+VP_{@0}(\text{prestation}) &= VP_{@0} (\text{primes à recevoir}) \Leftrightarrow VP_{@0} (\text{prestation}) - VP_{@0} (\text{primes}) = 0 \\
+M \times A_{x} &= \pi \ddot{a}_{x\annuity{:n}} \\
+\pi &\Rightarrow  M \times \frac{A_{x}}{\ddot{a}_{x\annuity{:n}}}
+\end{align*}
+Démonstration:
+\begin{equation}
+\label{eq:def:Z}
+Z = M \times v^{K_{n}+1}
+\end{equation}
+\begin{equation}
+\label{eq:def:Y}
+	Y =
+     \left\{
+     \begin{array}{rl}
+     \pi \times\ddot{a}_{\annuity{K_{x}+1}}  &, \text{si } K_{x} \varepsilon \lbrace0,1,...,n-1\rbrace\\
+      \pi \times \ddot{a}_{\annuity{n}} &, \text{si } K_{x} \varepsilon \lbrace n,n+1,...\rbrace
+     \end{array}
+     \right.
+\end{equation}
+\subsection*{b) Calculer les réserves aux temps (t):}
+
+\subsubsection*{t $<$ n}
+À partir des équations \ref{eq:def:Z} et \ref{eq:def:Y}, on obtient:
+\begin{equation*}
+     \indiceGauche{t}{L} = \indiceGauche{h}{Z} - \indiceGauche{h}{Y} = 
+     \left\{
+     \begin{array}{rl}
+     M \times v^{K_{x+t}+1} - \pi \times \ddot{a}_{\annuity{K_{x+t}+1}}  &, \text{si } T_{x+t} < n -t \Leftrightarrow K_{x+t} \varepsilon \lbrace0,1,...,n-t-1\rbrace\\
+       M \times v^{K_{x+t}+1} - \pi \times \ddot{a}_{\annuity{n - t}} &, \text{si }  T_{x+t} > n -t \Leftrightarrow K_{x+t} \varepsilon \lbrace n-t,n-t+1,...\rbrace
+     \end{array}
+     \right.
+\end{equation*}
+On obtient donc,
+\begin{align*}
+\indiceGauche{t}{V} &= E[\indiceGauche{t}{L}] = M \times A_{x + t} - \pi \times \ddot{a}_{x+t\annuity{:n-t}}\\
+&= M \times A_{x + t} -  M \times \frac{A_{x}}{\ddot{a}_{x\annuity{:n}}} \times \ddot{a}_{x+t\annuity{:n-t}}
+\end{align*}
+\subsubsection*{t $\geq$ n}
+\begin{align*}
+\indiceGauche{t}{V} &= E[\indiceGauche{t}{L}] = M \times v^{K_{n}+1} \\
+&= M \times A_{x + t} 
+\end{align*}
+
+
+\section{exemple 7.1 : (diapo 10)}
+\begin{itemize}
+\item Même démarche que le cas particulier à \ref{sec:cas:2}.
+\item $\cdot$ M\$ à $K_{x + 1}$
+\item $\cdot$ $\pi$ début d'année pour n années
+\end{itemize}
+\subsection*{a) Prime principe d'équivalence:}
+\begin{align*}
+M\times A_x &= \pi \ddot{a}_{x\annuity{:n}} 
+\Rightarrow 
+\pi = \frac{M \times A_x}{\ddot{a}_{x\annuity{:n}}}
+\end{align*}
+
+\subsection*{b) Calcul réserve au temps t:} 
+$\indiceGauche{t}{V}$ = $VP_{@0}$ (prestation à payer) - $VP_{@0}$(primes à recevoir)
+
+cas 1 : t $<$ n
+\begin{align*}
+\indiceGauche{t}{V} = M\times A_{x+t} - \pi \ddot{a}_{x+t\annuity{:n-t}} \Rightarrow M\times A_{x+t} - \frac{M\times A_x}{\ddot{a}_{x\annuity{:n}}} \times \ddot{a}_{x+t\annuity{:n-t}}
+\end{align*}
+
+cas 2: t $\leq$ n
+\begin{align*}
+\indiceGauche{t}{V} = M\times A_{x+t}
+\end{align*}
+
+
+\section{Exemple 7.2 : (diapo 11)}
+\begin{itemize}
+\item $\cdot$ \numprint{30000} \$
+\item $\cdot$ x = (30)
+\item $\cdot$ $\indiceGauche{20}{\pi}$ = $P ^{pe}$
+\item $\cdot$ $\delta$ = 6 \%
+\end{itemize}
+
+\subsection*{a) Trouver $\pi$} 
+\begin{align*}
+\numprint{30000} \times A_{30\annuity{:30}} &= P \times \ddot{a}_{30\annuity{:20}} \\
+P &= \frac{\numprint{30000} \times A_{30\annuity{:30}}}{\ddot{a}_{30\annuity{:20}}} \\
+&= \frac{\numprint{30000} \times 0.200142}{35.281344} = 170.18\$ \\
+\end{align*}
+
+\subsection*{b) Définir L}
+\begin{align*}
+\indiceGauche{10}{L} &= \indiceGauche{10}{Z} - \indiceGauche{10}{Y}
+\end{align*}
+
+\begin{equation}
+\label{eq:exp:z2}
+\indiceGauche{10}{Z} =
+     	\left\{
+     	\begin{array}{rl}
+     	\numprint{30000}\times v^{K_{40}+1} &, \text{si } K_{40} \varepsilon \lbrace 0,1,..., 19\rbrace\\
+		0 &, \text{si } K_{40} \lbrace 20,21,...\rbrace
+     	\end{array}
+     	\right.	
+\end{equation}
+
+\begin{equation}
+\label{eq:exp:y2}
+\indiceGauche{10}{Y} =
+     	\left\{
+     	\begin{array}{rl}
+     	\pi\times \ddot{a}_{\annuity{K_{40} + 1}} &, \text{si } K_{40} \varepsilon \lbrace0,1,..., 9\rbrace\\
+		\pi \times \ddot{a}_{\annuity{10}} &, \text{si } K_{40} \lbrace10,11,...\rbrace
+     	\end{array}
+     	\right.	
+\end{equation}
+À partir des expressions \ref{eq:exp:z2} et \ref{eq:exp:y2}:
+\begin{equation}
+	\indiceGauche{10}{L} =
+     	\left\{
+     	\begin{array}{rl}
+     	\numprint{30000}\times v^{K_{40}+1} - \pi \times \ddot{a}_{\annuity{K_{40} + 1}} &, \text{si } K_{40} \varepsilon \lbrace0,1,..., 9\rbrace\\
+      	\numprint{30000}\times v^{K_{40}+1} - \pi \times \ddot{a}_{\annuity{10}}  &, \text{si } K_{40} \varepsilon \lbrace 10,11,...,19\rbrace \\
+		0 - \pi \ddot{a}_{\annuity{10}} &, \text{si } K_{40} \lbrace20,21,...\rbrace
+     	\end{array}
+     	\right.							   
+\end{equation}
+De façon similaire on obtient,
+\begin{equation}
+\indiceGauche{25}{L} =
+     	\left\{
+     	\begin{array}{rl}
+     	\numprint{30000}\times v^{K_{55}+1} &, \text{si } K_{55} \varepsilon \lbrace0,1,..., 4\rbrace\\
+		0 &, \text{si } K_{55} \lbrace5,6,...\rbrace
+     	\end{array}
+     	\right.	
+\end{equation}
+Trouver $\indiceGauche{25}{L}$ si $T_{30}$ = 28.2 ( sachant que le contrat est en vigueur $\Leftrightarrow$ sachant que $T_{30} > 25$)
+\begin{align*}
+\lbrace T_{30} - 25 | T_{30} > 25 \rbrace &= T_{55} \\
+&\Rightarrow \text{si } T_{30} = 28.2 \Rightarrow T_{55} = 3.2 \\
+&\Rightarrow \text{si } K_{55} = 3 \Rightarrow \lbrace\indiceGauche{25}{L} | T_{30}\rbrace = 28.2 \\
+&= \numprint{30000}\times v^4 \\
+&= \numprint{23598.84}\$
+\end{align*}
+Trouver $\indiceGauche{10}{L}$ si $T_{30}$ = 14.6
+\begin{align*}
+T_{40} = 4.6 &\Rightarrow K_{40} = 4 \\
+&\Rightarrow \indiceGauche{10}{L} = \numprint{30000}\times v^5 - P \ddot{a}_{\annuity{5}} \\
+&= \numprint{21467.13}\$
+\end{align*}
+
+\subsection*{c) Calcul de réserve}
+$\indiceGauche{10}{V}$ = $VP_{@10}$ (prestation future à payer) - $VP_{@10}$ (primes futures à recevoir) 
+\begin{align*}
+&= \numprint{30000}\times A_{40\annuity{:20}} - P \times \ddot{a}_{40\annuity{:10}} \\
+&= \numprint{30000} \times 0.28768 - 170.18 \times 22.787631 = \numprint{9646.47}\$ \\
+\end{align*}
+
+$\indiceGauche{25}{V} = \numprint{30000} \times A_{55\annuity{:5}} - 0 = \numprint{30000} \times 0.231449 = \numprint{4605.04}\$ $  
+
+\section{Réserves pour primes non-nivelées : (diapo 12)}
+\begin{align*}
+\indiceGauche{h}{L} &= b_{K_{x+h}+h+1} \times v^{K_{x+h}+1} - \sum_{i=0}^{K_{x+h}} \pi_{h+i}\times v^{i}
+\end{align*}
+\begin{align*}
+\indiceGauche{h}{V} &= \sum_{k=0}^{\infty} b_{K_{k+h}h+1}\times v^{k+1}\times \indiceGauche{k}{P_{x+h}} - \sum_{k=0}^{\infty} \pi_{h+k}\times v^{k}\times \indiceGauche{k}{P_{x+h}}
+\end{align*}
+
+\section{Exemple 7.3: (diapo 14)}
+\label{exemple7.3}
+Notes: Je n'arrive pas au même réponse que les notes de cours. J'ai inclus mes réponses.
+\begin{itemize}
+\item $\cdot$ x = (50)
+\item $\cdot$ $\delta$ = 6 \%
+\end{itemize}
+\begin{equation}
+M =
+     	\left\{
+     	\begin{array}{rl}
+     	\numprint{50000}\$ &, \text{si } T_{50} <15 \\
+		\numprint{10000}\$ &, \text{si } T_{50} > 15
+     	\end{array}
+     	\right.	
+\end{equation}
+\begin{equation}
+\pi_k =
+     	\left\{
+     	\begin{array}{rl}
+     	5 \times \pi &, \text{si } T_{50} <15 \\
+		  \pi &, \text{si } T_{50} > 15
+     	\end{array}
+     	\right.	
+\end{equation}
+\subsection*{a) Calculer $\pi$}
+\begin{align*}
+\pi &\Rightarrow \numprint{50000}\times A_{50\annuity{:15}} + \numprint{10000}\times \indiceGauche{15}{E}_{50}\times A_{65} = 5\pi\ddot{a}_{50\annuity{:15}} + \pi\times \indiceGauche{15}{E}_{50}\times\ddot{a}_{65} \\
+&\Rightarrow \numprint{50000}\times A_{50} - \numprint{40000}\times \indiceGauche{15}{E}_{50}\times A_{65} = 5\pi\ddot{a}_{50} - 4\pi\times \indiceGauche{15}{E}_{50}\times \ddot{a}_{65} \\
+\pi &= \frac{\numprint{50000}\times A_{50} - \numprint{40000}\times \indiceGauche{15}{E}_{50}\times A_{65}}{5\times \ddot{a}_{50} - 4 \times \indiceGauche{15}{E}_{50}\times \ddot{a}_{65}} \\
+&=119.663\$
+\end{align*}
+
+\subsection*{b) Calculer la réserve à t = 10}
+\begin{align*}
+\indiceGauche{10}{V} &= \numprint{50000}\times A_{60} - \numprint{40000}\times  \indiceGauche{5}{E}_{60}\times A_{65} - 5\times P\times \ddot{a}_{60} - 4\times P\times\indiceGauche{5}{E}_{60} \times \ddot{a}_{65} \\
+&= \numprint{2949.57376}\$
+\end{align*}
+
+\subsection*{c) Calculer la réserve à t = 20}
+$\indiceGauche{20}{V} = \numprint{10000} \times A_{70} - P \times \ddot{a}_{70} = \numprint{4124.072}\$ $
+
+\section{Relations récursives pour réserves sans frais}
+La réserve au temps $h + 1 $ correspond à :
+\begin{equation}
+\indiceGauche{h + 1}{V} = \frac{(\indiceGauche{h}{V} + \pi_{h} )\times (1+i) - b_{h+1}\times q_{x+h}}{p_{x+h}}
+\end{equation}
+Accumulation de la réverse déjà accumuler à h + prime versé à h. Il existe deux possibilités:
+\begin{enumerate}
+\item[1-] Mourir avec prob $q_{x+h}$ et payer la prestation au décès $b_{x+h}$ soit : $ - b_{h+1}\times q_{x+h}$
+\item[2-]Survivre avec prob $p_{x+h}$ et on a besoin d'une réserve de $\indiceGauche{h + 1}{V}$ soit : $\indiceGauche{h + 1}{V} \times p_{x+h}$.
+\end{enumerate}
+
+\section{Exemple 7.4 : (diapo 17)}
+\begin{itemize}
+\item $ \cdot $ x = (50)
+\item $ \cdot $ M = \numprint{1000}\$
+\item $ \cdot $ $\pi_k$ = 13.10\$ selon le principe d'équivalence 
+\item $ \cdot $ De plus, $\indiceGauche{0}{V}$ = 0
+\end{itemize}
+On cherche,
+\begin{align*}
+(\indiceGauche{0}{V} + \pi )\times (1+i) &=  b\times q_{x} + p_{x}\times \indiceGauche{1}{V}\\
+(\indiceGauche{1}{V} + \pi )\times (1+i) &=  b\times q_{x+1} + p_{x+1}\times \indiceGauche{2}{V}\\
+\end{align*}
+On résout les équations pour trouver les montants de réserve.
+\begin{align*}
+\indiceGauche{1}{V} &= \frac{(\indiceGauche{0}{V} + \pi )\times (1+i) - b\times q_{x}}{p_{x}}\\
+&= \frac{(0 + 13.1)(1.06) - (0.005 \times \numprint{1000})}{0.995}\\
+&= 8.931\$ \\
+\indiceGauche{2}{V} &= \frac{(\indiceGauche{1}{V} + \pi )\times (1+i) - b\times q_{x+1}}{p_{x+1}}\\
+&= \frac{(8.931 + 13.1)(1.06) - (0.010 \times \numprint{1000})}{0.99}\\
+&= 13.488\$
+\end{align*}
+
+\section{Exemple 7.5 : (diapo 18)}
+\begin{itemize}
+\item $ \cdot $ x = (50)
+\item $ \cdot $ M = \numprint{100000}\$
+\item $ \cdot $ $\pi_k$ = \numprint{4156}\$ payable au plus 10 ans.
+\item $ \cdot $ i = 5 \%
+\item $ \cdot $ De plus, $\indiceGauche{9}{V}$ = \numprint{65 075}\$
+\end{itemize}
+On cherche $A_{41}$. 
+
+On commence par trouver la réserve à 10:
+\begin{align*}
+\Big(\indiceGauche{9}{V} + \pi \Big)(1+i) &= \numprint{10000} q_{39} + \indiceGauche{10}{V}p_{39}\\
+(\numprint{65070} + \numprint{4156})(1.05) &= \numprint{100000} \times 0.011 + \indiceGauche{10}{V}(1 - 0.011) \\
+\indiceGauche{10}{V}&= \numprint{72383.52}\$
+\end{align*}
+Et pour t = 11:
+\begin{align*}
+\Big(\indiceGauche{10}{V} + 0 \Big)(1+i) &= \numprint{10000} q_{40} + \indiceGauche{11}{V}p_{40}\\
+(\numprint{72383.52})(1.05) &= \numprint{100000} \times 0.012 + \indiceGauche{11}{V}(1 - 0.012) \\
+\indiceGauche{10}{V}&= \numprint{75711.2}\$
+\end{align*}
+Donc,
+\begin{align*}
+\indiceGauche{11}{V} &= \numprint{100000}\times A_{41}\\
+A_{41} &= \frac{V_{11}}{\numprint{100000}}\\
+&=0.757112
+\end{align*}
+\section{Réserve et primes par principe d'équivalence (rétrospective): (diapo 19)}
+Si on utilise une prime par le principe d'équivalence $\indiceGauche{0}{V} = 0$. Alors,
+\begin{align*}
+\indiceGauche{h}{V} &= \frac{VP_{@0}(\text{primes reçues avant \emph{h}})- VP_{@0}(\text{prestation à payer avant \emph{h}})}{\indiceGauche{h}{E}_x}
+\end{align*}
+\section{Cas particuliers : Contrat d'assurance vie mixte n années : (diapo 20)}
+
+\begin{itemize}
+\item $ \cdot $ x = (50)
+\item $ \cdot $ M = \numprint{1}\$
+\end{itemize}
+\subsection*{i)}
+D'abord on trouve P par le principe d'équivalence, qui correspond à :
+\begin{equation}
+\label{eq:prime PPE}
+P = \frac{A_{x\annuity{:h}}}{\ddot{a}_{x\annuity{:h}}}
+\end{equation}
+Et puis pour trouver la réserve à h, avec la méthode rétrospective:
+\begin{align*}
+\indiceGauche{h}{V} =& \frac{VP_{@0}\text{(primes recues avant temps h)} - VP_{@0} \text{(prestations payés avant h)} }{\indiceGauche{h}{E_x}}\\
+&= \frac{P \ddot{a}_{x\annuity{:h}} -  A_{x\annuity{:h}}}{\indiceGauche{h}{E_x}} \text{ ,où P = \ref{eq:prime PPE}}
+\end{align*}
+\subsection*{ii)}
+\begin{align*}
+\indiceGauche{h}{V} =& VP_{@0}(\text{prestations futures à payer de h à n}) - VP_{@0}(\text{primes futures à recevoir de h à n})\\
+=&  A_{x+h\annuity{:n-h}} - P \ddot{a}_{x+h\annuity{:n-h}}
+\end{align*}
+On substituant P par l'équation \ref{eq:prime PPE}, pour les 2 méthodes, on obtient:
+\begin{equation}
+A_{x+h\annuity{:n-h}} -  \frac{A_{x\annuity{:h}}}{\ddot{a}_{x\annuity{:h}}} \ddot{a}_{x+h\annuity{:n-h}}
+\end{equation}
+\begin{equation}
+\frac{A_{x\annuity{:h}}}{\ddot{a}_{x\annuity{:h}}}\Bigg(\frac{\ddot{a}_{x\annuity{:h}} - A_{x\annuity{:h}}}{\indiceGauche{h}{E_x}}\Bigg)
+\end{equation}
+On prouve l'égalité entre les 2 méthodes. On débute on posant les égalités suivantes:
+\begin{align*}
+\ddot{a}_{x\annuity{:n}} &= \ddot{a}_{x\annuity{:h}} + \indiceGauche{h}{E_x} \ddot{a}_{x + h\annuity{:n - h}}\\
+\ddot{a}_{x + h\annuity{:n - h}} &= \frac{\ddot{a}_{x\annuity{:n}} - \ddot{a}_{x\annuity{:h}}}{\indiceGauche{h}{E_x}}\\
+A_{x\annuity{:n}} &= A_{x\annuity{:h}} + \indiceGauche{h}{E_x} A_{x + h\annuity{:n - h}}\\
+A_{x + h\annuity{:n - h}} &= \frac{A_{x\annuity{:n}} - A_{x\annuity{:h}}}{\indiceGauche{h}{E_x}}\\
+\end{align*}
+On trouve par la suite:
+\begin{align*}
+\indiceGauche{h}{V} =& A_{x + h\annuity{:n - h}} - \frac{A_{x\annuity{:n}}}{\ddot{a}_{x\annuity{:n}}}\ddot{a}_{x + h\annuity{:n - h}}\\
+&= \frac{A_{x\annuity{:n}} - A_{x\annuity{:h}}}{\indiceGauche{h}{E_x}} - \frac{A_{x\annuity{:n}}}{\ddot{a}_{x\annuity{:n}}} \Bigg(\frac{\ddot{a}_{x\annuity{:n}} - \ddot{a}_{x\annuity{:h}}}{\indiceGauche{h}{E_x}} \Bigg)\\
+&= - \frac{A_{x\annuity{:n}}}{\ddot{a}_{x\annuity{:n}}}  + \frac{A_{x\annuity{:n}}\ddot{a}_{x\annuity{:h}}}{\ddot{a}_{x\annuity{:n}}\times \indiceGauche{h}{E_x}}\\
+&= \indiceGauche{h}{V} \text{(avec la forme rétrospective)}
+\end{align*}
+\subsection*{iii)}
+On cherhce la variance de $\indiceGauche{h}{L}$.
+On définit L comme suit:
+\begin{equation}
+\indiceGauche{h}{L} = \indiceGauche{h}{Z} - \indiceGauche{h}{Y}
+\end{equation}
+\begin{equation}
+\indiceGauche{h}{Z} =
+     	\left\{
+     	\begin{array}{rl}
+     	1\times v^{K_{x+h}} &, \text{si } K_{x+h} <n-h-1 \\
+		 1\times  v^{K_{n+h}} &, \text{si } K_{x+h} \geq n-h \\
+     	\end{array}
+     	\right.	
+\end{equation}
+\begin{equation}
+\indiceGauche{h}{Y} =
+     	\left\{
+     	\begin{array}{rl}
+     	\pi \ddot{a}_{K_{x+h}+1}\\ &, \text{si } K_{x+h} <n-h-1 \\
+		 \pi \ddot{a}_{n - h} &, \text{si } K_{x+h} \geq n-h \\
+     	\end{array}
+     	\right.	
+\end{equation}
+On déduit que :
+\begin{align*}
+\indiceGauche{h}{Z} &= v^{min\lbrace K_{x+h}+1, n-h}\\
+\indiceGauche{h}{Y} &= \pi \ddot{a}_{\annuity{min(K_{x+h}+1, n-h}} \\
+\end{align*}
+Et on obtient pour L:
+\begin{align*}
+\indiceGauche{h}{L} &= \indiceGauche{h}{Z} - \indiceGauche{h}{Y}\\
+&= v^{min\lbrace K_{x+h}+1, n-h} - \pi \ddot{a}_{\annuity{min(K_{x+h}+1, n-h}}\\
+&= \Bigg(1 + \frac{\pi}{d}\Bigg)v^{min\lbrace K_{x+h}+1, n-h} - \frac{\pi}{d}\\
+\end{align*}
+\begin{equation}
+var(\indiceGauche{h}{L}) = \Bigg(1 + \frac{\pi}{d}\Bigg)^2 \Bigg({}^2{A_{x+h\annuity{:n-h}}} - A_{x+h\annuity{:n-h}}^2\Bigg)
+\end{equation}
+
+\section{D'autres formules pour le contrat d'assurance vie entière (diapo 21):}
+Remarques: Pour un contrat d'assurance vie entière et prime selon principe d'équivalence.
+\begin{align*}
+\indiceGauche{h}{V} = M A_{x+h} - \pi \ddot{a}_{x+h} \text{ où, $\pi$ est définie selon le principe d'équivalence}
+\end{align*}
+On obtient donc,
+\begin{align*}
+\indiceGauche{h}{V} &= M A_{x+h} - M\frac{A_x}{\ddot{a}_x} \ddot{a}_{x+h}\\
+&= M A_{x+h} - M\frac{A_x}{\ddot{a}_x} \ddot{a}_{x+h}\\
+&= M\Bigg(A_{x+h} - \frac{A_x}{\ddot{a}_x} \ddot{a}_{x+h} \Bigg)\\
+&= M\Bigg(1 - d\ddot{a}_{x+h} - \frac{(1 - d \ddot{a}_{x})\ddot{a}_{x+h}}{\ddot{a}_{x}}\Bigg)\\
+&=M \Bigg(1 - d\ddot{a}_{x+h} - \frac{\ddot{a}_{x+h}}{\ddot{a}_{x}} + \frac{d \ddot{a}_{x}\ddot{a}_{x+h}}{\ddot{a}_{x}}\Bigg)\\
+\end{align*}
+On obtient la formule suivante:
+\begin{equation}
+\label{eq:récurence}
+\indiceGauche{h}{V} = M\Bigg(1 - \frac{\ddot{a}_{x+h}}{\ddot{a}_{x}}\Bigg)
+\end{equation}
+Notes:
+\begin{align*}
+\ddot{a}_{x} & = \frac{1 - A_x}{d}\\
+A_x &= 1 - d\ddot{a}_{x}\\
+A_{x+h} &= 1 - d\ddot{a}_{x+h}\\
+\end{align*}
+
+\section{Exemple 7.6 : (diapo 22)}
+\begin{itemize}
+\item $ \cdot $ x = (40)
+\item $ \cdot $ M = \numprint{10000}\$
+\end{itemize}
+Avec l'équation \ref{eq:récurence}, on obtient:
+\begin{align*}
+\indiceGauche{10}{V} &= M\Bigg(1 - \frac{\ddot{a}_{x+10}}{\ddot{a}_{x}}\Bigg) \\
+&= \numprint{10000}\Bigg(1 - \frac{17.0245}{18.4578}\Bigg)\\
+&=776.53\$
+\end{align*}
+
+\section{Exemple 7.7 : (diapo 25)}
+\begin{itemize}
+\item $ \cdot $ x = (40)
+\item $ \cdot $ i = 5\%
+\item $ \cdot $ M = \numprint{10000}\$
+\item $ \cdot $ $\pi$ = principe d'équivalence
+\item $ \cdot $ $e_{0}$ = 50 et $e_{k}$ = 20, k = 1,2,...
+\item $ \cdot $ $\indiceGauche{0}{V}$ = 0
+\end{itemize}
+D'abord on trouve la prime $\pi$ :
+\begin{align*}
+\numprint{10000}A_{40} &+ 50 + 20 a_{40}  = \pi \ddot{a}_{40}\\
+&=87.2125
+\end{align*}
+Rappel: $A_x = 1 - d \ddot{a}_{x}$
+On cherche $\indiceGauche{2}{V}$:
+\begin{align*}
+\indiceGauche{1}{V} &= \frac{(\indiceGauche{0}{V} + \pi - e_0) - M q_{40}}{p_{40}}\\
+&= \frac{(0 + 87.2125 - 50)(1.05) - \numprint{10000}\times  (\frac{0.52722}{\numprint{1000}})}{1 - (\frac{0.52722}{\numprint{1000}})}\\
+&= 33.819\$
+\end{align*}
+\begin{align*}
+\indiceGauche{2}{V} &= \frac{(\indiceGauche{1}{V} + \pi - e_1) - M q_{41}}{p_{41}}\\
+&= \frac{(33.819 + 87.2125 - 20)(1.05) - \numprint{10000}\times  (\frac{0.56531}{\numprint{1000}})}{1 - (\frac{0.56531}{\numprint{1000}})}\\
+&= 100.49\$
+\end{align*}
+
+\section{Approximation de la réserve à \textit{h + s}: (diapo 27)}
+\begin{equation}
+\label{eq:appro:reser}
+\indiceGauche{h+s}{V} = (\indiceGauche{h}{V} + \pi_h - e_h)(1-s) + (\indiceGauche{\lfloor h+1 \rfloor}{V}(s)
+\end{equation}
+
+\section{Exemple 7.8 : (diapo 28)}
+\begin{itemize}
+\item $ \cdot $ x = (65)
+\item $ \cdot $ i = 6\%
+\item $ \cdot $ M = \numprint{1}\$
+\item $ \cdot $ $\pi$ = principe d'équivalence = 0.044444
+\item $ \cdot $ $\indiceGauche{0}{V}$ = 0
+\item $ \cdot $ $\indiceGauche{1}{V}$ = 0.002635 (trouver à partir des informations précédentes)
+\end{itemize}
+On cherche $\indiceGauche{0.25}{V}$, on utilise l'estimation \ref{eq:appro:reser}:
+\begin{align*}
+\indiceGauche{0.25}{V} &= (\indiceGauche{0}{V} + \pi_h)(1-0.25) + (\indiceGauche{1}{V}(0.25)\\
+&\approx (0+0.044444)(0.75) + 0.002635 \times  0.25
+\end{align*}
+
+\section{Contrats d'assurance-vie entière continus}
+Pour des contrats d'assurance-vie continus, on obtient les formules suivantes 
+\begin{align*}
+\indiceGauche{h}{L} &= M v^{T_{x+h}} - \pi \overline{a}_{\annuity{T_{x+h}}} \\
+&= M v^{T_{x+h}} - \pi \frac{1 - v^{T_{x+h}}}{\delta}\\
+&= \Big( M + \frac{\pi}{\delta}\Big) v^{T_{x+h}} - \frac{\pi}{\delta} \\
+\indiceGauche{h}{V} &= E[\indiceGauche{h}{L}] \\
+&= M \overline{A}_{x+h} - \pi \times \overline{a}_{x+h}\\
+\text{Var}(\indiceGauche{h}{L}) &= \Big( M + \frac{\pi}{\delta}\Big)^2 \Big[{}^2\overline{A}_{x+h} - \overline{A}_{x+h}^2 \Big]
+\end{align*}
+De plus, si les primes sont selon le principe d'équivalence, on obtient les relations suviantes
+\begin{align*}
+\indiceGauche{h}{V} &= M \Bigg( 1 - \frac{\overline{a}_{x+h}}{\overline{a}_{x}} \Bigg) \\
+&= M \Bigg( \frac{\overline{A}_{x+h} - \overline{A}_{x}}{1 - \overline{A}_{x}}\Bigg)
+\end{align*}
+\section{Exemple 7.9 : (diapo 31)}
+\begin{itemize}
+\item $ \cdot $ x = (65)
+\item $ \cdot $ $\delta$ = 6\%
+\item $ \cdot $ b = \numprint{10000}\$
+\item $ \cdot $ $\pi$ payable 10 ans
+\item $ \cdot $ $\mu_{50+t}$ = 0.04
+\end{itemize}
+\subsection*{a)}
+On cherche la prime $\pi$ selon le principe d'équivalence:
+\begin{align*}
+\pi &= \frac{\numprint{10000} \overline{A}_{50\annuity{:20}}}{\overline{a}_{50\annuity{:10}}}
+\end{align*}
+\begin{align*}
+\overline{A}_{50\annuity{:20}} &= \int_{t=0}^{20} 1 \times  e^{-\delta\times t}\times f_{T_{50}}(t)dt\\
+&= \int_{t=0}^{20} 1 \times  e^{-\delta\times t}\times \indiceGauche{t}{P}_{50} \times  \mu_{50+t} dt\\
+&= \int_{t=0}^{20} 1 \times  e^{-0.05\times t}\times  e^{-0.04t}(0.04) dt\\
+&= 0.04 \Bigg(\frac{e^{-0.09\times 20} - 1}{0.09}\Bigg)(-1)\\
+&=0.371
+\end{align*}
+\begin{align*}
+\overline{a}_{50\annuity{:10}} &= \int_{t=0}^{10} 1 \times  e^{-\delta\times t}\times \indiceGauche{t}p_{x} dt\\
+&= \int_{t=0}^{20} 1 \times  e^{-0.05\times t}\times  e^{-0.04t} dt\\
+&= \Bigg(\frac{1 - e^{-0.09\times 10}}{0.09}\Bigg)(-1)\\
+&=6.5937
+\end{align*}
+On obtient donc la prime suivante:
+\begin{align*}
+\pi &= \frac{\numprint{1000} \times  0.371}{6.5937} \\
+&= 562.66 \$
+\end{align*}
+
+\subsection*{b)}
+\begin{align*}
+\indiceGauche{5}{L} =
+     	\left\{
+     	\begin{array}{rl}
+     	\numprint{10000}v^{T_{55}} - \pi \overline{a}_{T_{55}}\\ &, \text{si } T_{55} < 5 \\
+		 \numprint{10000}v^{T_{55}} - \pi \overline{a}_{5}\\ &, \text{si } 5<T_{55} \leq 15 \\
+		 0 - \pi \overline{a}_{5}\\ &, \text{si } T_{55} > 15 \\
+     	\end{array}
+     	\right.	
+\end{align*}
+On obtient les valeurs suivantes,
+\begin{align*}
+\numprint{10000}v^{T_{55}} &- \pi \overline{a}_{5}\\
+\numprint{10000}e^{-0.05 \times  5} &- 562.66 \times  \frac{1 - e^{-0.05 \times  5}}{0.05}\\
+&= \numprint{5298.80}\$
+\end{align*}
+\begin{align*}
+\numprint{10000}v^{15} &- \pi \overline{a}_{5}\\
+\numprint{10000}e^{-0.05 \times  15} &- 562.66 \times  \frac{1 - e^{-0.05 \times  5}}{0.05}\\
+&= \numprint{2234.47}\$
+\end{align*}
+
+\begin{align*}
+0 &- \pi \overline{a}_{5}\\
+0 &- 562.66 \times  \frac{1 - e^{-0.05 \times  5}}{0.05}\\
+&= \numprint{-2489.20}\$
+\end{align*}
+
+\subsection*{c)}
+\subsubsection*{i)}
+On cherche $\indiceGauche{5}{L}$ si $T_{50} = 14.1$, soit:
+\begin{align*}
+\lbrace T_{50} | T_{50} &> 5\rbrace = T_{55}\\
+\text{soit, } T_{55} &= 9.1 \\
+\end{align*}
+
+\begin{align*}
+\indiceGauche{5}{L} &= \numprint{10000}v^{9.1} - \pi \overline{a}_{5} \\
+=& \numprint{10000}e^{-0.05 \times  9.1} - 562.66 \times  \frac{1 - e^{-0.05 \times  5}}{0.05} \\
+=& \numprint{3855.28}
+\end{align*}
+
+\subsubsection*{ii)}
+On cherche $\indiceGauche{5}{L}$ si $T_{55} = 3.2$,
+\begin{align*}
+\indiceGauche{5}{L} &= \numprint{10000}v^{3.2} - \pi \overline{a}_{3.2} \\
+=& \numprint{10000}e^{-0.05 \times  3.2} - 562.66 \times  \frac{1 - e^{-0.05 \times  3.2}}{0.05} \\
+=& \numprint{6857.58}
+\end{align*}
+
+\subsection*{d)}
+\begin{align*}
+\indiceGauche{5}{L} =& \numprint{10000} \overline{A}_{55\annuity{:15}} - \pi \overline{a}_{55\annuity{:5}} \\
+=& \numprint{10000} \int_{t = 0}^{15}e^{-\delta \times  t}\indiceGauche{t}{p}_{55} \mu_{55 + t} dt - 562.66  \int_{t = 0}^{5}e^{-\delta \times  t}\indiceGauche{t}{p}_{55} dt \\
+=& \numprint{10000} \int_{t = 0}^{15}e^{-0.05 \times  t} e^{-0.04 \times  t}(0.04) dt - 562.66  \int_{t = 0}^{5}e^{-0.05 \times  t} e^{-0.04 \times  t} dt \\
+=& \numprint{1026.80}\$
+\end{align*}
+
+\begin{align*}
+\indiceGauche{15}{L} =& \numprint{10000} \overline{A}_{65\annuity{:5}} - 0 \\
+=& \numprint{10000} \int_{t = 0}^{15}e^{-\delta \times  t}\indiceGauche{t}{p}_{55} \mu_{55 + t} dt \\
+=& \numprint{10000} \int_{t = 0}^{15}e^{-0.05 \times  t} e^{-0.04 \times  t}(0.04) dt\\
+=& \numprint{1610.54}\$
+\end{align*}
+\subsection*{e)}
+On sait que $\indiceGauche{5}{L}$ est une fonction monotone décroissante. 
+\begin{align*}
+P(L_{5} < \numprint{3000}) = P(T_{55} > t^*)
+\end{align*}
+,où $t^*$ est la solution de l'expression $ \numprint{10000}v^{t^*} - \pi \overline{a}_{5} = \numprint{3000}$
+\begin{align*}
+-\delta \times t^* =& ln \Bigg( \frac{\numprint{3000} + \pi \overline{a}_{5}}{\numprint{10000}}\Bigg) \\
+=& \frac{-1}{\delta} ln \Bigg( \frac{\numprint{3000} + \pi \overline{a}_{5}}{\numprint{10000}}\Bigg) \\
+t^* =& 11.996
+\end{align*}
+Alors, 
+\begin{align*}
+P(L_{5} < \numprint{3000}) = \indiceGauche{11.996}{P}_{55} = e^{-0.05 \times  11.996} = 0.619
+\end{align*}
+
+\section{Exemple 7.10 : (diapo 32)}
+\begin{itemize}
+\item[•] x = (65)
+\item[•] $\delta$ = 4\%
+\item[•] $b_t = \numprint{1000}e^{0.04t}$
+\item[•] $\mu_{50+t}$ = 0.04
+\item[•] $\mu_{65 + t} = 0.02$
+\end{itemize}
+
+On débute en trouvant la prime $\pi$, soit $ VP_{@0}(primes à recevoir) = VP_{@0}(prestations à payer)$ :
+\begin{align*}
+\pi \overline{a}_{65} &= \int_{t = 0}^{\infty}b_t e^{-\delta \times  t} \indiceGauche{t}{p}_{65} \mu_{65 + t} dt \\
+\end{align*}
+\begin{align*}
+\pi \overline{a}_{65} &= \int_{t = 0}^{\infty}b_t e^{- \delta \times  t} \indiceGauche{t}{p}_{65} dt \\
+&= \frac{1}{\mu + \sigma} \text{ $\mu$ est constant}\\
+&= \frac{1}{0.06}
+\end{align*}
+\begin{align*}
+\int_{t = 0}^{\infty}b_t e^{-\delta \times  t} \indiceGauche{t}{p}_{65} \mu_{65 + t} dt =& \int_{t = 0}^{\infty}\numprint{1000}e^{0.04t} e^{-0.04 \times  t} \indiceGauche{t}{p}_{65} e^{-0.02t} (0.02)dt\\
+=&\frac{20}{0.02} = 1000
+\end{align*}
+On obtient,
+\begin{align*}
+\frac{\pi}{0.06} &=1000\\
+\pi =& 60\$
+\end{align*}
+On résout maintenant, 
+\begin{align*}
+\indiceGauche{2}{V} =& \int_{t = 0}^{\infty}b_t e^{-\delta \times  t} \indiceGauche{t}{p}_{67} \mu_{67 + t} dt - \pi \overline{a}_{67}\\
+=&\int_{t = 0}^{\infty}1000e^{0.04 (t+2)} e^{-0.04 \times  t} e^{-0.02\times t}(0.02) dt - \frac{60}{0.06}\\
+=& 83.29\$
+\end{align*}
+
+\section{Exemple 7.11 : (diapo 34)}
+\begin{itemize}
+\item[•] x = ([40])\footnote{Les [] signifie que l'assuré à fait un examen médical (table sélect)}
+\item[•] i = 5\%
+\item[•] b = 100\$
+\item[•] On utilise la table \emph{Standars Select Survival Model}
+\item[•] On utilise l'hypothèse DUD, $\overline{A}_x = \frac{i}{\delta}A_x$
+\end{itemize}
+
+Notes sur les tables de mortalités sélect:
+\begin{align*}
+\indiceGauche{1}{p}_{[25]} =& \frac{l_{[25] + 1}}{l_{[25]}} = \frac{\numprint{99842.38}}{\numprint{99865.69}} = 0.9999766587\\
+\indiceGauche{1}{p}_{[24] + 1} =& \frac{l_{[24] +2} = l_{26}}{l_{[24] + 1}} = \frac{\numprint{99843.80}}{\numprint{99869.70}} = 0.999740662\\
+\indiceGauche{1}{p}_{25} =& \frac{l_{26}}{l_{24}} = \frac{\numprint{99843.80}}{\numprint{99871.08}} = 0.999726848\\
+\end{align*}
+\begin{align*}
+\indiceGauche{2}{p}_{[25]} =& \frac{l_{[25] + 2} = l_{27}}{l_{[25]}} \\
+\indiceGauche{3}{p}_{[25] + 1} =& \frac{l_{28}}{l_{[25]}} \\
+\indiceGauche{3}{p}_{[24] + 1} =& \frac{l_{[24]+1+3}}{l_{[24] + 1}} \\
+\end{align*}
+
+On cherche $\indiceGauche{5}{V}$.
+\begin{equation}
+\label{sec:eq:exercice7.11}
+\indiceGauche{5}{V} = 100 \overline{A}_{45} - \pi \ddot{a}_{45} 
+\end{equation}
+On sait que $\overline{A}_x = \frac{i}{\delta}A_x$, on possède seulement une table de rente. Alors, on utilise la relation suviante:
+\begin{align*}
+\overline{A}_{45} &= \frac{i}{\delta}A_{45} = \frac{i}{\delta}(1 - d\ddot{a}_{45})\\
+&= \frac{0.05}{\text{ln}(1.05)}\Bigg( 1 - \frac{0.05}{1.05}(17.81621)\Bigg)
+\end{align*}
+On peut donc trouver $\pi$,
+\begin{align*}
+\pi &= \frac{100 \overline{A}_{[40]}}{\ddot{a}_{[40]}} \\
+&= \frac{100 \frac{1.05}{\text{ln}(1.05)}\Bigg( 1 - \frac{0.05}{1.05}(18.45956)\Bigg)}{18.45956}\\
+&=0.671593
+\end{align*}
+On peut résoudre l'équation \ref{sec:eq:exercice7.11}:
+\begin{align*}
+\indiceGauche{5}{V} &= 100 \frac{0.05}{\text{ln}(1.05)}\Bigg( 1 - \frac{0.05}{1.05}(17.81621)\Bigg)  - 0.671593 \times  17.81621 \\
+& = 3.5716\$
+\end{align*}
+
+\section{Le profit annuel :(diapo 36)}
+Rappel: $e_k$ représente les frais associés au prime au temps k et $E_k$ représente les frais associés à la prestation à payer à la fin de l'année de décès\footnote{Voir notes powerpoint diapo 23}.
+On considère la réserve \emph{espected(E)} entre la période \textit{k} et \textit{k+1} soit
+\begin{align*}
+\indiceGauche{k+1}{V}^{E} = N_k\Big( \indiceGauche{k}{V} + G + e_k\Big)(1+i) - \Big(b_{k+1} + E_{k+1} - \indiceGauche{k+1}{V} \Big) N_k q_{x+k}
+\end{align*}
+Preuve:
+\begin{align*}
+N_k \Big( \indiceGauche{k}{V} + G + e_k\Big)(1+i) &=  \Big(b_{k+1} + E_{k+1}\Big)q_{x+k} + - \indiceGauche{k+1}{V}p_{x+k} \\
+&=  \Big(b_{k+1} + E_{k+1}\Big)q_{x+k} +  \indiceGauche{k+1}{V}(1 - q_{x+k}) \\
+&=  \Big(b_{k+1} + E_{k+1}\Big) - \indiceGauche{k+1}{V})q_{x+k} +  \indiceGauche{k+1}{V}q_{x+k} \\
+\indiceGauche{k+1}{V} &= \Big( \indiceGauche{k}{V} + G + e_k\Big)(1+i) - \Big(b_{k+1} + E_{k+1} - \indiceGauche{k+1}{V} \Big) q_{x+k}\\
+N_k\indiceGauche{k+1}{V} &= N_k\Big( \indiceGauche{k}{V} + G + e_k\Big)(1+i) - \Big(b_{k+1} + E_{k+1} - \indiceGauche{k+1}{V} \Big)N_k q_{x+k}\\
+\end{align*}
+Si on modifie les hypotèse de taux d'intérêt, des frais et/ou du taux de mortalité on se retrouvre avec la réserve \textit{actual(A)}
+\begin{align*}
+N_k\indiceGauche{k+1}{V}^{A} &= N_k\Big( \indiceGauche{k}{V} + G + e_k^{'}\Big)(1+i^{'}) - \Big(b_{k+1} + E_{k+1}^{'} - \indiceGauche{k+1}{V} \Big)N_k q_{x+k}^{'}\\
+\end{align*}
+Si on soustrait la réserve \textit{actual} à la réserve \textit{expected}, on obtient le profit de l'assureur pour l'année \textit{k+1} sur l'intérêt, les frais et le taux de mortalité
+\begin{align*}
+\indiceGauche{k+1}{V}^{A} - \indiceGauche{k+1}{V}^{E} &= \\
+& N_k\Big( \indiceGauche{k}{V} + G - e_k^{'}\Big)(1+i^{'}) - \\
+&\Big(b_{k+1} + E_{k+1}^{'} - \indiceGauche{k+1}{V} \Big) N_k q_{x+k}^{'} -\\
+&N_k \Big( \indiceGauche{k}{V} + G - e_k\Big)(1+i) -\\
+& \Big(b_{k+1} + E_{k+1} - \indiceGauche{k+1}{V} \Big) N_k q_{x+k}
+\end{align*}
+Si on s'intéresse au profit$(\Upsilon)$ par \textit{section}, on obtient... 
+
+Si seulement l'intérêt change,
+\begin{align*}
+\Upsilon_k = N_k\Big( \indiceGauche{k}{V} + G - e_k^{'}\Big)(i^{'} - i)
+\end{align*}
+Si seulement les frais $e_k$ ou $E_k$ change,
+\begin{align*}
+\Upsilon_k = N_k\Big( e_k - e_k^{'}\Big)(1 + i) + N_k q_{x+k} \Big( E_{k+1} - E_{k+1}^{'}\Big)
+\end{align*}
+Si seulement la force de mortalité change,
+\begin{align*}
+\Upsilon_k = \Big(b_{k+1} + E_{k+1} - \indiceGauche{k+1}{V}\Big) \Big(N_kq_{x+k} - N_kq_{x+k}^{'}\Big)
+\end{align*}
+
+\section{Exemple 7.12 : (diapo 38)}
+L'énoncé est une traduction du livre. Il ne s'agit pas de l'exemple 7.3 des notes de coours.
+\begin{itemize}
+\item[•] Assurance vie mixte 20 ans
+\item[•] G = \numprint{5200}\$
+\item[•] b = \numprint{100000}\$
+\item[•] i = 5\%
+\item[•] \emph{Standard Select Survival Model}
+\item[•] $e_0 = 0.1 \times $\textit{G}, $e_1 = e_2 = ...= 0.05 \times$ \textit{G}
+\item[•] $E_{k+1} = $200\$
+\end{itemize}
+À l'aide de l'exemple 7.3 du livre de référence, on obtient les informations suivantes
+\begin{itemize}
+\item[•] $\indiceGauche{5}{V} = \numprint{29068}\$$
+\item[•] $\indiceGauche{6}{V} = \numprint{35324}\$$
+\end{itemize}
+À l'aide de l'énoncé et de la table de mortalité, on obtient les informations suivantes
+\begin{itemize}
+\item[•] $q_{65} = 1 - \frac{l_{66}}{l{65}} = 0.005915$
+\item[•] $N_{5} = 100 \Rightarrow $ le portefeuille comprend 100 assurés
+\item[•] $e_{5}^{'} = 0.1 \times \textit{G} = e_{5}$
+\item[•] $i^{'} = 0.065$ 
+\item[•] $N_{5}q_{65} = 1 \Rightarrow \Big( \frac{1}{100} = 0.01 \times 100\Big) \Rightarrow q_{65}^{'} = 0.01 $
+\item[•] $E_{6}^{'} = 250\$ $
+\end{itemize}
+\subsection*{a)}
+\begin{align*}
+\indiceGauche{6}{V}^{A} - \indiceGauche{6}{V}^{E} &= \\
+& 100\Big( 29068 + 5200 - 0.06 \times \numprint{5200}\Big)(1.065) - \\
+&\Big(\numprint{100000} + 250 -\numprint{35324} \Big)(1) -\\
+&\Big [   100 \big(29068 + 5200 - 0.05 \times \numprint{5200}\big)(1.05) -\\
+& \Big(\numprint{100000} + 200 - \numprint{35324} \Big)100 (0.005915) \Big]\\
+&= \numprint{18922.15} \$
+\end{align*}
+\subsection*{b1)}
+Le profit/perte perte sur la mortalité correspond à
+\begin{align*}
+&= ( b_6 +E_6 - \indiceGauche{6}{V}) -(N_5 q_{65} - N_5 q_{65}^{'}) \\
+&= (\numprint{100000} + 200 -35324)(0.05915 - 1)\\
+&= - \numprint{26501.85}\$
+\end{align*}
+\subsection*{b2)}
+Le profit/perte sur l'intérêt (mortalité déjà changée)
+\begin{align*}
+&= N_5 ( \indiceGauche{5}{V} + G - e_5)(i^{'} - i) \\
+&= 100(\numprint{29068}+ \numprint{5200} -0.05 \times \numprint{5200})(0.065-0.05) \\
+&= \numprint{51012}\$
+\end{align*}
+\subsection*{b3)}
+Le profit sur les frais(mortalité et intérêt déjà changés) correspond à
+\begin{align*}
+&= N_5 ( e_5 - e_5^{'} )(1+i^{'}) + (E_{6} - E_{6}^{'} ) N_5 q_{65}^{'}\\
+&= 100(0.05\times \numprint{5200} - 0.06 \times \numprint{5200})(1.065) + (200-250)(1) \\
+&= -\numprint{5588}\$
+\end{align*}
+
+Remarque: - \numprint{26501.85}\$ + \numprint{51012}\$ - \numprint{5588}\$ = \numprint{18922.15}\$
+
+
+\section{Exemple 7.14 : (diapo 42)}
+\begin{itemize}
+\item[•] G = \numprint{100}\$
+\item[•] b = \numprint{1000}\$
+\item[•] P = \numprint{80}\$
+\item[•] i = 10\%
+\item[•] $e_0 = 0.4 \times $\textit{G} = 40\$
+\item[•] $\indiceGauche{1}{V}^{*} = \numprint{40}\$$ (pour un contrat sans frais)
+\item[•] $\indiceGauche{0}{AS} = \numprint{0}\$ $
+\end{itemize}
+On définit le quote-part de l'actif comme suit 
+\begin{equation}
+\label{equationLquote-part}
+AS_{k+1} = \frac{(AS_{k} + G - e_{k}) (1 + i) - (b + E_{k}) q_{x+k}}{p_{x+k}} \\
+\end{equation}
+\begin{align*}
+AS_{1} &= \frac{(AS_{0} + G - e_{0}) (1 + i) - (b + E_{0}) q_{x}}{p_{x}} \\
+&= \frac{(0+100-40) (1.10) - \numprint{1000}q_{x}}{p_{x}} \\
+&= \frac{(60) (1.10) - \numprint{1000} \times 0.05}{0.95} \\
+&=16.8\$
+\end{align*}
+Où $q_{x}$ est trouver ainsi, (Pour un contrat sans frais)
+\begin{align*}
+\indiceGauche{1}{V}^{*} &= \frac{(\indiceGauche{0}{V}^{*}+P)(1+i) - b q_{x}}{p_{x}} \\
+40 &= \frac{(0+80)(1.1) - 1000 q_{x}}{1 - q_{x}} \\
+q_{x} & = 0.05
+\end{align*}
+
+\section{Exemple 7.15 : (diapo 43)}
+\begin{itemize}
+\item[•] G = \numprint{100}\$
+\item[•] b = \numprint{10000}\$
+\item[•] P = \numprint{80}\$
+\item[•] i = 5\%
+\item[•] $e_0 = 0.1 \times $\textit{G} + 20 
+\item[•] $e_1 = e_2 = ...= 0.02 \times$ \textit{G} + 5
+\item[•] $\indiceGauche{0}{AS} = \numprint{0}\$ $
+\item[•] $\indiceGauche{1}{AS} = \numprint{400}\$ $
+\item[•] $q_{x} = 0.02 $
+\item[•] $q_{x+1} = 0.025 $
+\end{itemize}
+\begin{align*}
+AS_{1} &= \frac{(AS_{0} + G - e_{0}) (1 + i) - b q_{x}}{p_{x}} \\
+400 &= \frac{(0+G-0.10G-20) (1.05) - \numprint{10000}\times 0.02}{0.98} \\
+G &= 648.68\$\\
+AS_{2} &= \frac{(AS_{1} + G - e_{1}) (1 + i) - b q_{x+1}}{p_{x+1}} \\
+&= \frac{(AS_{1} + G -0.02G - 5) (1.05) - \numprint{10000} \times 0.025}{0.975} \\
+&= \frac{(400 +(0.98)648.68  - 5) (1.05) - 250}{0.975} \\
+&= 853.58\$
+\end{align*}
+\section{Équations différentielles de Thiele pour les réserves en temps continu}
+\begin{equation}
+\frac{d}{dt} (\indiceGauche{t}{V}) = \delta_t (\indiceGauche{t}{V}) + G_t - e_t + \indiceGauche{t}{V} \mu_{[x]+t} - (b_t + E_t)\mu_{[x]+t} 
+\end{equation}
+Où
+\begin{itemize}
+\item[1)] $\frac{d}{dt} (\indiceGauche{t}{V}) =$ au taux instantené d'accroissement de $\indiceGauche{t}{V}$ en fonction de t.
+\item[2)] $\delta_t (\indiceGauche{t}{V}) = $ au rendement instantné d'intérêt sur la réserve
+\item[3)] $G_t - e_t = $ au taux de la prime moins les frais.
+\item[4)] $\indiceGauche{t}{V} \mu_{[x]+t} =$ au taux instantané de la libération de la réserve suite à un décès d'assuré.
+\item[5)] $(b_t + E_t)\mu_{[x]+t} =$ au taux de versement de la prestation (avec les frais) de décès.
+\end{itemize}
+Notes: Les points 2, 3 et 4 sont des sources d'augmentation de la réserve et le point 4 est une source de dépense de la réserve.
+En utilisant le théorème d'Euler on obtient l'équation suivante
+\begin{equation}
+(\indiceGauche{t}{V}) = \frac{(\indiceGauche{t + h}{V}) - h \Big[ G_t - e_t - (b_t + E_t)\mu_{[x]+t} \Big] }{1 + h \times \delta_t + h \times \mu_{[x]+t} } 
+\end{equation}
+
+\section{Exemple 7.17 : (diapo 48)}
+\begin{itemize}
+\item[•] Une assurance vie mixte 20 années pour x = (30)
+\item[•] $G_t$ = \numprint{2500}\$
+\item[•] b = \numprint{10000}\$
+\item[•] P = \numprint{80}\$
+\item[•] $\delta$ = 4\%
+\item[•] $e_t = E_t = 0$ 
+\item[•] \emph{Standard Select Survival Model}
+\end{itemize}
+\subsection*{a)} 
+** Notes: je n'arrive pas à la même chose que le prof, mais en comparant avec d'autres j'ai les mêmes réponsent.
+On cherche $\indiceGauche{10}{V}$, soit $VP_{@0}(\text{prestation future à payer}) - VP_{@0} (\text{primes à recevoir})$.
+\begin{align*}
+\indiceGauche{10}{V} &= \numprint{100000}\overline{A}_{40\annuity{:10}} - \numprint{2500}\overline{a}_{40\annuity{:10}}\\
+&= \numprint{100000}\Big(1 - \delta \overline{A}_{40\annuity{:10}} \Big) - \numprint{2500}\overline{a}_{40\annuity{:10}}\\
+&= \numprint{100000} - \Big(\numprint{100000}\delta + \numprint{2500}\Big)\overline{a}_{40\annuity{:10}}\\
+&=\numprint{100000} - \Big(\numprint{100000} \times 0.04 + \numprint{2500}\Big)8.2167\\
+&= \numprint{46591}\$
+\end{align*}
+En utilisant l'approximation de Woolhouse\footnote{voir notes supplémentaires plus loin.} et une table de mortalité pour $ \overline{a}_{40\annuity{:10}}$, on obtient le développement suivant
+
+\begin{equation}
+\label{equation exemple7.15}
+\overline{a}_{40\annuity{:10}} \approx \ddot{a}_{40\annuity{:10}} - \frac{1}{2} (1 - \indiceGauche{10}{E}_{40}) - \frac{1}{12}\Big( \delta + \mu _{40} + \indiceGauche{10}{E}_{40}(\delta + \mu_{40+10} \Big)
+\end{equation}
+où
+\begin{align*}
+\indiceGauche{10}{E}_{40} &= v^{10} \indiceGauche{10}{p}_{40} \\
+&= v^{10} \frac{l_{40 + 10}}{l_{40}} \\
+&= v^{10} \frac{98576.37}{99338.26}  \\
+&= 0.665178924 \\
+\mu _{40} & = A + B \times c^x \\
+&= 0.00022 + 2.7 \times 10^{-6} \times 1.124 {40} \\
+&= 0.00050975 \\
+\mu _{50} & = 0.00022 + 2.7 \times 10^{-6} \times 1.124 {50} \\
+&= 0.001152565 \\
+\ddot{a}_{40\annuity{:10}} &= \ddot{a}_{40} - \indiceGauche{10}{E}_{40} \times \ddot{a}_{50} \\
+&=  18.45776 - 0.665178924 \times 17.02453 \\
+&= 7.133401455
+\end{align*}
+À partir de l'équation \ref{equation exemple7.15}, on obtient
+\begin{align*}
+\overline{a}_{40\annuity{:10}} & \approx \ddot{a}_{40\annuity{:10}} - \frac{1}{2} (1 - \indiceGauche{10}{E}_{40}) - \frac{1}{12}\Big( \delta + \mu_{40} + \indiceGauche{10}{E}_{40}(\delta + \mu_{40+10} \Big) \\
+&= 7.133401455 - \frac{1}{2}(1 - 0.665178924)- \\
+& \frac{1}{12}(0.04 + 0.00050975 - 0.665178924(0.04-0.001152565)) \\
+&= 7.133401455 - 0.167410538 - 0.001222438 \\
+&= 6.964768479
+\end{align*}
+\subsection*{b)}
+
+\begin{align*}
+\left\{
+     	\begin{array}{rl}
+     	\mu_{[x]+s} = 0.9 ^{2-s}\mu_{x+s}   &, \text{si } 0 \leq s \leq 2 \\
+			\mu_{[x]+s} = \mu_{x+s}   &, \text{si } s > 2 \\
+     	\end{array}
+     	\right.	
+\end{align*}
+où $\mu_{x+s} = A + Bc^x$, avec A = 0.00022, B = $(2.7)*10^{-6}$ et c = 1.124
+
+Si n = 20 et h = 0.05, alors n - h = 19.95.\\
+Selon l'équation de Thiele  pour t = n - h,
+\begin{align*}
+\indiceGauche{n-h}{V} &=\frac{\indiceGauche{n}{V} - h\big[ G - 0 -b \mu_{[30]+n-h}\big]}{1 + h\delta_{n-h} + h\mu_{[30]+n-h}}\\
+\indiceGauche{19.95}{V} &=\frac{\indiceGauche{20}{V} - 0.05\big[ \numprint{2500} - \numprint{100000} \mu_{[30]+19.95}\big]}{1 + 0.05\times 0.04 + 0.05\mu_{[30]+19.95}}
+\end{align*}
+On sait que :
+\begin{itemize}
+\item $\indiceGauche{20}{V} = b = \numprint{100000}$ car il s'agit d'une assurance mixte
+\item $\mu_{[30]+19.95} = \mu_{49.95}= 0.00022 + [2.7 \times 10^{-6}](1.124)^{49.95} = 0.001147131$
+\end{itemize}
+\begin{align*}
+\indiceGauche{19.95}{V} &=\frac{\numprint{100000} - 0.05\big[ \numprint{2500} - \numprint{100000} (0.001147131)\big]}{1 + 0.05\times 0.04 + 0.05(0.001147131)}\\
+&=99.676
+\end{align*}
+et on continue jusqu'à $\indiceGauche{10}{V}$...
+\subsubsection*{Approximation de Woolhouse}
+\label{Appr:woolhouse}
+\begin{align*}
+\ddot{a}_{x}^{(m)} &= \alpha(m)\ddot{a}_{x} - \beta(m) \\
+&= \frac{id}{i^{(m)}d^{(m)}} \ddot{a}_{x} - \frac{i - i^{(m)}}{i^{(m)}d^{(m)}}\\
+\end{align*}
+On peut aussi \textit{approximer} l'approximation de Woolhouse ainsi :
+\begin{align*}
+\ddot{a}_{x}^{(m)} &\approx \ddot{a}_{x} - \frac{m -1}{2m} -  \frac{m^2 - 1}{12m^2}(\delta + \mu_x)
+\end{align*}
+Et pour $\overline{a}_{x\annuity{:n}}$
+\begin{align*}
+\overline{a}_{x\annuity{:n}} \approx \ddot{a}_{x\annuity{:n}} - \frac{1}{2} (1 - \indiceGauche{n}{E}_{x}) - \frac{1}{12}\Big( \delta + \mu _{x} + \indiceGauche{n}{E}_{x}(\delta + \mu_{x+n} \Big)
+\end{align*}
+
+\section{Notions sur les rachats d'assurances}
+\begin{itemize}
+\item[1)] Annulation du contrat avant son terme. L'assureur verse la valeur de rachat $CV_t$ au client.
+\item[2)] Assurance libérée : Montant réduit d'assurance sans prime à payer
+\item[3)] Prolongation d'assurance : Prolongation de la protection d'assurance avec la même valeur de prestation de décès sans prime à payer.
+\end{itemize}
+\begin{equation}
+CV_t = VP_{@t}(\text{Prestations à payer}) - VP_{@t}(\text{Primes ajustées à recevoir})
+\end{equation}
+
+
+\section{Exemple 7.18 : (diapo 54)}
+\begin{itemize}
+\item[•] Une assurance vie entière pour x = (40)
+\item[•] b = \numprint{10000}\$
+\item[•] i = 6\%
+\item[•] table ILT
+\end{itemize}
+On définit la valeur de rachat $CV_t$ comme suit
+\begin{align*}
+CV_t = \left\{
+     	\begin{array}{rl}
+     	0   &, \text{si } t < 2 \\
+		(0.9)(\indiceGauche{t}{V}) - 10 &, \text{si } t \geq 2 \\
+     	\end{array}
+     	\right.	
+\end{align*}
+La prime correspond à
+\begin{align*}
+P &= \numprint{10000} \frac{A_{40}}{\ddot{a}_{40}} \\
+&= \numprint{10000} \times (0.010888) \\
+&= 108.88 \$ \\
+\indiceGauche{10}{V} &= \numprint{10000} A_{50} - P \ddot{a}_{50} \\
+&= \numprint{10000} \times 0.24905 - 108.88 \times 13.2668 \\
+&= \numprint{1046.04}\$ \\
+CV_{10} &= 0.9 \times \indiceGauche{10}{V} - 10 \\
+&= 0.9 \times \numprint{1046.04} - 10 \\
+&=931.435 \$
+\end{align*}
+\subsection*{a)}
+\begin{align*}
+CV_{10} &= R \times A_{50}\\
+R &= \frac{CV_{10}}{A_{50}} \\
+&= \frac{931.435}{0.24905} \\
+&=3739.95 \$
+\end{align*}
+
+\subsection*{b)}
+\begin{align*}
+CV_{10} &= \numprint{10000} A_{\overset{1}{50} \annuity{:k}} \\
+931.44 &=  \numprint{10000} A_{\overset{1}{50} \annuity{:k}} \\
+A_{\overset{1}{50} \annuity{:k}} &= 0.093144 \\
+A_{\overset{1}{50} \annuity{:k}} &= A_{50} - \indiceGauche{k}{E}_{50} A_{50 + k}  = 0.093144 \\
+A_{\overset{1}{50} \annuity{:20}} &= A_{50} - \indiceGauche{20}{E}_{50} A_{50 + 20}  = 0.130369 > 0.093144 \Rightarrow k < 20 \\
+A_{\overset{1}{50} \annuity{:10}} &= A_{50} - \indiceGauche{10}{E}_{50} A_{50 + 10}  =0.0604947 < 0.093144 \Rightarrow k > 10 \\
+A_{\overset{1}{50} \annuity{:15}} &= A_{50} - \indiceGauche{15}{E}_{50} A_{50 + 15}  =00.0945867 > 0.093144 \Rightarrow k > 10 \\
+\end{align*}
+\begin{align*}
+A_{\overset{1}{50} \annuity{:15}} &= \sum_{0}^{14} v^{k+1} \indiceGauche{k}{p}_{50} q_{50 + k} \\
+&= \sum_{0}^{13} v^{k+1} \indiceGauche{k}{p}_{50} q_{50 + k} + v^{15} \indiceGauche{14}{p}_{50} q_{50 + 14} \\
+0.0945867 &= A_{\overset{1}{50} \annuity{:14}} + v^{15} \indiceGauche{14}{p}_{50} q_{50 + 14} \\
+A_{\overset{1}{50} \annuity{:14}} &= 0.08759
+\end{align*}
+Alors, k $\varepsilon$(14,15) soit un contrat temporaire 14 années avec prestation de \numprint{10000}.
+
+
+\section{Exemple 7.19 : (diapo 55)}
+\begin{itemize}
+\item[•] b = \numprint{1000}\$
+\item[•] $AS_4 = 396.63$\$
+\item[•] $AS_5 = 694.50$\$
+\item[•] G = 281.77\$
+\item[•] $CV_5 = 572.12$\$
+\item[•] $\text{(frais)}_{4} = c_4 \times G + e_4 = 0.05G + 7 $
+\item[•] $q_{x+4}^{(1)} = 0.09$ (probabilité de décès)
+\item[•] $q_{x+4}^{(2)} = 0.26$ (probabilité d'annuler le contrat)
+\end{itemize}
+On cherche le taux i, on utilise l'équation \ref{equationLquote-part} qui représente le quote-part de l'actif en ajoutant le coût de la valeur de rachat.
+\begin{align*}
+\Bigg( AS_4 + G_4 - \text{(frais)}_{4}\Bigg)(1+i) &= \numprint{1000} q_{x+4}^{(1)} + (CV_5)q_{x+4}^{(2)} + (AS_5)(1 - q_{x+4}^{(1)} - q_{x+4}^{(2)}) \\
+\Bigg( 396.63 + 281.77(0.95) - 7 \Bigg)(1+i) &= \numprint{1000} \times 0.09 + (572.12)(0.26) + 694.50( 1 - 0.09 -0.26) \\
+i &= 0.05
+\end{align*}
+
+\section{Exemple 7.20 : (diapo 56)}
+\label{sec:exemple7.20}
+\begin{itemize}
+\item[•] Contrat temporaire 10 ans pour x = [50]
+\item[•] b = \numprint{500000}\$ à la fin du mois du décès
+\item[•] P = 460\$ en début de chaque 3 mois pour une durée de 5 ans
+\item[•] \emph{SSSM}
+\item[•] i = 5\%
+\item[•] frais sur la prime : $e = 0.10 \times P$
+\item[•] 
+\end{itemize}
+
+\subsection*{a)}
+\begin{align*}
+\indiceGauche{2.75}{V} &= \numprint{500000} A_{\overset{1}{52.75} \annuity{:7.25}}^{(12)} - 4(P-e)\ddot{a}_{52.75 \annuity{:2.25}}^{(4)}\\
+&= \numprint{500000} \times 0.01327- 4 \times (460-0.1 \times 460) 2.14052 \\
+&= \numprint{3091.02}
+\end{align*}
+\subsection*{b)}
+\begin{align*}
+\indiceGauche{3}{V} &= VP_{@3}(\text{prestation au décès}) + VP_{@3}(frais) - VP_{@3}(\text{primes à recevoir}) \\
+&= VP_{@3}(\text{prestation futures au décès}) - VP_{@3}(\text{primes à recevoir - frais futures}) \\
+&= \numprint{500000} A_{\overset{1}{53} \annuity{:7}}^{(12)} - 4(P-e)\ddot{a}_{53 \annuity{:2}}^{(4)}\\
+&= \numprint{500000} \times 0.013057 - 4 \times (460-0.1 \times 460) 1.91446 \\
+&= \numprint{3357.94}
+\end{align*}
+\subsection*{c)}
+\begin{align*}
+\indiceGauche{6.5}{V} &= \numprint{500000} A_{\overset{1}{56.5} \annuity{:3.5}}^{(12)} - 0\\
+&= \numprint{500000} \times 0.008532 \\
+&= \numprint{4265.63}
+\end{align*}
+\subsubsection*{Remarques :}
+Pour trouver les valeurs de $A_{x \annuity{:n}}^{(12)}$ et $\ddot{a}_{x \annuity{:n}}^{(4)}$ :
+\begin{itemize}
+\item[1)] Pour trouver/estimer $\ddot{a}_{53 \annuity{:2}}^{(4)}$ on peut utiliser deux méthodes:
+\begin{itemize}
+\item[a)] En utilisant la définition suivante 
+\begin{align*}
+ \ddot{a}_{53 \annuity{:2}}^{(4)} &= \sum_{k = 0}^{7} \frac{1}{4} v^{\frac{k}{4}} \indiceGauche{\frac{k}{4}}{p}_{53} \\
+ &= \frac{1}{4}\Bigg(  v^{\frac{1}{4}} \indiceGauche{\frac{1}{4}}{p}_{53} + ... + v^{\frac{7}{4}} \indiceGauche{\frac{7}{4}}{p}_{53}\Bigg)
+\end{align*} 
+Où 
+\begin{align*}
+\indiceGauche{t}{p}_{53} &= e^{\int_{s=0}^{t}\mu_{x+s}ds} \\
+&= e^{\int_{s=0}^{t}(A+Bc^{x+s})ds} \\
+&= e^{At - Bc^{x}(c^t - 1)/ln(c)} \\
+\end{align*}
+Avec $A = 0.00022$, $B= 2.7 \times 10 ^{-6}$, $c=1.124$
+\item[b)] Ou par l'approximation suivante
+\begin{itemize}
+\item[•] Trouver $\ddot{a}_{53 \annuity{:2}}$
+\item[•] Puis en utilisant une méthode d'approximation tel que Woolhouse (\ref{Appr:woolhouse}), classique... on peut trouver $\ddot{a}_{53 \annuity{:2}}^{(4)}$
+\end{itemize}
+
+\end{itemize}
+\item[2)] Pour trouver/estimer $\ddot{a}_{52.75 \annuity{:2.25}}^{(4)}$ on peut utiliser deux méthodes:
+\begin{itemize}
+\item[a)] En utilisant la définition suivante 
+\begin{align*}
+ \ddot{a}_{52.75 \annuity{:2.25}}^{(4)} &= \sum_{k = 0}^{8} \frac{1}{4} v^{\frac{k}{4}} \indiceGauche{\frac{k}{4}}{p}_{52.75} \\
+\end{align*}
+\item[b)] Ou par l'approximation suivante 
+\begin{itemize}
+\item[•] Trouver $\ddot{a}_{53 \annuity{:2}}$ 
+\item[•] $\ddot{a}_{52.75 \annuity{:2.25}} = \frac{1}{4} + \ddot{a}_{53 \annuity{:2}} \times v^{\frac{1}{4}}\indiceGauche{\frac{1}{4}}{p}_{52.75} $ 
+\end{itemize}
+\end{itemize}
+\item[3)] Pour trouver/estimer $A_{\overset{1}{53} \annuity{:7}}^{(12)}$ on peut utiliser les méthodes suivantes :
+\begin{itemize}
+\item[a)] Utiliser la définition suivante
+\begin{align*}
+A_{\overset{1}{53} \annuity{:7}}^{(12)} = \sum_{k = 0}^{83} v^{\frac{k+1}{12}} \indiceGauche{\frac{k}{12}}{p}_{53} q_{53 + \frac{k}{12}} 
+\end{align*}
+\item[b)] À l'aide de la relation suivante 
+\begin{itemize}
+\item[•] Trouver  $\ddot{a}_{53 \annuity{:7}}$
+\item[•] Trouver $ A_{53 \annuity{:7}}^{(12)}$ à l'aide de la relation suivante
+\begin{align*}
+A_{53 \annuity{:7}}^{(12)} = 1 - d \times \ddot{a}_{53 \annuity{:7}}
+\end{align*}
+Et ainsi
+\begin{align*}
+A_{\overset{1}{53} \annuity{:7}}^{(12)} = A_{53 \annuity{:7}}^{(12)} - \indiceGauche{7}{E}_{53}
+\end{align*}
+\end{itemize}
+\end{itemize}
+\item[4)] Sachant $ A_{\overset{1}{53} \annuity{:7}}^{(12)}$, on peut trouver $A_{\overset{1}{52.75} \annuity{:7.25}}^{(12)}$
+\end{itemize}
+\begin{align*}
+A_{\overset{1}{52.75} \annuity{:7.25}}^{(12)} =& v^{\frac{1}{12}} \times \indiceGauche{\frac{1}{12}}{q}_{52.75} + \\
+&\indiceGauche{\frac{1}{12}}{p}_{52.75} \times \indiceGauche{\frac{1}{12}}{q}_{52 + \frac{10}{12}}  \times v^{\frac{2}{12}} + \\
+&\indiceGauche{\frac{2}{12}}{p}_{52.75} \times \indiceGauche{\frac{1}{12}}{q}_{52.75 + \frac{11}{12}}  \times v^{\frac{3}{12}} + \\
+&\indiceGauche{\frac{3}{12}}{p}_{52.75} \times  v^{\frac{3}{12}} \times  A_{\overset{1}{53} \annuity{:7}}^{(12)}
+\end{align*}
+
+\section{Exemple 7.21 (diapo 57)}
+On reprend l'exemple 7.20 (\ref{sec:exemple7.20}).
+Trouver les réserves :
+\subsection*{a) } 
+\begin{align*}
+\indiceGauche{\text{2 ans et 10 mois}}{V} &\Rightarrow \indiceGauche{52.833}{V} \\
+\indiceGauche{52.833}{V} &= \numprint{500000} \times A_{\overset{1}{52.833} \annuity{:7.167}}^{(12)} - 4(P- e) \indiceGauche{\frac{2}{12}}{p}_{52.833} v^{\frac{2}{12}} \ddot{a}_{53 \annuity{:2}}^{(4)} \\
+&= \numprint{500000}\times 0.0132012 - 3143.86\\
+&= \numprint{3456.72}\$
+\end{align*}
+Notes :
+\begin{align*}
+VP_{@2.833}(\text{primes moins les frais à recevoir}) &\neq  4(P- e)  \ddot{a}_{52.833 \annuity{:2.167}} \\
+\end{align*}
+Parce qu'il n'y a pas de prime au temps 2.833, les primes sont payées chaque 3 mois.
+\subsection*{b) } 
+\begin{align*}
+\indiceGauche{\text{2 ans et 9.5 mois}}{V} &\Rightarrow \indiceGauche{52.792}{V} \\
+\end{align*}
+Ni prime ni prestation au décès au temps 2.792. On peut utiliser 2 méthodes pour trouver le montant de réserve
+\begin{itemize}
+\item[1)]\begin{align*}
+(\indiceGauche{2.792}{V} +0)(1+i)^{0.5/12} &= \numprint{500000}\times \indiceGauche{\frac{0.5}{12}}{q}_{52.792} +  \indiceGauche{\frac{0.5}{12}}{p}_{52.792}\times \indiceGauche{2.833}{V}\\
+&= \numprint{3480.99}\$
+\end{align*}
+\item[2)] \begin{align*}
+\indiceGauche{\text{2 ans et 9.5 mois}}{V} &\approx \Big(1 - \frac{0.5}{3} \Big) \Big(\indiceGauche{\text{2 ans et 9 mois}}{V} +P - e \Big) + \Big(\frac{0.5}{3} \Big)\indiceGauche{3}{V} \\
+&= \numprint{3480.51}\$
+\end{align*}
+\end{itemize}
+
+
+\subsection*{Remarque}
+On peut utiliser une relation récursive pour trouver $\indiceGauche{3}{V} $ en sachant $\indiceGauche{2.75}{V}$
+\begin{align*}
+(\indiceGauche{2.75}{V} + P - e) (1+i)^{1/12} &= \numprint{500000}\times \indiceGauche{\frac{1}{12}}{q}_{52.75} + \indiceGauche{2.75 + \frac{1}{12}}{V} \times \indiceGauche{\frac{1}{12}}{p}_{52.75} \\
+(\indiceGauche{2.833}{V} + 0) (1+i)^{1/12} &= \numprint{500000}\times \indiceGauche{\frac{1}{12}}{q}_{52.833} + \indiceGauche{2.917 }{V} \times \indiceGauche{\frac{1}{12}}{p}_{52.833}\\
+(\indiceGauche{2.917}{V} + 0) (1+i)^{1/12} &= \numprint{500000}\times \indiceGauche{\frac{1}{12}}{q}_{52.917} + \indiceGauche{3}{V} \times \indiceGauche{\frac{1}{12}}{p}_{52.917}\\
+\Rightarrow (\indiceGauche{2.75}{V} + P - e) (1+i)^{0.25} &= \numprint{500000}\times \Big[\indiceGauche{\frac{1}{12}}{q}_{52.75} \times (1+i)^{2/12} + \\
+& \indiceGauche{\frac{1}{12}}{p}_{52.75} \times \indiceGauche{\frac{1}{12}}{q}_{52.75+\frac{1}{12}} \times (1+i)^{1/12} + \\
+&\indiceGauche{\frac{2}{12}}{p}_{52.75} \times \indiceGauche{\frac{1}{12}}{q}_{52.75+\frac{2}{12}}\Big] + \\
+& \indiceGauche{3}{V} \times \indiceGauche{\frac{2}{12}}{p}_{52.75}
+\end{align*}
+\section{Frais d'acquisition reportés (DAC)}
+\begin{equation}
+\text{DAC}_t = \indiceGauche{t}{V}^{g} - \indiceGauche{t}{V}^{n} = \indiceGauche{t}{V}^{e}
+\end{equation}
+Où 
+\begin{itemize}
+\item $\indiceGauche{t}{V}^{g}$ est la réserve pour un contrat avec des primes brutes (avec frais),
+\item $\indiceGauche{t}{V}^{n}$ est la réserve avec primes pires (sans frais) et
+\item $\indiceGauche{t}{V}^{e}$ est la réserve des frais répartit sur le contrat
+\end{itemize}
+Remarque:\\
+Si $e_0 = e_1 = e_2 = ...\Rightarrow \indiceGauche{t}{V}^{g} = \indiceGauche{t}{V}^{n} \Rightarrow \text{DAC}_t =0$
+
+\begin{align*}
+\text{DAC}_t(\indiceGauche{t}{V}^{e}) &= \indiceGauche{t}{V}^{g} - \indiceGauche{t}{V}^{n} \\
+=& \Big[ VP_{@t}(\text{prestation + frais}) - VP_{@t}(\text{primes brutes}) \Big] - \\ 
+& \Big[ VP_{@t}(\text{prestation}) - VP_{@t}(\text{primes brutes}) \Big] \\
+=& VP_{@t}( \text{frais}) - VP_{@t}(\text{chargements pour les frais}) \\
+=& VP_{@t}( \text{frais}) - P^{e} \\
+=& VP_{@t}( \text{frais}) - (P^{g} - P^{n}) 
+\end{align*}
+Remarque :\\
+\begin{itemize}
+\item $\text{DAC}_t = 0$ si $e_0 = e_k$, k = 1,2,...
+\item $\text{DAC}_t < 0$ si $e_0 > e_k$, k = 1,2,...
+\item $\text{DAC}_t > 0$ si $e_0 < e_k$, k = 1,2,...
+\end{itemize}
+
+\section{Exemple 7.22 : (diapo 60)}
+\label{ex.7.22}
+\begin{itemize}
+\item[•] Contrat vie entière discret pour x = [50]
+\item[•] b = \numprint{100000}\$ 
+\item[•] LA prime nivelée $P^g(P^n)$ 
+\item[•] \emph{SSSM}
+\item[•] i = 4\%
+\item[•] frais sur la prime : $e_0 = 0.50P^g +250$ et $e_0 = 0.03P^g +25$
+\end{itemize}
+a) Trouver $P^n$ et $P^g$\\
+b) Trouver $ \indiceGauche{10}{V}^e$ ;$ \indiceGauche{10}{V}^n$;$ \indiceGauche{10}{V}^g$
+\subsection*{a)}
+\begin{align*}
+P^g \ddot{a}_{[50]} &= \numprint{100000} A_{[50]} + 25 \ddot{a}_{[50]} + 225 + 0.03P^g\ddot{a}_{[50]} + 0.47 P^g \\
+P^g&= \frac{\numprint{100000} A_{[50]} + 25 \ddot{a}_{[50]} + 225}{0.97\ddot{a}_{[50]} -0.47} \\
+&=1435.89 \\
+P^n&= \frac{\numprint{100000} A_{[50]}}{\ddot{a}_{[50]}} \\
+&=1321.31 \\
+P^e &= p^g - p^n = 114.58
+\end{align*} 
+
+\subsection*{b)}
+\begin{align*}
+\indiceGauche{10}{V}^e &= 25\ddot{a}_{60} + 0.03P^g \ddot{a}_{60} - P^e \ddot{a}_{60}\\
+&= -46.50 \ddot{a}_{60} \\
+&=-770.14 \\
+\indiceGauche{10}{V}^n &= \numprint{100000}A_{60}P^n \ddot{a}_{60}\\
+&=\numprint{14416.12} \\
+\indiceGauche{10}{V}^g &= \numprint{100000}A_{60} + 25\ddot{a}_{60} -0.97P^g \ddot{a}_{60} \\
+&=\numprint{13645.98} \\
+\end{align*} 
+
+\section{Exemple 7.23 : (diapo 63)}
+On utilise les mêmes informations que l'exemple 7.22 à la section \ref{ex.7.22}.
+On cherche les primes FTP et les réserves à différents moments.
+\subsection*{a)}
+\begin{align*}
+\pi_0^{FTP} &= \numprint{100000}\times v \times q_{[50]} \\
+&= 99.36 \\
+\pi &:= \pi_1^{FTP} = \pi_2^{FTP} =... \\
+&= \frac{\numprint{100000} A_{[50]+1}}{\ddot{a}_{[50]+1}} \\
+&= \numprint{1387.89}
+\end{align*}
+\subsection*{b)}
+\subsubsection*{Au temps t =0}
+\begin{align*}
+\indiceGauche{0}{V}^n &= \indiceGauche{0}{V}^g =0 \text{ (Prime principe d'équivalence)}\\
+\indiceGauche{0}{V}^{FTP} &= \numprint{100000}A_{[50]} - \pi_0^{FTP} - (\pi^{FTP} \times v \times p_{[50]})\ddot{a}_{[50] +1} \\
+&=\numprint{100000}(v q_{[50]} + v \times p_{[50]}A_{[50]+1} - \numprint{100000}\times v \times q_{[50]} - \frac{\numprint{100000}A_{[50] +1} }{\ddot{a}_{[50] +1} } \times v \times p_{[50]}\ddot{a}_{[50] +1}  \\
+&= 0
+\end{align*} 
+\subsubsection*{Au temps t =1}
+\begin{align*}
+\indiceGauche{1}{V}^n &= \numprint{100000}A_{[50]+1} - \pi_0^{FTP} - (\pi^{FTP} \times v \times p_{[50]})\ddot{a}_{[50] +1} \\
+\indiceGauche{0}{V}^{FTP} &= \numprint{100000}A_{[50]} - \pi_0^{FTP} - (\pi^{FTP} \times v \times p_{[50]})\ddot{a}_{[50] +1} \\
+&=\numprint{100000}(v q_{[50]} + v \times p_{[50]}A_{[50]+1} - \numprint{100000}\times v \times q_{[50]} - \frac{\numprint{100000}A_{[50] +1} }{\ddot{a}_{[50] +1} } \times v \times p_{[50]}\ddot{a}_{[50] +1}  \\
+&= 0
+\end{align*} 
+\end{document}

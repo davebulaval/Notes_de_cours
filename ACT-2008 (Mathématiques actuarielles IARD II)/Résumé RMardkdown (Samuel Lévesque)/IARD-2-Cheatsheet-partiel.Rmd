@@ -1,0 +1,347 @@
+---
+title: "IARD 2 résumé partiel"
+author: "Samuel Lévesque"
+output:
+  pdf_document:
+    fig_caption: yes
+    highlight: tango
+    number_sections: no
+    toc: yes
+    toc_depth: 2
+fontsize: 12pt
+geometry: margin=1in
+header-includes:
+  - \usepackage[francais]{babel}
+  - \usepackage{amsmath}
+  - \usepackage{tcolorbox}
+documentclass: article
+urlcolor: blue
+---
+\pagebreak
+
+# La théorie de la crédibilité
+
+Il est possible d'utiliser des observations afin de prédire les réalisations futures d'une variable aléatoire. Ce concept est particulièrement utile afin de traiter de l'hétérogénéité résiduelle intrinsèque à une cellule de tarification. Cela est d'autant plus vrai si l'assureur utilise des cellules de tarification comportant très peu de critères, car l'hétérogénéité résiduelle sera nettement plus importante (CNESST par exemple)
+
+Par contre, lorque ces obervations ne sont pas assez nombreuses, il ne serait pas juste de ne se fier qu'à elles, car elles ne représentent pas nécessairement bien la réalité. C'est ici qu'intervient la théorie de la crédibilité
+
+## La crédibilité de stabilité
+
+La crédibilté de stabilité (ou américaine ou limited fluctuations) consiste à déterminer à partir de quel nombre d'observations il est raisonnable de juger l'estimation empirique crédible.
+
+On dit alors que $S$ est statistiquement stable ou crédible à l'ordre $(k,p)$ si
+
+$$\boxed{P((1-k)E[S]\le S \le (1+k)E[S]) \ge p}$$
+
+Dans le cas où nous nous intéressions à une suite d'observations tirées d'une loi Bernouilly, il nous serait possible d'estimer la valeur du paramètre $p$ en calculant l'espérance empirique de la probabilité de succès. Dans ce cas précis, on obtient que le nombre magique d'observations à partir duquel on peut juger crédible notre estimation de p est 1082,41, nombre qui revient dans plusieurs contextes en thoérie de la crédibilité.
+
+Voir exemple classique dans les notes (Cas d'assurance sous le modèle fréquence-sévérité).
+
+Un raccourci important qui revient assez souvent est le cas où $N \sim \text{Poisson}$. Dans ce cas, on a l'identité suivante, où X représente la sévérité des réclamations individuelles:
+$$\boxed{\begin{aligned}
+\lambda &\ge \left( \frac{\Phi^{-1}\left(\frac{p+1}{2}\right)}{k} \right)^2\left(1+ CV(X)^2 \right) \\
+&CV(X) = \frac{\sqrt{Var(X)}}{E(X)}
+\end{aligned}}$$
+
+Dans le contexte où $N \sim \text{Poisson}$, si le montant de la sévérité est non-aléatoire $(CV(X)=0)$, on retrouve encore une fois
+$$\lambda \ge 1082,41$$
+
+## La crédibilité partielle
+
+Lorsque le nombre d'observations n'est pas suffisant pour juger l'expérience aléatoire crédible, on utilise la crédibilité partielle afin d'obtenir une bonne estimation de la prime crédibilisée en faisant une pondération de l'expérience aléatoire et de la valeur théorique de l'espérance. Whitney propose donc d'écrire la statistique $S$ crédibilisée comme 
+$$\pi = Z \overline{S}+(1-Z)M$$
+Dans modèle principaux sont considérés pour l'expression de Z
+
+1. $$Z=min \left(\sqrt{\frac{taille}{taille\ de \ crédibilité\  complète}},1 \right)$$
+    Aucune théorie mathématique ne supporte cette hypothèse
+    $$Z=min \left(\sqrt{\frac{n}{1083}},1 \right)$$
+    
+2. $$Z=\frac{n}{n+K}$$
+  où$K$ est une constante arbitraire
+
+
+# La crédibilité Bayesienne
+
+## Idée de base
+
+L'idée de la crédibilité Bayesienne est que les expériences que nous avons pu observer de la variable aléatoire nous donne une bonne approximation de l'espérance des coûts à venir, mais si et seulement si le nombre d'observations est suffisant pour que la statistique soit jugée crédible. On a donc que, dans plusieurs cas, selon le MLE, 
+
+$$\hat{\Theta} = \frac{\sum_{i=1}^{n} X_i}{n}$$
+
+Il faut également prendre en compte "l'avis d'expert" dans notre modèle, soit les hypothèses initiales quant aux paramètres de la distribution observée.
+
+On note donc la "distribution a priori"
+$$(X|\Theta) \sim Bern(\Theta)$$
+$$\Theta \sim Beta(\alpha, \beta)$$
+
+par exemple et la distribution a posteriori, soit la distribution ajustée aux données observées
+
+$$(\Theta|X_1 ... X_n) \sim Beta \left( \alpha + \sum_{i=1}^nX_i,\  \beta - \sum_{i=1}^nX_i +n \right)$$
+et 
+$$E[\Theta|X_1 ... X_n]=\frac{\alpha + \sum_{i=1}^nX_i}{\alpha + \beta + n}$$
+
+
+Dans certains cas, il est possible de réécrire $E[X|X_1 ... X_n]$ sous la forme d'une prime de crédibilité. Dans de tels cas (assez rares), on a donc que:
+$$E[X|X_1 ... X_n] = Z \overline{X} + (1-Z)M$$
+
+## Estimation Bayesienne
+
+Initialement, on a
+$$(X_i|\Theta) \sim f_{X|\Theta}(x;\theta)$$
+$$\Theta \sim f_{\Theta}(\theta)$$
+qui génèrent une série d'observations $(x_1, ..., x_n)$.
+
+On obtient donc, par une simple application du théorème de Bayes que
+$$f_{\Theta|X_1,...,X_n}(\theta; x_1,...,x_n) = \frac{f_{\Theta,X_1,...,X_n}(\theta, x_1,...,x_n)}{f_{X_1,...,X_n}( x_1,...,x_n)}$$
+où
+$$f_{X_1,...,X_n}( x_1,...,x_n) = \int_{-\infty}^{\infty} f_{\Theta,X_1,...,X_n}(\theta, x_1,...,x_n) d\theta$$
+qui est une constante.
+On retrouve donc que 
+$$ \begin{aligned} f_{\Theta|X_1,...,X_n}(\theta; x_1,...,x_n) &\propto  f_{\Theta,X_1,...,X_n}(\theta, x_1,...,x_n) \\
+ &= f_{X_1,...,X_n|\Theta}(x_1,...,x_n;\theta) f_{\Theta}(\theta)  \end{aligned}$$
+
+Et, par le lien de proportionnalité, on est souvent en mesure de retrouver la loi de la distribution a posteriori en faisant ressortir des constantes.
+
+## Hétérogénéité résiduelle
+
+Dans un portefeuille d'assurance, ou une cellule de tarification, on retrouve toujours de l'hétérogénéité résiduelle due au fait que "toutes les questions n'ont pas été posées". On modélise cette différence entre les assurés par la v.a. $\theta$, qui, par hypothèse, n'est pas une fonction du temps. 
+
+Sous cette hypothèse, on a donc que les observations $S_{i,t}$ sont indépendantes dans le temps $t$, __conditionnellement à $\Theta_i$__, c'est à dire
+
+$$ \begin{aligned} (S_{1,1}|\Theta_1) {\perp\!\!\!\perp}...{\perp\!\!\!\perp} (S_{1,5}|\Theta_1) \\ 
+(S_{2,1}|\Theta_2) {\perp\!\!\!\perp}...{\perp\!\!\!\perp} (S_{2,5}|\Theta_2)\end{aligned}$$
+
+## Prévision Bayesienne
+
+### Prime de risque
+
+Tout d'abord, on note
+$$\boxed{\mu(\theta) = E[S_{i,t}|\Theta_i=\theta] \overset{def}{=} \int_0^{\infty} x f_{S|\Theta}(x;\theta)} $$
+L'espérance des coûts de chaque contrat sachant sont degré de risque individuel $(\Theta_i)$.
+
+### Prime collective
+
+Comme première estimation de la prime de risque, on utilise souvent la moyenne pondérée des risques individuelles, soit le risque moyen pour la cellule de tarification. On note cette prime:
+$$ \boxed{\begin{aligned}
+m = E[\mu(\theta)] &\overset{def}{=} \int_{-\infty}^{\infty} \mu(\theta) f_{\Theta}(\theta) \\
+ &= E[E[S_{i,t}|\Theta]] \\
+ &= E[S_{i,t}] 
+ \end{aligned}}$$
+
+### Prime bayesienne
+
+Toutefois, bien que la prime collective soit globalement juste pour l'ensemble du portefeuille, elle ne l'est pas lorsqu'on oberve chaque assuré indépendamment. C'est pourquoi on s'intéresse à la prime Bayesienne, qui tient compte de l'expérience passée de chaque assuré. On note cette prime:
+$$ \boxed{\begin{aligned} 
+B_{i,n+1}&=E[\mu(\theta)|S_{i,1},...,S_{i,n}] \\
+&= \int_{-\infty}^{\infty} \mu(\theta)  f_{\Theta|S_{i,1},...,S_{i,n}}(\theta;s_{i,1},...,s_{i,n}) \end{aligned}}$$
+où, par le théorème de Bayes
+$$\begin{aligned} 
+f_{\Theta|S_{i,1},...,S_{i,n}}(\theta;s_{i,1},...,s_{i,n}) &\propto f_{S_{i,1},...,S_{i,n}|\Theta_i}(s_{i,1},...,s_{i,n};\theta) f_{\Theta_i}(\theta) \\
+&= \prod_{t=1}^n f_{S_{i,t}|\Theta_i}(s_{i,t};\theta)f_{\Theta}(\theta) 
+\end{aligned}$$
+
+## Approche par la "distribution prédictive"
+
+Lorqu'on se retrouve avec un cas qui est "moins doux" et qui ne donne pas de forme analytique facilement utilisable, on peut recourir à cette méthode numérique afin de calculer $B_{i,n+1}$
+
+Tout d'abord, on a que 
+$$\begin{aligned} B_{i,n+1} &= E[\mu(\Theta_i)|S_{i,1},...,S_{i,n}] \\
+&= \int_0^{\infty} s f_{S_{i,t}|S_{i,1},...,S_{i,n}}(s|s_1,...,s_n) ds \end{aligned}$$
+
+où
+$$\begin{aligned} 
+f_{S_{i,t}|S_{i,1},...,S_{i,n}}(s|s_1,...,s_n) &= \frac{f_{S_{i,t},S_{i,1},...,S_{i,n}}(s,s_1,...,s_n)}{f_{S_{i,1},...,S_{i,n}}(s_1,...,s_n)} \\ \\
+&= \int_{-\infty}^{\infty} f_{S_{i,t}|\Theta_i}(s|\theta) \left(\frac{f_{S_{i,1}|\Theta}(s_1|\theta)*...*f_{S_{i,n}|\Theta}(s_n|\theta)}{\int_{-\infty}^{\infty} f_{S_{i,1}|\Theta}(s_1|\phi)*...*f_{S_{i,n}|\Theta}(s_n|\phi) d\phi} \right) d\theta \\ \\
+&\overset{Bayes}{=} \int_{-\infty}^{\infty} f_{S_{i,t}|\Theta_i}(s|\theta) f_{\Theta|S_{i,1},...,S_{i,n}}(\theta|s_1,...,s_n) d\theta 
+\end{aligned}$$
+
+Et on peut donc évaluer le tout numériquement, et ce, même pour des cas très complexes (Burr-Inverse Gaussienne par exemple).
+
+## Crédibilité Bayesienne linéaire
+
+Dans certains cas, on peut réécrire la Bayesienne comme étant
+$$B_{i,n}=X* \overline{S} + (1-Z)M$$
+Et on appelle cette prime la prime de crédibilité.
+
+Voici quelques exemples où on peut obtenir une prime de crédibilité:
+$$\begin{aligned}
+(S|\Theta) &\sim Poisson &\text{ et } \Theta \sim Gamma \\
+(S|\Theta) &\sim Exponentielle &\text{ et } \Theta \sim Gamma \\
+(S|\Theta) &\sim Normale &\text{ et } \Theta \sim Normale \\
+(S|\Theta) &\sim Bernouilly &\text{ et } \Theta \sim Beta \\
+(S|\Theta) &\sim Geometrique &\text{ et } \Theta \sim Beta
+\end{aligned}$$
+
+Voir exemple pratique dans les notes pour avoir un exemple concret sur cette matière.
+
+# Modèle de Bühlmann
+
+Le modèle de crédibilité Bayesien est le plus précis, mais il comporte deux limitations majeures:
+
+1. La prime Bayesienne n'est linéaire que dans un nombre très limité de cas
+
+2. la prime Bayesienne nous force à poser des hypothèses subjectives quant aux distributions de $S_{i,t}|\Theta_i$ et $\Theta_i$
+
+## Notation et identités à connaitre
+
+Tout d'abord, on note les identités suivantes:
+
+$$\boxed{\begin{aligned} 
+S^2 &= E[Var(S_{i,t}|\Theta_i)] = E[\sigma^2(\Theta_i)] \\
+a &= Var(E[S_{i,t}|\Theta_i]) = Var(\mu(\Theta_i)) \\
+    \delta_{i,j}&= 
+\begin{cases}
+    1,    & i=j\\
+    0,    & i\neq j
+\end{cases}
+ \\
+Cov(S_{i,t},S_{i,u})  &=a + \delta_{t,u}S^2 \\
+Cov(\mu(\Theta_i),S_{i,t}) &=a 
+\end{aligned}}$$
+
+## Hypothèses du modèle de Bühlmann
+
+1. Chaque contrat est indépendant quant à son niveau de risque individuel
+$$\Theta_1 {\perp\!\!\!\perp} ... {\perp\!\!\!\perp} \Theta_I$$
+
+2. Les variables aléatoires $S_{i,t}$ sont telles que
+$$\begin{aligned}
+E[S_{i,t}|\Theta_i] &= \mu(\Theta_i) \\
+Cov(S_{i,t},S_{i,u}|\Theta_i) &= \delta_{t,u} \sigma^2(\Theta_i)
+\end{aligned}$$
+ 
+L'idée du modèle de Bühlmann est de trouver $\beta_0$ et $\beta_1$ qui minimisent les "moindres carrés espérés", c'est à dire:
+$$\phi = E\bigg[\left(\mu(\Theta_i)-(\beta_0+\beta_1\overline{S}_1) \right)^2\bigg]$$
+
+En dérivant partiellement $\phi$ par rapport à $\beta_0$ et à $\beta_1$ et en égalisant les deux équations à zéro, on obtient que
+$$\boxed{\begin{aligned}
+\beta_0 &= E[\mu(\Theta_i)] - \beta_1E[\overline{S}_i] = m\left(1-\frac{n}{n+k}\right) \\
+\beta_1 &= \frac{n}{n + \frac{S^2}{a}}
+\end{aligned}}$$
+
+Et on peut alors conclure que la meilleure approximation linéaire de $\mu({\Theta_i})$ qui minimise $\phi$ est
+$$\boxed{\begin{aligned}
+\Pi_{i,n+1}^{B} &=  Z \overline{S}_i + (1-Z)M \\ \\
+Z &= \frac{n}{n+k} \\ \\
+\overline{S}_i &= \frac{\sum_{t=1}^{n} S_{i,t}}{n} \\ \\
+k &= \frac{S^2}{a} \\ \\
+m &= E[S_{i,t}]
+\end{aligned}}$$
+
+## Approche paramétrique
+
+Lorsqu'on connaît les distributions de $(S_{i,t}|\Theta_i)$ et de $\Theta_i$, il est facile d'obtenir directement des expressions pour $S^2$ et $a$. On peut donc directement utiliser ces quantités dans la formule de la prime de Bühlmann afin de calculer la prime crédibilisée.
+
+## Approche non-paramétrique
+
+En pratique, les lois de$(S_{i,t}|\Theta_i)$ et de $\Theta_i$ sont rarement connues, c'est pourquoi nous devons estimer les valeurs de $S^2$ et de $a$ et se servant des observations que nous avons à notre disposition.
+
+### m
+Comme nous l'aurions fait si nous y étions bêtement allé avec logique, nous avons que 
+$$\boxed{\begin{aligned}
+m &\overset{def}{=} E[\mu(\Theta_i)] \\ \\
+\hat{m} &= \frac{\sum_{i=1}^I \sum_{t=1}^n S_{i,t}}{In}
+\end{aligned}}$$
+est un estimateur non-biaisé pour m.
+
+### *$S^2$*
+Par définition, on a que 
+$$\boxed{\begin{aligned}
+S^2 &\overset{def}{=} E[\sigma^2(\Theta_i)] \\ \\
+\overline{S}^2 &= \frac{\sum_{i=1}^I \hat{\sigma}^2(\Theta_i)}{I} = \frac{\sum_{i=1}^I \sum_{t=1}^n (S_{i,t}-\overline{S}_i)^2}{I(n-1)}
+\end{aligned}}$$
+est un estimateur non-biaisé pour $S^2$
+
+**Attention**: Puisque, dans le cas non-paramétrique, la variance est estimée, il faut diviser par $n-1$ et non $n$!
+
+### a
+Dans ce cas, il faut **faire attention**, car l'estimateur que nous pourions sembler logique:
+$$\boxed{\hat{a} = \frac{\sum_{i=1}^I (\overline{S}_i - \overline{S})^2}{I-1}}$$
+**est biaisé!**
+
+En effet, on omettant le développement, on a que 
+$$E[\hat{a}] = a + \frac{S^2}{n}$$
+$\hat{a}$ est donc asymptotiquement sans biais, mais, à l'examen, afin d'éviter le problème du biais, on utilisera plutôt afin d'estimer la valeur de a:
+$$\boxed{\begin{aligned}
+\hat{a}' &= \hat{a} - \frac{S^2}{n} \\ \\
+\hat{a}' &= \frac{\sum_{i=1}^I (\overline{S}_i - \overline{S})^2}{I-1} - \frac{S^2}{n}
+\end{aligned}}$$
+Malgré le fait qu'elle pourrait nous retourner des valeurs négatives.
+
+# Le modèle de Bühlmann-Straub
+
+Un gros point négatif du modèle de Bühlmann est le fait qu'on assume que tous les contrats sont en vigueur pour toutes les années, et ce, durant l'année complète et que l'exposition au risque est donc la même pour tous les contrats, ce qui n'est évidemment pas le cas dans un contexte pratique.
+
+Dans ce contexte, on note $W_{i,t}$ le degré d'exposition au risque de l'assuré $i$ au temps $t$ et $X_{i,t}= \frac{S_{i,t}}{W_{i,t}}$ le ratio sinistres/exposition pour l'assuré i au temps t.
+
+L'actuaire pourrait aussi définir $W_{i,t}$ comme le montant de primes acquises par l'assuré $i$ au temps $t$ afin de modéliser le loss ratio au lieu de la prime pure.
+
+## Hypothèses du modèle de Bühlmann-Straub
+
+1. Les contrats sont indépendants ($\Theta_1 {\perp\!\!\!\perp} ... {\perp\!\!\!\perp} \Theta_I$)
+
+2. $E[W_{i,t}|\Theta_i] = \mu(\Theta_i)$
+
+3. $Var(X_{i,t}|\Theta_i) = \frac{\sigma^2(\Theta_i)}{W_{i,t}}$
+
+## Notation supplémentaire
+$$\boxed{\begin{aligned}
+W_{i\bullet} &= \sum_{t=1}^n W_{i,t} \\ \\
+W_{\bullet \bullet} &= \sum_{i=1}^I \sum_{t=1}^{n} W_{i,t} \\ \\ 
+Z_{\bullet} &= \sum_{i=1}^I Z_i \\ \\
+X_{i,W} &= \sum_{t=1}^n \left(\frac{W_{i,t}}{W_{i \bullet}} \right) X_{i,t} \\ \\
+X_{WW} &= \sum_{i=1}^I \sum_{t=1}^n \left(\frac{W_{i,t}}{W_{\bullet \bullet}} \right) X_{i,t} \\
+&= \sum_{i=1}^I \left(\frac{W_{i \bullet}}{W_{\bullet \bullet}} \right) \sum_{t=1}^n \left(\frac{W_{i,t}}{W_{i \bullet}} \right)X_{i,t} \\
+&= \sum_{i=1}^I \left(\frac{W_{i \bullet}}{W_{\bullet \bullet}} \right) X_{i,W} \\ \\
+X_{Z,W} &= \sum_{i=1}^I \left(\frac{Z_i}{Z_{\bullet}} \right) X_{i,W}
+\end{aligned}}$$
+
+##Covariances
+Identités à connaitre afin de faire les preuves, si besoin.
+$$\boxed{\begin{aligned}
+Cov(X_{i,t},X_{k,u}) &= \delta_{i,k}\left(a + \frac{\delta_{t,u}S^2}{W_{i,t}} \right) \\ \\
+Cov(\mu(\Theta_i),X_{k,u}) &= \delta_{i,k} a \\ \\
+Cov(X_{i,t},X_{k,W}) &= \delta_{i,k}\left(a + \frac{S^2}{W_{i \bullet}} \right)
+\end{aligned}}$$
+
+## Prime de crédibilité linéaire
+Comme pour le modèle de Bühlmann, on cherche $\beta_0$ et $\beta_1$ qui minisent 
+$$\phi = E\bigg[\left(\mu(\Theta_i)-(\beta_0+\beta_1 X_{i,W}) \right)^2 \bigg]$$
+
+On trouve finalement que
+$$\begin{aligned}
+\Pi_{i,n+1}^{BS} &= Z_i X_{i,W} + (1-Z_i)M \\ \\
+Z_i &= \frac{W_{i \bullet}}{W_{i \bullet} +\frac{S^2}{a}}
+\end{aligned}$$
+
+### $\hat{m}$
+
+Tout d'abord, on a 
+$$\boxed{\begin{aligned}
+\hat{m} &= \sum_{i=1}^I \left(\frac{W_{i \bullet}}{W_{\bullet \bullet}}\right) X_{i,W} \\ \\
+&= X_{W,W} \\ \\
+&= \frac{\sum \text{Sinistres}}{\sum UA}
+\end{aligned}}$$
+
+Toutefois, l'estimateur linéaire de m à variance minimale n'est pas $X_{W,W}$, mais bien
+$$\boxed{\hat{m}' = X_{Z,W} = \sum_{i=1}^I \left(\frac{Z_i}{Z_{\bullet}} \right) X_{i,W}}$$
+
+### $\hat{S}^2$
+Épargnons le développement, on a que 
+$$\boxed{\hat{S}^2 = \frac{\sum_{i=1}^I \sum_{t=1}^n W_{i,t} (X_{i,t} - X_{i,W})^2}{I(n-1)}}$$
+
+Notons encore une fois que, puisqu'on ne connait pas les ditrbutions, la variance est estimée et on divise par $(n-1)$ et non seulement par $n$.
+
+### $\hat{a}$
+Comme avec le modèle de Bühlmann, l'estimateur logique de a est biaisé! Il faut donc faire un ajustement au biais afin d'avoir un estimateur non-biaisé pour a.
+
+On a donc
+$$\boxed{\hat{a} = \sum_{i=1}^I W_{i \bullet} (X_{i,W}-X_{W,W})^2}$$
+qui est notre estimateur biaisé de a. 
+
+Après ajustement, on obtient plutôt
+$$\boxed{\hat{a}' = \left(\frac{W_{\bullet \bullet}}{W_{\bullet \bullet}^2 - \sum_{i=1}^I W_{i \bullet}^2} \right) \left(\hat{a} - (I-1)\hat{S}^2 \right)}$$
+
+Lorsqu'on a accès à un ordinateur, il est également possible d'utiliser
+$$\boxed{\tilde{a} = \frac{\sum_{i=1}^I Z_i(X_{i,W} - X_{Z,W})^2}{I-1}}$$
+, mais cette méthode nous oblige à résoudre le tout par la méthode du point milieu, car $\tilde{a}$ est fonction de $Z_i$ et vice versa.
