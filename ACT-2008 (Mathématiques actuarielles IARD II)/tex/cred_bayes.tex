@@ -1,0 +1,628 @@
+
+\chapter{Crédibilité Bayesienne}
+\label{chp:bayesienne}
+*Rappel: En ACT - 2000, la méthode de Bayes est vue comme une façon (1) un avis d'expert en plus (2) des données observées dans l'estimation statistique. Dans ce cas-ci, en crédibilité :
+\begin{itemize}
+\item[1)] Avis d'expert : Prime collective
+\item[2)] Données : expérience individuelle des assurés
+\item[3)] Statistique : Souvent la prime. 
+\end{itemize}
+
+\section{Introduction par un exemple}
+Ex:
+\begin{align*}
+X|\Theta \sim \text{Bin}(1, \theta)
+\end{align*}
+Où
+\begin{itemize}
+\item[• X] est l'indicateur que la maison est inondée et 
+\item[• $\theta$] est la probabilité d'inondation.
+\end{itemize}
+Avec le maximum de vraisemblance, on obtient :
+\begin{equation}
+\label{sec:eq:maxim}
+\widehat{\Theta} = \frac{\sum_{i =1}^{n} X_i}{n}
+\end{equation}
+Que faire si on n'a pas de données ? On utilise l'avis d'experts.
+\begin{equation}
+X_i|\Theta_i \sim \text{Bern}(\theta_i)
+\end{equation}
+\begin{equation}
+\label{sec:equa:a prio}
+\theta \sim \text{Beta}(\alpha, \beta)
+\end{equation}
+La prime collective correspond à 
+\begin{align*}
+m &= E[\mu(\Theta)] \\
+&= E[\theta]\\
+&= \frac{\alpha}{\alpha + \beta}
+\end{align*}
+On obtient la distribution a postériori suivante :
+\begin{align*}
+(\Theta | X_1, ..., X_n) \sim \text{Beta}\Bigg(\alpha + \sum_{i =1}^{n} X_i, \beta - \sum_{i =1}^{n} X_i + n\Bigg)
+\end{align*}
+À partir de notre expression \ref{sec:equa:a prio} et selon les différentes situations, on obtient:
+\begin{itemize}
+\item Aucune donnée: $ E[x] = E[E[X|\Theta]] = E[\theta] = \frac{\alpha}{\alpha + \beta}$
+\item Entre-deux (Bayes): $E[X|X_1, ..., X_n] = E[\theta|X_1, ..., X_n] = \frac{\alpha + \sum_{i =1}^{n} X_i}{\alpha + \beta + n}$
+\item Beaucoup de données (maximum de vraisemblance): voir \ref{sec:eq:maxim}
+\end{itemize}
+Or,
+\begin{align*}
+\frac{\alpha + \sum_{i =1}^{n} X_i}{\alpha + \beta + n} &= \frac{\alpha}{\alpha + \beta + n} + \frac{\sum_{i =1}^{n} X_i}{\alpha + \beta + n}\\
+&=\frac{\alpha}{\alpha + \beta}\frac{\alpha + \beta}{\alpha + \beta + n} + \frac{n}{\alpha + \beta + n}\frac{\sum_{i =1}^{n} X_i}{n}\\
+&=\frac{n}{\alpha + \beta + n} \overline{X} + \Bigg(1 - \frac{n}{n + (\alpha + \beta)}\Bigg)\Bigg(\frac{\alpha}{(\alpha + \beta)}\Bigg)\\
+\end{align*}
+On obtient le résultat suivant:
+\begin{equation}
+\frac{\alpha + \sum_{i =1}^{n} X_i}{\alpha + \beta + n} = Z \overline{X} + (1 - Z) m
+\end{equation}
+où $Z = \frac{n}{n + k}$, $k = \alpha + \beta$ et $m= \frac{\alpha}{\alpha + \beta}$
+
+\section{Estimation Bayesienne(Rappel/Background)}
+\label{sec:theo:bayes}
+\begin{itemize}
+\item Observations = $\lbrace x_1, x_2, ..., x_n \rbrace$ ;
+\item où $X_i|\Theta \sim f_{X|\Theta}(x|\theta)$ ;
+\item et $\Theta \sim f_{\Theta}(\theta)$, la distribution a priori de $\Theta$.
+\end{itemize}
+\begin{align*}
+ f_{\Theta|X_1, X_2, ..., X_n}(\theta|x_1, x_2, ..., x_n) = \frac{f_{\Theta,X_1, X_2, ..., X_n}(\theta,x_1, x_2, ..., x_n)}{f_{X_1,...,X_n}(x_1,...,x_n)}
+\end{align*}
+Qui n'est pas une fonction de $\Theta$. Par la suite, on crée une proportion afin que la somme des probabilités soit égale à 1.
+ Soit:
+\begin{align*}
+\propto & f_{\Theta,X_1, X_2, ..., X_n}(\theta,x_1, x_2, ..., x_n)\\
+=& f_{X_1, X_2, ..., X_n|\Theta}(x_1, x_2, ..., x_n|\theta) f_{\Theta}(\theta)
+\end{align*}
+Donc la loi a posteriori de $\theta$ est
+\begin{equation}
+f_{\Theta|X_1, X_2, ..., X_n}(\theta|x_1, x_2, ..., x_n) \propto f_{X_1, X_2, ..., X_n|\Theta}(x_1, x_2, ..., x_n|\theta) f_{\Theta}(\theta)
+\end{equation}
+et si $X_1,..., \perp,..., X_n$,
+\begin{align*}
+f_{\Theta|X_1, X_2, ..., X_n}(\theta|x_1, x_2, ..., x_n) &\propto  f_{X_1,|\Theta}(x_1|\theta)\times ...\times f_{X_n|\Theta}(x_n|\theta) f_{\Theta}(\theta)\\
+&= L(\Theta)f_{\Theta}(\theta)
+\end{align*}
+Ainsi, 
+\begin{equation}
+\widehat{\Theta} = E[\Theta|X_1,...,X_n]
+\end{equation}
+correspondant à l'espérance a posteriori de $\Theta$.
+\section*{Exemple}
+
+Un portefeuille d'assurance auto composé de 75 \% d'assurés qui ne textent pas au volant et de 25 \% qui textent au volant. Or, on \textit{sait} que la probabilité d'accident est de 5 \% pour ceux qui ne textent pas en conduisant, alors qu'elle est de 25 \% pour ceux qui texte. La sévérité d'un accident est de \numprint{10000} \$. On ne demande pas à l'assuré s'il texte ou non au volant. 
+\begin{itemize}
+\item $S = \sum_{i = 1}^{N}X_i$
+\item $(N_i|\Theta) \sim \text{Bern}(\Theta)$
+\item $P(X = \numprint{10000}) = 1$ \footnote{Il s'agit d'une fonction \emph{dégénéré  \href{https://en.wikipedia.org/wiki/Degenerate_distribution}{(degenate density function)}}.}
+\end{itemize}
+\begin{align*}
+	P(\Theta = \theta) =
+     \left\{
+     \begin{array}{rl}
+      75\% &, \Theta = 5\% \\
+      25\% &, \Theta = 25\%
+     \end{array}
+     \right.
+\end{align*}
+
+\subsection*{a)Prime collective :}
+La prime uniforme chargée initialement aux gens d'une même cellule de tarification. Soit,
+\begin{align*}
+m =& E[S] \\
+=& E[N] E[X] \\
+=& E[E[N|\Theta]] \times  \numprint{10000} \\
+=& E[\Theta] \times  \numprint{10000}\\
+=& (0.05\times 0.75 + 0.25\times 0.25) \times  \numprint{10000}\\
+=& \numprint{1000} \$
+\end{align*}
+Qui correspond à l'espérance a priori de S.
+
+\subsection*{b) La loi a posteriori de $\Theta$ après 1 an d'expérience :}
+\begin{align*}
+f_{\Theta|N_1}(\theta|n_1) \propto & f_{N_1|\Theta}(n_1|\theta) f_{\Theta}(\theta)
+\end{align*}
+\subsubsection*{Cas \#1 ($n_1 = 0$): }
+\begin{align*}
+f_{\Theta|N_1}(\theta| n_1 = 0) \propto & f_{N_1|\Theta}(0|\theta) f_{\Theta}(\theta) \\
+= & (1 - \theta) \times  f_{\Theta}(\theta) \\
+= & \left\{
+     \begin{array}{rl}
+      (1 - 0.05) 75\% &, \Theta = 5\% \\
+      (1 - 0.25) 25\% &, \Theta = 25\%
+     \end{array}
+     \right. \\
+f_{\Theta|N_1}(\theta|0) = & \left\{
+     \begin{array}{rl}
+      \frac{0.7125}{0.9} &, \Theta = 5\% \\
+      \frac{0.1875}{0.9} &, \Theta = 25\%
+     \end{array}
+     \right. \\
+\end{align*}
+Notes : On divise par 0.9 \footnote{Qui correspond à l'addition des probabilités de la densité (0.7125+0.1875).} pour \emph{proportionaliser ($\propto$)} la densité et ainsi avoir une fonction de densité = 1.
+On utilise une proportion pour avoir une somme des probabilités = 1,
+\begin{align*}
+f_{\Theta|N_1}(\theta|0) = & \left\{
+     \begin{array}{rl}
+      0.791666 &, \Theta = 5\% \\
+      0.2083333 &, \Theta = 25\%
+     \end{array}
+     \right. \\
+\end{align*}
+
+\subsubsection*{Cas \#2 ($n_1 = 1$): }
+\begin{align*}
+f_{\Theta|N_1}(\theta|1) \propto & f_{N_1|\Theta}(1|\theta) f_{\Theta}(\theta) \\
+= & \theta \times  f_{\Theta}(\theta) \\
+= & \left\{
+     \begin{array}{rl}
+      0.05 \times  75\% &, \Theta = 5\% \\
+      0.25 \times  25\% &, \Theta = 25\%
+     \end{array}
+     \right. \\
+= & \left\{
+     \begin{array}{rl}
+      \frac{0.0375}{0.1} &, \Theta = 5\% \\
+      \frac{0.0625}{0.1} &, \Theta = 25\%
+     \end{array}
+     \right. \\
+f_{\Theta|N_1}(\theta|1) = & \left\{
+     \begin{array}{rl}
+      0.375 &, \Theta = 5\% \\
+      0.625 &, \Theta = 25\%
+     \end{array}
+     \right. \\
+\end{align*}
+
+\subsection*{c) Prime Bayesienne a posteriori après 1 an d'expérience :}
+On obtient,
+\begin{align*}
+B_2 = E[S_2|S_1] &= E[S_2|N_1] \\
+&= E[N_2|N_1] E[X] \\
+&= E[\Theta|N_1] \times  \numprint{10000}
+\end{align*}
+Où $E[\Theta|N_1]$ correspond à l'espérance a posteriori de $\Theta$.
+On reprendre les 2 cas énoncés plus haut.
+
+\subsubsection*{Cas 1}
+\begin{align*}
+E[S_2|S_1 = 0] =& E[\Theta|N_1 = 0] \times  \numprint{10000} \\
+=& (0.791666\times 0.05 + 0.2083\times 0.25) \times  \numprint{10000}\\
+=& 916.666\$ = \pi_2
+\end{align*}
+
+\subsubsection*{Cas 2}
+\begin{align*}
+E[S_2|S_1 = \numprint{10000}] =& E[\Theta|N_1 = 1] \times  \numprint{10000} \\
+=& (0.375\times 0.05 + 0.625\times 0.25) \times  \numprint{10000}\\
+=& 1750\$ = \pi_2
+\end{align*}
+
+Remarque: On peut écrire $B_2$ dans ce cas-ci comme:
+\begin{equation}
+B_2 = \pi_2 = 0.0833 \times  \overline{X} + (1 - 0.0833) \times  m
+\end{equation}
+Où,
+\begin{itemize}
+\item[Z] = 0.08333 (arbitraire);
+\item[$\overline{X}$] = 0 \$ ou \numprint{100000}\$;
+\item[m] = \numprint{1000} \$.
+\end{itemize}
+On obtient une prime de crédibilité de combinaison linéaire entre l'expérience $\overline{X_1}$ et la prime collective m.
+
+\section{L'hétérogénéité résiduelle :}
+Dans le contexte de l'assurance IARD, on dira que le fait de ne pas poser toutes les questions à l'assuré concernant son risque introduit de l'hétérogénéité résiduelle dans la/les cellules de tarification. (Ex. Le fait de ne pas demander si l'assuré texte ou non au volant). En pratique, pour un portefeuille ou un sous-portefeuille ( = cellule de tarification) composé des différents contrats d'assurés(soit I pour \emph{Insured}), on \emph{quantifie} le \emph{niveau} de risque associé à \emph{l'hétérogénéité résiduelle} par la $v.a.  \Theta$, pour i = 1,...,I.
+
+\subsubsection*{Remarques :}
+\begin{itemize}
+\item[1)] Les $\Theta_i$ sont propres à chaque assuré \emph{i} et ne changent pas avec le temps \emph{t};
+\item[2)] Les $\Theta_i$ sont des $v.a.$ non observables;
+\item[3)] Par hypothèse, les $\Theta_i$ sont des $v.a.$ $i.i.d$ (dans la cellule de tarification);
+\item[4)] Pour chaque assuré \emph{i}, on observe les $v.a.$ $S_{i,1}, ..., S_{i,n}$;
+\item[5)] Chaque contrat est indépendant l'un de l'autre;
+\item[6)] Les observations $S_{i,t}$ d'un même contrat \emph{i} sont indépendantes dans le temps \emph{t} \emph{conditionnellement à $\Theta$} (contagion apparente).
+\end{itemize}
+Notes sur la contagion apparente:
+\begin{align*}
+S_{1,1} & \not\perp ... \not\perp S_{1,5} \\
+S_{2,1} & \not\perp ... \not\perp S_{2,5} \\
+\end{align*}
+Par contre:
+\begin{align*}
+(S_{1,1}|\Theta_1) \perp & ... \perp (S_{1,5}|\Theta_1) \\
+(S_{2,1}|\Theta_2) \perp & ... \perp (S_{2,5}|\Theta_2) \\
+\end{align*}
+Elles sont conditionnellement indépendants en sachant $\Theta$.
+
+\section{Prévision Bayesienne (ou prime de crédibilité) :}
+Alors  que la théorie de la crédibilité complète (limited fluctuations) visait à trouver la \emph{taille} requise pour que les résultats d'un portefeuille (ou un sous-portefeuille) soient statistiquement stables, la crédibilité Bayesienne vise à calculer la \emph{meilleure prévision} d'une quantité (sinistres totaux, nombre de sinistres, sévérités, loss ratio(LR),...) lors de la prochaine période.
+\\
+
+Exemple:
+Sachant l'expérience passée d'un assuré, on pourrait vouloir calculer :
+\begin{itemize}
+\item Le nombre de sinistres prédit pour l'an prochain,
+\item sévérité prédite pour  l'an prochain,
+\item le montant total des réclamations pour l'an prochain.
+\end{itemize}
+
+\subsection{Prime de risque :}
+\begin{itemize}
+\item Correspond à l'opposé de la prime collective (= m = E[S]),
+\item la prime que chaque contrat de la cellule de tarification devrait payer.
+\end{itemize}
+Autrement dit, si le niveau de risque $\Theta_i$ du contrat i est connu, alors la meilleure prévision est l'espérance :
+\begin{align*}
+\mu(\theta) = E[S_{i,t}|\Theta_i = \theta] = \int_{0}^{\infty} x f_{X|\Theta}(x|\theta)dx
+\end{align*}
+Remarque: Puisque $\Theta$ n'est jamais observé, $\mu(\theta)$ est aussi inconnue et donc prévoir $S_{i, t+1}$ revient à prévoir $\mu(\theta_i)$.
+
+\subsection{Prime collective :}
+\label{sec:sub:prime collective}
+Comme \emph{première approximation} (à t = 0) de la \textit{vraie} prime de risque, on utilise souvent la moyenne pondérée des primes de risques possibles.
+\begin{align*}
+m = E[\mu(\theta)] = \int_{-\infty}^{\infty} \mu(\theta) f_{\Theta}(\theta)d\theta
+\end{align*}
+Remarque:\\
+Cette expression de l'approximation de la prime de risque sera la même pour tous les contrats.\\
+On a aussi que:
+\begin{align*}
+m = E[\mu(\theta)] =& \int_{-\infty}^{\infty} \mu(\theta) f_{\Theta}(\theta)d\theta \\
+=& \int_{-\infty}^{\infty} E[S_{i,t}|\theta] f_{\Theta}(\theta)d\theta \\
+=& E[E[S_{i,t}|\Theta]]\\
+=& E[S_{i,t}]
+\end{align*}
+Soit le montant moyen des sinistres dans le portefeuille.
+
+\subsection{Prime Bayesienne}
+D'après la section \ref{sec:sub:prime collective}, la prime collective m est \emph{globalement} adéquate, mais non équitable envers chaque assuré en raison de l'hétérogénéité résiduelle. 
+
+Ainsi, la meilleure approximation de la prime de risque $(\mu(\theta_i))$ sachant l'expérience d'un contrat pendant \emph{n périodes} est la prime Bayesienne, soit:
+\begin{equation}
+\label{eq:prime bayesienne}
+B_{i,n+1} = E[\mu(\Theta_i)|S_{i,1}, ..., S_{i,n}] = \int_{-\infty}^{\infty} \mu(\theta) f_{\Theta|S_{i,1}, ..., S_{i,n}}(\theta| s_{i,1}, ..., s_{i,n})d\theta
+\end{equation}
+Or, par le théorème de Bayes (\ref{sec:theo:bayes}):
+\begin{align*}
+f_{\Theta|S_{i,1}, ..., S_{i,n}}(\theta|S_{i,1}, ..., S_{i,n}) \propto & f_{S_{i,1}, ..., S_{i,n}|\Theta_i}(S_{i,1}, ..., S_{i,n}|\theta) f_{\Theta}(\theta)\\
+& \overset{\perp}{=} f_{S_{i,1}|\Theta_i}(S_{i,1}|\theta)\times ...\times  f_{S_{i,n}|\Theta_i}(S_{i,n}|\theta) \times  f_{\Theta}(\theta)\\
+& = \Bigg[ \prod_{t =1}^{n} f_{S_{i,t}|\Theta_i}(S_{i,t}|\theta)\times  f_{\Theta}(\theta) \Bigg]
+\end{align*}
+Remarques :
+\begin{itemize}
+\item La prime Bayesienne est la meilleure approximation de $S_{i,t+1}$ que l'on puisse calculer.
+\item L'ordre de survenance des sinistres n'est pas pris en compte dans la formule $B_{i,n+1}$.
+\item La prime collective peut s'interpréter comme la prime Bayesienne de la première année :
+	\begin{align*}
+	B_{i,0+1} &=  \int_{-\infty}^{\infty} \mu(\theta) f_{\Theta|\phi}(\theta| \phi)d\theta \\
+	&= \int_{-\infty}^{\infty} \mu(\theta) f_{\Theta}(\theta)d\theta \\
+	&= m
+	\end{align*}
+	Où $\phi$ est un ensemble vide.
+\end{itemize}
+\subsection*{Exemple}
+On ne s'intéresse qu'au nombre des sinistres du $i^{e}$ contrat au cours de l'an \emph{t} $(S_{i,t})$.
+On obtient:
+\begin{align*}
+(S_{i,t}|\Theta_i) \sim &\text{Poisson}(\theta_i),  \text{ Où i = }1, ..., I \text{ et } \text{t = } 1,...,n \\
+f_{\Theta|N_1}(\theta|0) = & \left\{
+     \begin{array}{rl}
+      0.3 &, \Theta = 0.5 \\
+      0.5 &, \Theta = 1 \\
+      0.2 &, \Theta = 2 \\
+     \end{array}
+     \right. \\
+\end{align*}
+\subsubsection*{a) Primes de risques possibles:}
+\begin{align*}
+\mu(\theta) = & \left\{
+     \begin{array}{rl}
+      0.5 &, \Theta = 0.5 \\
+      1 &, \Theta = 1 \\
+      2 &, \Theta = 2 \\
+     \end{array}
+     \right. \\
+\mu(\theta) &= E[S_{i,t}|\Theta_i = \theta]\\
+&= E[\Theta|\Theta_i = \theta] \\
+&= \theta
+\end{align*}
+
+\subsubsection*{b) Prime collective :}
+\begin{align*}
+\text{Équation}(\Delta) \Rightarrow m &= E\Big[E[S_{i,t}|\Theta_i] \Big] \\
+&= E[\mu(\Theta_i)]\\
+&=E[\Theta_i]\\
+&= 0.3 \times  0.5 + 0.5\times 1 + 0.2\times 2 = 1.05
+\end{align*}
+
+\subsubsection*{c) Calculer la prime Bayesienne pour l'année 3 si $S_{i,1} = 2$  et $S_{i,2} = 1$:}
+\begin{itemize}
+\item[1)] Distribution a posteriori de $\Theta$:
+\begin{align*}
+f_{\Theta|S_{i,1},S_{i,2}}(\theta|2,1) &\propto f_{S_{i,1},S_{i,2}|§\Theta_i}(2,1|\theta) \times f_{\Theta}(\theta) \\
+&= f_{S_{i,1}|\Theta}(2|\theta) \times f_{S_{i,2}|\Theta}(1|\theta) f_{\Theta}(\theta) \\
+&= \frac{e^{-\theta}\theta^2}{\fact{2}}\frac{e^{-\theta}\theta^1}{\fact{1}} \times P(\Theta_i =\theta)
+\end{align*}
+On obtient
+\begin{align*}
+f_{\Theta|S_{i,1},S_{i,2}}(\theta|2,1) \propto & \left\{
+     \begin{array}{rl}
+      0.00689774 &, \Theta = 0.5 \\
+      0.03383382 &, \Theta = 1 \\
+      0.01465251 &, \Theta = 2 \\
+     \end{array}
+     \right. \\
+\end{align*}
+On observe que la somme des différentes probabilités correspond à :
+ $$ \sum_{\theta = i} = 0.0358407 $$
+On doit donc, normaliser la densité à l'aide de la constante de normalisation ($0.0358407$).
+\begin{align*}
+f_{\Theta|S_{i,1},S_{i,2}}(\theta|2,1) \propto & \left\{
+     \begin{array}{rl}
+      \frac{0.00689774 }{0.0358407}  &, \Theta = 0.5 \\ \\
+      \frac{0.03383382 }{0.0358407}   &, \Theta = 1 \\ \\
+      \frac{0.01465251 }{0.0358407}  &, \Theta = 2 \\ \\
+     \end{array}
+     \right. \\
+\end{align*}
+Ainsi,
+\begin{align*}
+f_{\Theta|S_{i,1},S_{i,2}}(\theta|2,1) \propto & \left\{
+     \begin{array}{rl}
+      12.45 \% &, \Theta = 0.5 \\
+      61.07 \% &, \Theta = 1 \\
+      26.46\% &, \Theta = 2 \\
+     \end{array}
+     \right. \\
+\end{align*}
+\item[2)] Prime Bayesienne:
+\begin{equation}
+B_{i,3} = E \Big[ \mu(\Theta_i) | S_{i,1} = 2, S_{i,2} = 1\Big]
+\end{equation}
+À comparer avec l'équation ($\Delta$) mentionnée plus haut.\\
+
+Conclusion: Si n=0 (aucune observation) sur l'expérience du contrat i alors la prime Bayesienne $B_{i, 0 + 1}$ coïncide avec la prime collective.
+Ainsi parce que $(S_{i,t}|\Theta_i) \sim \text{Poisson}(\Theta_i) $ on se rappelle que $$\mu(\Theta_i) = E[S_{i,t}|\Theta_i = \theta] = \theta$$
+Donc,
+\begin{align*}
+B_{i,2+1} =& E \Big[ \mu(\Theta_i) | S_{i,1} = 2, S_{i,2} = 1\Big] \\
+=& 12.45 \% \times 0.5 + 61.07\% \times 1 + 26.46 \% \times 2 \\
+=& 1.20
+\end{align*}
+\end{itemize}
+Remarque: Dans ce cas-ci, on a que
+\begin{align*}
+1.20 =& Z \times \overline{S} + (1 - Z) \times m \\
+1.20 =& Z \Big(\frac{2 + 1}{2} \Big) + (1 - Z) \times 1.05 \\
+1.20 =& (33.333 \%) \Big(\frac{2 + 1}{2} \Big) + (1 - 33.333\%) \times 1.05
+\end{align*}
+La méthode Bayesienne a donc donné implicitement 33.333\% de crédibilité à l'expérience de l'assuré i pour établir la prime crédibilisée.
+
+\section{Approche par la "distribution prédictive"}
+...est une approche alternative pour calculer $B_{i,n+1}$. Jusqu'à maintenant, on a vu que :
+\begin{itemize}
+\item[i)] \begin{align*}
+m &=  E[\mu(\Theta_i)] \\
+&= E\Big[E[S_{i,t}|\Theta_i] \Big] \\
+&= E[S_{i,t}] \\
+&= \int_{0}^{\infty} S \times f_{S_{i,t}}(s)ds \\
+&= \int_{0}^{\infty} \int_{-\infty}^{\infty} S \times f_{S_{i,t}|\Theta}(s|\theta)f_{\Theta}(\theta) d\theta ds \\
+\end{align*}
+
+\item[ii)] \begin{align*}
+B_{i,n+1} &= E \Big[ \mu(\Theta_i) | S_{i,1}, ..., S_{i,n}\Big] \\
+&=  E \Big[S_{i,t} | S_{i,1}, ..., S_{i,n}\Big] \\
+&= \int_{0}^{\infty} S \times f_{S_{i,t}|S_{i,1}, ..., S_{i,n}}(s|S_{i,1}, ..., S_{i,n})ds \\
+&= \int_{0}^{\infty} \int_{-\infty}^{\infty}  S \times  f_{S_{i,t}|\Theta}(s|\theta) f_{\Theta|S_{i,1}, ..., S_{i,n}}(\theta|S_{i,1}, ..., S_{i,n})d\theta ds
+\end{align*}
+\end{itemize}
+Preuve:
+\begin{align*}
+f_{S_{i,t}|S_{i,1}, ..., S_{i,n}}(s|S_{i,1}, ..., S_{i,n}) &= \frac{f_{S_{i,t},S_{i,1}, ..., S_{i,n}}(s,S_{i,1}, ..., S_{i,n})}{f_{S_{i,1}, ..., S_{i,n}}(S_{i,1}, ..., S_{i,n})} \\
+&= \frac{E_{\Theta_i}\Big[f_{S_{i,t},S_{i,1}, ..., S_{i,n}|\Theta_i}(s,S_{i,1}, ..., S_{i,n}|\theta_i) \Big]}{E_{\Theta_i}\Big[f_{S_{i,1}, ..., S_{i,n}|\Theta_i}(S_{i,1}, ..., S_{i,n}|\theta_i)\Big]} \\
+&= \frac{\int_{-\infty}^{\infty} f_{S_{i,t},S_{i,1}, ..., S_{i,n}|\Theta_i}(s,S_{i,1}, ..., S_{i,n}|\theta_i) f_{\Theta_i}(\theta)d\theta}{\int_{-\infty}^{\infty} f_{S_{i,1}, ..., S_{i,n}|\Theta_i}(S_{i,1}, ..., S_{i,n}|\theta_i) f_{\Theta_i}(\theta)d\theta} 
+\end{align*}
+Puisque par hypothèse, $S_{i,1}, ..., S_{i,n}$ sont conditionnellement indépendant sachant $\Theta_i$. Soit $\Big(S_{i,1}|\Theta_i \Big) \perp \Big(S_{i,2}|\Theta_i \Big) \perp ... \perp \Big(S_{i,n}|\Theta_i  \Big)$.
+Donc
+\begin{align*}
+&= \frac{\int_{-\infty}^{\infty} f_{S_{i,t}|\Theta_i}(s|\theta_i)f_{S_{i,1}|\Theta_i}(S_{i,1}|\theta_i)...f_{S_{i,n}|\Theta_i}(S_{i,n}|\theta_i) f_{\Theta_i}(\theta)d\theta}{\int_{-\infty}^{\infty} f_{S_{i,1}|\Theta_i}(S_{i,1}|\theta_i)...f_{S_{i,n}|\Theta_i}(S_{i,n}|\theta_i) f_{\Theta_i}(\theta)d\theta}  \\
+&= \int_{-\infty}^{\infty} f_{S_{i,t}|\Theta_i}(s|\theta_i) \Bigg( \frac{f_{S_{i,1}|\Theta_i}(S_{i,1}|\theta_i)...f_{S_{i,n}|\Theta_i}(S_{i,n}|\theta_i) f_{\Theta_i}(\theta)}{\int_{-\infty}^{\infty} f_{S_{i,1}|\Theta_i}(S_{i,1}|\theta_i)...f_{S_{i,n}|\Theta_i}(S_{i,n}|\theta_i) f_{\Theta_i}(\theta)d\theta} \Bigg) d\theta
+\end{align*}
+Où $\int_{-\infty}^{\infty} f_{S_{i,1}|\Theta_i}(S_{i,1}|\theta_i)...f_{S_{i,n}|\Theta_i}(S_{i,n}|\theta_i) f_{\Theta_i}(\theta)d\theta$ est la constante de normalisation.
+\begin{align*}
+&=\int_{-\infty}^{\infty} f_{S_{i,t}|\Theta_i}(s|\theta_i) \Bigg( \frac{f_{S_{i,1}...S_{i,n}|\Theta_i}(S_{i,1}...S_{i,n}|\theta_i)f_{\Theta_i}(\theta)}{\int_{-\infty}^{\infty} f_{S_{i,1}...S_{i,n}|\Theta_i}(S_{i,1}...S_{i,n}|\theta_i)f_{\Theta_i}(\theta)d\theta} \Bigg) d\theta \\
+\text{Bayes} &= \int_{-\infty}^{\infty} f_{S_{i,t}|\Theta_i}(s|\theta_i) f_{\Theta_i|S_{i,1}...S_{i,n}}(\theta_i|S_{i,1}...S_{i,n}) d\theta 
+\end{align*}
+Où $f_{\Theta_i|S_{i,1}...S_{i,n}|\Theta_i}(\theta_i|S_{i,1}...S_{i,n})$ est la densité a posteriori de $\Theta$.
+
+On obtient le résultat final représentant la densité prédictive
+\begin{equation}
+f_{S_{i,t}|S_{i,1}, ..., S_{i,n}}(s|S_{i,1}, ..., S_{i,n}) = \int_{-\infty}^{\infty} f_{S_{i,t}|\Theta_i}(s|\theta_i) f_{\Theta_i|S_{i,1}...S_{i,n}|\Theta_i}(\theta_i|S_{i,1}...S_{i,n}) d\theta
+\end{equation}
+
+Analogie:
+\begin{align*}
+f_{S_{i,t}}(s) &= \int_{-\infty}^{\infty} f_{S_{i,t}|\Theta_i}(s|\theta_i) f_{\Theta_i}(\theta_i) d\theta \\ 
+\end{align*}
+Où $f_{\Theta_i}(\theta_i)$ est la densité a priori et $f_{S_{i,t}}(s)$ est la densité marginale.
+\begin{align*}
+B_{i,n+1} &= E[S_{i,t}| S_{i,1}...S_{i,n}] \\
+&= \int_{0}^{\infty} s f_{S|S_{i,1}...S_{i,n}}(s|S_{i,1}...S_{i,n})ds\\
+m &= E[S_{i,t}] = \int_{0}^{\infty} s f_{S_{i,t}}(s)ds\\
+\end{align*}
+
+\section{Crédibilité Bayesienne "linéaire" :}
+Dans plusieurs cas, en combinant \emph{certaines} distributions usuelles, la prime Bayesienne peut se réécrire sous la forme :
+\begin{equation}
+\label{equa:bayesienne}
+B_{i,n+1} = Z \times \overline{S} + (1 - Z) \times m
+\end{equation}
+Cette forme est appelée \emph{prime de crédibilité} et Z $\varepsilon[0,1]$ est appelé \emph{facteur de crédibilité}.
+Seulement quelques combinaisons de distributions résultent en une prime de crédibilité :
+\begin{itemize}
+\item[•] $S|\Theta \sim$ Poisson, $\Theta \sim$ Gamma;
+\item[•] $S|\Theta \sim$ exp, $\Theta \sim$ Gamma;
+\item[•] $S|\Theta \sim$ Normale, $\Theta \sim$ Normale;
+\item[•] $S|\Theta \sim$ Bern, $\Theta \sim$ Beta;
+\item[•] $S|\Theta \sim$ Géom, $\Theta \sim$ Beta;
+\end{itemize}
+
+\subsection*{Exemple pratique}
+Contexte : 
+\begin{align*}
+S_{i,t} = \sum_{j = 1}^{N_{i,t}} X_{i,j} 
+\end{align*}
+Soit le montant total payé à l'assuré \textit{i} durant l'année \textit{t}. 
+De plus,
+\begin{align*}
+\Bigg( N_{i,t}|\Theta_i \Bigg) \sim \text{Poisson} \Big( \lambda_{i,t} \times \theta_i \Big)
+\end{align*}
+Soit le nombre de sinistre de l'assurée de \textit{i} durant l'année \textit{t}. Où $\lambda_{i,t}$ correspond à la prévision de E[N] basé sur les réponses aux questions posées à l'assuré et $\theta_i$ correspond au facteur aléatoire qui tient compte de l'effet de toutes les questions non posées.
+
+\subsubsection*{GLM Poisson :}
+\begin{itemize}
+\item[•] $\lambda_{i,t} = 0.05 g(\widehat{a}ge_{i,t}) \times h(sexe_{i,t})$
+\item[•] \begin{align*}
+g(\widehat{a}ge_{i,t}) & \left\{
+     \begin{array}{rl}
+      1 \% &, 16 \leq \text{âge} \leq 24\\
+      0.7 \% &, \text{âge} \geq 24 \\
+     \end{array}
+     \right. \\
+\end{align*}
+\item[•] \begin{align*}
+h(sexe_{i,t}) & \left\{
+     \begin{array}{rl}
+      1 \% &, \text{sexe = f} \\
+      1.4 \% &, \text{sexe = h}  \\
+     \end{array}
+     \right. \\
+\end{align*}
+\end{itemize}
+On regarde maintenant pour la sévérité.
+\begin{align*}
+\Theta_i \sim \Gamma(\alpha, \alpha)
+\end{align*}
+Soit le paramètre de la fréquence $\Big( N_{i,t}|\Theta_i \Big)$
+\begin{equation}
+\label{eq:exemple:bayes}
+\Bigg( X_{i,t}|\psi_i \Bigg) \sim \text{exp} \Big( \beta _{i,t} \times \psi_i \Big) 
+\end{equation}
+Où $\beta _{i,t}$ corresponds à $\frac{1}{\text{sévérité esperée selon les questions posées à l'assurée}}$ et $\psi_i$ correspond à l'hétérogénéité résiduelle de sévérité.
+
+\subsubsection*{GLM exponentielle :}
+\begin{itemize}
+\item[•] $\beta _{i,t} = \frac{1}{\numprint{5000} \times \varphi(valeur_{i,t})}$
+\item[•] \begin{align*}
+\varphi(valeur_{i,t}) & \left\{
+     \begin{array}{rl}
+      0.7 \% &, \text{ valeur} \leq \numprint{10000} \\
+      1 \% &, \numprint{10000}< \text{ valeur} < \numprint{30000}  \\
+      2 \% &, \text{ valeur} \geq \numprint{30000} \\
+     \end{array}
+     \right. \\
+\end{align*}
+\item[•] On obtient donc, $\psi_i \sim \Gamma(b+1, b)$. L'idée est que $E\Bigg[\frac{1}{\psi} \Bigg] =1$.
+\end{itemize}
+
+\subsubsection*{a)}
+\begin{align*}
+E[N_{i,t}] &= E \Big[E[N_{i,t}|\Theta_i \Big] \\
+&= E[\lambda_{i,t} \times \Theta_i]\\
+&= \lambda_{i,t}E[\Theta_i] \\
+&= \lambda_{i,t} \frac{\alpha}{\alpha}\\
+&=\lambda_{i,t} \\
+Var(N_{i,t}) &= E\Big[Var(N_{i,t}|\Theta_i )\Big] + \text{Var}(E[N_{i,t}|\Theta_i])\\
+&= E[\lambda_{i,t} \times \Theta_i] + \text{Var}(\lambda_{i,t} \times \Theta_i)\\
+&= \lambda_{i,t} E[ \Theta_i] + \lambda_{i,t}^2\text{Var}(\Theta_i)\\
+&= \lambda_{i,t} \frac{\alpha}{\alpha} + \lambda_{i,t}^2 \frac{\alpha}{\alpha^2}\\
+&= \lambda_{i,t}  +  \frac{\lambda_{i,t}^2}{\alpha}\\
+\end{align*}
+Où $\alpha$ est le paramètre de \emph{surdispersion} qui accroit la variance par rapport à celle de la poisson à cause de l'hétérogénéité résiduelle. 
+\\
+Remarques:
+\begin{itemize}
+\item[•] \begin{align*}
+\alpha \rightarrow \infty \Rightarrow \text{Var}(\Theta) \rightarrow 0
+\end{align*}
+Il n'y a pas d'hétérogénéité résiduelle. On a posé toutes les questions qui affectent N.
+\\
+
+\item[•] \begin{align*}
+\alpha < \infty \Rightarrow \text{Var}(\Theta) > 0
+\end{align*}
+Il y a présence d'hétérogénéité résiduelle. Il reste des questions à poser pour prévoir N.
+\end{itemize}
+\subsubsection*{b)}
+\begin{align*}
+E[X_{i,t}] &= E \Big[E[X_{i,t}|\psi_i]  \Big] \\
+&= E \Big[\frac{1}{\beta_{i,t} \times \psi_i} \Big] \\
+&=\frac{1}{\beta_{i,t}} E \Big[\frac{1}{\psi_i} \Big] \\
+&= \frac{1}{\beta_{i,t}}\\
+&=\numprint{5000} \varphi(valeur_{i,t})\\                                                                                                                                                                                                     Var(X_{i,t}) &= E \Big[\text{Var}(X_{i,t}|\psi_i) \Big] + \text{Var}\Big( E[X_{i,t}|\psi_i]  \Big) \\
+&= E \Big[\frac{1}{\beta_{i,t}^2 \psi_i^2}\Big] + \text{Var}\Big(\frac{1}{\beta_{i,t} \psi_i} \Big) \\
+&= \frac{1}{\beta_{i,t}^2} E \Big[\frac{1}{\psi_i^2}\Big] + \frac{1}{\beta_{i,t}^2} \text{Var}\Big(\frac{1}{\psi_i} \Big) \\
+&= \frac{1}{\beta_{i,t}^2} E \Big[\frac{1}{\psi_i^2}\Big]^2 \\
+&= \frac{1}{\beta_{i,t}^2} \times 1\\
+\end{align*}
+\subsubsection*{c)Loi postériori de $\Theta_i$}
+\begin{align*}
+f_{\Theta|N_{i,1}...N_{i,n}}(\theta|n_{i,1}...n_{i,n}) \propto& \Bigg[ \prod_{t=1}^{n} f_{N_{i,t}|\Theta}(n_{i,t}|\theta) \Bigg] f_{\Theta}(\theta) \\
+&= \Bigg(\prod_{t=1}^{n} \frac{e^{- \lambda_{i,t} \theta_i}(\lambda_{i,t}\theta)^{n_t}}{n_t} \Bigg) \frac{\alpha^{\alpha} \theta^{\alpha-1}e^{-\alpha \theta}}{\Gamma(\alpha)} \\
+&= e^{-\theta \sum_{t=1}^{n}\lambda_{i,t}} \theta^{\sum_{t=1}^{n}n_t} \frac{\Big( \prod_{t=1}^{n} \lambda_{i,t}^{n_t} \Big)}{\Big( \prod_{t=1}^{n} \fact{n_t} \Big)}\frac{\alpha^{\alpha} \theta^{\alpha-1}e^{-\alpha \theta}}{\Gamma(\alpha)} \\
+&\propto e^{-\theta \sum_{t=1}^{n}\lambda_{i,t}} \theta^{\sum_{t=1}^{n}n_t} \theta^{\alpha-1}e^{-\alpha \theta} \\
+&=  \theta^{(\alpha + \sum_{t=1}^{n}n_t) -1}e^{-\theta(\alpha + \sum_{t=1}^{n}\lambda_{i,t})}\\
+&\propto \frac{\Big(\alpha + \sum_{t=1}^{n}\lambda_{i,t})^{\alpha + \sum_{t=1}^{n}n_t} \Big)}{\Gamma\bigg( \alpha + \sum_{t=1}^{n}n_t \bigg)}\theta^{(\alpha + \sum_{t=1}^{n}n_t) -1}e^{-\theta(\alpha + \sum_{t=1}^{n}\lambda_{i,t}}\\
+\end{align*}
+Conclusion, la loi a posteriori de $\Theta_i$
+\begin{align*}
+\Big(\Theta_i|N_{i,1}...N_{i,n} \Big) \sim \Gamma\Bigg(\alpha + \sum_{t=1}^{n} N_{i,t}, \alpha + \sum_{t=1}^{n}\lambda_{i,t}\Bigg)
+\end{align*}
+Ainsi, 
+\begin{align*}
+B_{i,n+1}^{(n)} &= E[\mu_n(\theta_i)|N_{i,1}...N_{i,n}] \\
+&= E[E[N_{i,t}|\Theta_i]|N_{i,1}...N_{i,n}]\\
+&= E[\lambda_{i,t} \Theta_i|N_{i,1}...N_{i,n}]\\
+&=\lambda_{i,t} E[\Theta_i|N_{i,1}...N_{i,n}]\\
+&= \lambda_{i,n+1} \frac{\alpha + \sum_{t=1}^{n} N_{i,t}}{\alpha + \sum_{t=1}^{n} \lambda_{i,t}}
+\end{align*}
+or, 
+\begin{align*}
+B_{i,n+1}^{(n)} &= \lambda_{i,n+1} \frac{\sum_{t=1}^{n} N_{i,t}}{\sum_{t=1}^{n} \lambda_{i,t}} \Bigg( \frac{\sum_{t=1}^{n} \lambda_{i,t}}{\alpha + \sum_{t=1}^{n} \lambda_{i,t}}\Bigg) + \Bigg( \frac{\alpha}{\alpha + \sum_{t=1}^{n} \lambda_{i,t}}\Bigg) \\
+&= \lambda_{i,n+1} \frac{\sum_{t=1}^{n} N_{i,t}}{\sum_{t=1}^{n} \lambda_{i,t}} Z + (1 - Z) \lambda_{i,t}
+\end{align*}
+On a une prime de crédibilité.
+
+\subsubsection*{d) Loi a posteriori de $\Psi_i$}
+Idée de la preuve: (On utilise la densité conditionnelle \ref{eq:exemple:bayes})
+\begin{align*}
+f_{\Psi_i|X_{i,1}...X_{i,n}}(\psi|X_{i,1}...X_{i,n}) &\propto \Bigg[\prod_{i=1}^{n} f_{X_{i,t}|\psi_i}\psi_i\Bigg] f_{\psi_i}(\psi) \\
+&= \Bigg[\prod_{i=1}^{k} \beta _{i,t} \times \psi_i e^{\beta _{i,t} \times \psi_i x_t} \Bigg] \frac{\beta^{\beta+1} \psi^{\beta + 1 -1} e^{-\beta \psi}}{\Gamma(\beta + 1)} \\
+\end{align*}
+Où $k = N_{i,1}...N_{i,n}$
+\begin{align*}
+& \propto \psi^{(k+\beta + 1)-1} e^{-\psi(\beta + \sum_{t=1}^{k}\beta_{i,t} x_t)} \\
+\Rightarrow& \Big( \psi|X_{i,1}...X_{i,n}\Big) \sim \Gamma\Big(\beta + k + 1, \beta + \sum_{t=1}^{k}\beta_{i,t} x_t \Big) 
+\end{align*}
+La prime Bayesienne:
+\begin{align*}
+E\Big[\mu_{X|X_i,...,X_n}(\psi_i) \Big] &= E\Big[E\big[X_{i,t+1}|\psi_i\big]|X_{i,1},...,X_{i,n} \Big]\\
+&= E\Bigg[\frac{1}{\beta_{i,n+1}\psi_i}|X_{i,1},...,X_{i,n} \Bigg]\\
+&= \frac{1}{\beta_{i,n+1}}E\Bigg[\frac{1}{\psi_i}|X_{i,1},...,X_{i,n} \Bigg]\\
+B_{i,k+1}^{(x)} &= \frac{1}{\beta_{i,n+1}}\frac{\beta + \sum_{t=1}^{k}\beta_{i,t} x_t}{\beta + k}\\
+&= \frac{1}{\beta_{i,n+1}}\frac{\sum_{t=1}^{k}\beta_{i,t} x_t}{k} \times \frac{k}{\beta + k} + \frac{\beta}{\beta + k} \times \frac{1}{\beta_{i,n+1}}\\
+\end{align*}
+Où 
+\begin{itemize}
+\item[•] $\frac{1}{\beta_{i,n+1}}\frac{\sum_{t=1}^{k}\beta_{i,t} x_t}{k}$ corresponds à la sévérité ajustée selon la sinistralité réelle;
+\item[•] $\frac{k}{\beta + k}$ = Z;
+\item[•] $\frac{\beta}{\beta + k}$ = 1 - Z;
+\item[•] $\frac{1}{\beta_{i,n+1}} $ corresponds à la sévérité \textit{collective} de la classe.
+\end{itemize}
+
+\begin{align*}
+\Rightarrow & B_{i,n+1}^{(s)} = B_{i,n+1}^{(n)} \times B_{i,k+1}^{(x)} \\
+&= \lambda_{i,n+1} \times \frac{\alpha + \sum_{t=1}^{n} N_{i,t}}{\alpha+ \sum_{t=1}^{n} \lambda_{i,t}} \times \mu_{i,n+1} \times \frac{\beta + \sum_{t=1}^{k}\frac{x_{i,t}} {\mu_{i,t}} }{\beta + k} \\
+&= \lambda_{i,n+1} \times \frac{\alpha + \sum_{t=1}^{k} N_{i,t}}{\alpha+ \sum_{t=1}^{k} \lambda_{i,t}} \times \mu_{i,n+1} \times \frac{\beta + \sum_{t=1}^{N_{i,1}}\frac{ x_{i,t,1}}{\mu_{i,1}} +...+ \sum_{t=N_{i,n+1}}^{N_{i,n}}\frac{ x_{i,t,n}}{\mu_{i,n}} }{\beta + \sum_{t=1}^{n}N_{i,t}} 
+\end{align*}

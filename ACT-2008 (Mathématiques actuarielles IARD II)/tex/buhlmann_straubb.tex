@@ -1,0 +1,194 @@
+\chapter{Bühlmann-Straub}
+En pratique, le modèle de Bùhlmann est impossible à appliquer, particulièrement en raison de la notion d'unité d'exposition au risque, laquelle découle du fait que :
+\begin{itemize}
+\item Les contrats ont des dates effectives différentes.
+\item Certains assurés peuvent annuler leur police en cours de contrats.
+\end{itemize}
+
+\subsection*{Exemple 1:}
+L'assuré A achète une police le 01/04/2014 et la conserve pendant 1 an. On s'intére à l'exposition du risque en 2015 
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+  \hline
+    Assuré i & $\overset{2015}{UA}$ &  $\overset{1990}{S_{i,1}}$ & ... & $\overset{2014}{S_{i,n-1}}$ & $\overset{2015}{S_{i,n}}$ \\
+  \hline
+  $\vdots$ & $\frac{9}{12}$ &  ... &... &...&... \\
+  A & $\frac{3}{12}$ &  0 & ... & \numprint{2000}\$ & \numprint{1500}\$ \\
+  \hline
+\end{tabular}
+\end{center}
+On remarque que pour 2015, l'exposition était de $\frac{3}{12}$ pour un sinistre de \numprint{1500}\$, ce qui représente un risque plus grand que la situation en 2014 pour ce même assuré avec une exposition de 1 pour un sinistre de \numprint{2000}\$. \\
+Le modèle de Bühlmann ne permet que de considérer des cas parfaits où l'exposition de chaque assuré dans chaque année est de 1. On utilise alors un modèle plus général, le modèle Bühlmann-Straub.
+
+\newpage
+\subsection*{Exemple 2}
+L'assuré B achète une police 1 an le 1er juillet 2015 et annule son contrat le 1er février 2017. On assume que l'assuré a renouvelé son contrat entre 2016 et 2017.\\
+
+\begin{center}
+\begin{tabular}{|c|c|}
+  \hline
+   Année & UA \\
+  \hline
+  2000 & 0 \\
+  2001 & 0 \\
+  \vdots & \vdots \\ 
+  2013 & 0 \\
+  2014 & 0 \\ 
+  2015 & $\frac{1}{2}$ \\
+  2016 & $\frac{1}{2} + \frac{1}{2} = 1$ \\
+  2017 & $\frac{1}{2}$ \\
+  2018 & 0 \\
+  \hline
+\end{tabular}
+\end{center}
+\bigskip
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+  \hline
+   assuré i & $\overset{2000}{S_{i,1}} $ & ... & $\overset{2016}{S_{i,n}}$ & $\overset{2017}{S_{i,n}}$ \\
+  \hline
+  1 & 0 &...&... &...\\
+  2 & 0 &...&... &...\\
+  \vdots & 0 &...&... &...\\ 
+  B & 0 &...&\numprint{1000}\$ & \numprint{2000}\$ \\
+  \vdots & 0 &...&... &...\\ 
+  I & 0 &...&... &...\\
+  \hline
+\end{tabular}
+\end{center}
+\bigskip
+On remarque la même situation d'exposition au risque. Le modèle de Bûlhmann ne permet pas d'introduire cette \emph{situation}.
+
+
+\subsection*{Contexte plus général en pratique}
+Dans un contexte plus général, \emph{l'historique} prend la forme suivante
+
+\begin{tabular}{|c|c|c|c|c|}
+  \hline
+  & & Sinistres totaux & Exposition & Prime pure\\
+  \hline
+  Contrat & Hétérogénéité & t = 1 $\ldots$ t =n  & t = 1 $\ldots$ t =n  & t = 1 $\ldots$ t =n \\
+  1 & $\theta_1$ & $S_{1,1} \ldots S_{1,n} $ & $w_{1,1} \ldots w_{1,n} $ & $X_{1,1} \ldots X_{1,n} $ \\
+  \vdots & $\vdots \ldots \vdots $ & $\vdots \ldots \vdots$ & $\vdots \ldots \vdots $ & $\vdots \ldots \vdots $ \\
+  I & $\theta_I$ & $S_{I,1} \ldots S_{I,n} $ & $w_{I,1} \ldots w_{I,n} $ & $X_{I,1} \ldots X_{I,n} $ \\
+  \hline
+\end{tabular}
+\bigskip
+
+Remarques:
+\begin{itemize}
+\item[1)] Avec Bûhlman-Straub, on modélisera $X_{i,t}$ et non $S_{i,t}$ (on s'intéresse toujours au ratio)
+\item[2)] Lorsque $w_{i,t} =1 ; \forall i = 1,...I$ et $t = 1,...,n$, alors tous les résultats du modèle de Bühlmann-Straub seront égaux à ceux du modèle de Bühlmann.
+\item[3)] Formellement, $w_{i,t}$ = pourcentage de l'année \textit{t} où l'assuré i a été exposé au risque.
+\item[4)] Formellement, $X_{i,t} = \frac{S_{i,t}}{w_{i,t}}$ = Prime pure de l'assuré i durant l'année \textit{t}, soit le coût moyen \emph{annualisé} de l'assuré i durant l'année \textit{t}.
+\item[5)] Occassionnellement, l'actuaire peut définir $W_{i,t}$ comme le total des primes acquises pour le contrat i durant l'année \textit{t}, dans ce cas $X_{i,t} = \frac{S_{i,t}}{w_{i,t}}$ devient le loss ratio (au lieu de la prime pure)
+\end{itemize}
+
+\subsection*{Hypothèse de Bühlmann-Straub}
+\begin{itemize}
+\item[1)] Les contrats sont indépendants $\Leftrightarrow \Theta_i \perp \Theta_2 \perp...\perp\Theta_I$
+\item[2)] \begin{align*}
+E[X_{i,t}|\Theta_i] &= E \Big[\frac{S_{i,t}}{w_{i,t}} \mid \theta_i \Big] \\
+&= E \Big[\frac{\sum_{k=1}^{w_{i,t}} S_{i,t}^{(k)}}{w_{i,t}} \mid \theta_i \Big] \\
+&= \frac{\sum_{k=1}^{w_{i,t}} E[ S_{i,t}^{(k)}\mid \theta_i]}{w_{i,t}} \\
+&= \frac{w_{i,t} \mu(\theta_i) }{w_{i,t}} \\
+&=\mu(\theta_i)
+\end{align*}
+\item[3)] \begin{align*}
+\text{Var}( X_{i,t}|\Theta_i) &= \text{Var} \Big(\frac{S_{i,t}}{w_{i,t}} \mid \theta_i \Big) \\
+&= \frac{1}{w_{i,t}^2} \text{Var} \Big(\sum_{k=1}^{w_{i,t}}S_{i,t}^{(k)}\mid \theta_i \Big)\\
+&=\frac{w_{i,t}}{w_{i,t}^2} \sigma^2(\theta_i) \\
+&= \frac{\sigma^2(\theta_i)}{w_{i,t}}\\
+\end{align*}
+
+\end{itemize}
+
+\subsection*{Analogie avec ACT-2000}
+\begin{align*}
+E[\overline{X}] &= n \times E[X] = E[X] \\
+\text{Var}(\overline{X}) &= \frac{\text{Var}(X) }{n}
+\end{align*}
+\section{Notations supplémentaires :}
+
+\begin{itemize}
+\item[•] $w_{i\bullet} = \sum_{t=1}^{n} w_{i,t}$
+\item[•] $w_{\bullet \bullet} = \sum_{i=1}^{I} \sum_{t=1}^{n} w_{i,t}$
+\item[•] $Z_{\bullet} = \sum_{i=1}^{I} Z_i$
+\item[•] $X_{i W} = \sum_{i=1}^{n} \Bigg( \frac{w_{i,t}}{w_{i\bullet}}  \Bigg) \times X_{i,t}$ 
+\\
+Ce qui correspond à \\
+\begin{align*}
+X_{i W}&= \frac{\text{Pourcentage de temps où l'assuré a été exposé au risque dans l'année \textit{t}}}{\text{Pourcentage de temps où l'assuré a été exposé au risque entre l'année \textit{1} et l'année \textit{n}}} \\
+&= \text{Pourcentage de l'exposition au risque attribuable à l'an \textit{t} pour l'assuré i}
+\end{align*}
+\item[•] \begin{align*}
+X_{W W} &= \sum_{i = 1}^{I} \sum_{t= 1}^{n} \Bigg( \frac{w_{i,t}}{w_{\bullet \bullet}}\Bigg) \times X_{i,t} \\
+&= \sum_{i=1}^{t} \frac{W_{i \bullet}}{W_{\bullet \bullet}} \sum_{t=1}^{n} \frac{W_{i, t}}{W_{i \bullet}} \times X_{i,t} \\
+&= \sum_{i=1}^{I} \frac{W_{i \bullet}}{W_{\bullet \bullet}} \times X_{i w} \\
+\end{align*} 
+\item[•] $X_{Z W} = \sum_{i=1}^{I} \Bigg(\frac{Z_i}{Z_{\bullet}}\Bigg) \times X_{i W}$
+\end{itemize}
+
+\subsection*{Covariances}
+\begin{itemize}
+\item[•] $\text{Cov}(X_{i,t}, X_{k, u}) = \delta_{i,k} \Big(  a + \frac{\delta_{t,u} \times S^2}{w_{i,t}}\Big)$
+\item[•] $\text{Cov}(\mu(\Theta_i), X_{k, u}) = \delta_{i,k} \times a $
+\item[•] $\text{Cov}(X_{i,t}, X_{k w}) = \delta_{i,k} \times \Big(a + \frac{S^2}{w_{i \bullet}} \Big) $
+\end{itemize}
+
+\section{Prime de crédibilité linéaire}
+Comme précédemment (section \ref{sec:hypo:buhl}), on cherche $\beta_0$ et $\beta_1$ qui minimisent 
+\begin{align*}
+\phi &= E \Big[ \big( \mu(\theta_i) - \lbrace \beta_0 -\beta_1 X_{i W} \rbrace \big)^2  \Big]
+\end{align*}
+Solution: 
+\begin{align*}
+\Pi_{i, n+1}^{B-S} &= Z_i \times X_{i W} + (1 - Z_i) \times m
+\end{align*}
+avec $Z_i = \frac{w_{i \bullet}}{w_{i \bullet} + \frac{S^2}{a}}$
+
+\section{Estimation des paramètres de structure:}
+
+\subsection{Estimation de m}
+\begin{align*}
+\widehat{m} &= X_{ww} \\
+&= \sum_{i=1}^{I} \Big(\frac{w_{i \bullet}}{w_{\bullet \bullet}} \Big) \times X_{iw} \\
+&= \frac{\sum_{i=1}^{I} w _{i \bullet} \sum_{t=1}^{n} \Big(\frac{w_{i, t}}{w_{i \bullet}} \Big) \times X_{i,t}}{w_{\bullet \bullet}}\\
+&= \frac{\sum_{i=1}^{I} \sum_{t=1}^{n} w_{i, t}\Big(\frac{S_{i,t}}{w_{i,t}} \Big)}{\sum_{i=1}^{I} \sum_{t=1}^{n} w_{i,t}}\\
+&= \frac{\sum_{i=1}^{I} \sum_{t=1}^{n} S_{i,t}}{\sum_{i=1}^{I} \sum_{t=1}^{n} w_{i,t}}\\
+&= \frac{\sum \text{sinistre}}{\sum \text{UA}} \\
+&= \overline{PP}
+\end{align*}
+
+Remarque :
+On peut démontrer que l'estimateur linéaire de m a variance minimale n'est pas $X_{ww}$ mais bien ;
+\begin{align*}
+\widehat{m}^{'} = X_{Zw} = \sum_{i=1}^{I} \Big(\frac{Z_i}{Z_{\bullet}} \Big) \times X_{iw}
+\end{align*}
+
+\subsection{Estimation de $S^2$}
+En généralisant l'estimateur du modèle de Bühlmann, on a :
+\begin{align*}
+\widehat{S}^2 = \frac{1}{I} \frac{1}{n-1} \sum_{i=1}^{I} \sum_{t=1}^{n} w_{i,t} \Big( X_{i,t} - X_{iw}\Big)^2 
+\end{align*}
+
+\subsection{Estimation de a}
+\begin{itemize}
+\item L'équivalent biaisé en Bühlmann-Straub : $\widehat{a} = \sum_{i=1}^{I} \Big(X_{iw} - X_{ww} \Big)^2 w_{i \bullet} $
+\item Estimateur $\widehat{a}^{'}$ avec correction par biais : 
+\begin{align*}
+\widehat{a}^{'} = \Big( \frac{w_{\bullet \bullet}}{w_{\bullet \bullet}^2 - \sum_{i=1}^{x} w_{i \bullet}^2}\Big) (\widehat{a} - (I -1)S^2) 
+\end{align*}
+Cet estimateur peut-être négatif.\\
+\subsection{Autre estimateur de a}
+\begin{equation}
+\overset{\sim}{a} = \frac{1}{I - 1} \sum_{i = 1}^{I} Z_i (X_{iw}-X_{Zw})^2
+\end{equation}
+\end{itemize}
+Remarques:
+$\overset{\sim}{a} = \phi(Z_i)$, or $Z_i = \frac{w_{i\bullet}}{w_{i\bullet} + \frac{S^2}{\overset{\sim}{a}}}$
+Donc,
+$Z_i = \phi(\overset{\sim}{a})$
+Alors, $\overset{\sim}{a}$ est un pseudoestimateur qui doit être estimé numériquement.

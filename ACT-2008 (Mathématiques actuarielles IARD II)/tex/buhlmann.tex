@@ -1,0 +1,273 @@
+\chapter{Modèle de Bühlmann}
+
+Le modèle de crédibilité Bayesienne du chapitre \ref{chp:bayesienne} est le plus précis des modèles possibles au niveau de la prévision, mais il comportent les deux limitations suivantes :
+\begin{itemize}
+\item[1)] La prime Bayesienne est linéaire (équation \ref{equa:bayesienne}) uniquement dans quelques cas.
+\item[2)] \emph{Pire} : La prime Bayesienne repose sur des hypothèses subjectives pour la distribution de $S_{i,t}|\theta_i$ et de $\theta_i$.
+\end{itemize}
+\subsection*{Idée du modèle de Bühlmann}
+Approximer la prime Bayesienne par la meilleure droite (équation \ref{eq:crédipartie}) possible, tout en faisant tomber les hypothèses sur les distributions de $S_{i,t}|\theta_i$ et de $\theta_i$.
+
+\section{Notations \& backgroud:}
+\label{sec:4.1}
+\begin{itemize}
+\item[a)] $S^{2} = E[\text{var}(S_{i,t}|\theta_i)] = E[\sigma^2(\Theta_i)]$
+\item[b)] $a= \text{var}(E[S_{i,t}|\theta_i]) = \text{var}(\mu(\theta_i)$
+\item[c)] Delta de Kronecker : 
+\begin{align*}
+\delta_{i,j} & \left\{
+     \begin{array}{rl}
+      1 &, \text{ i = j}  \\
+      0 &, \text{ i $\neq$ j} \\
+     \end{array}
+     \right. \\
+\end{align*}
+Autrement dit, $\delta_{i,j}$ est une indicatrice.
+\item[d)] 
+\begin{align*}
+\text{cov}(S_{i,t}, S_{i,u}) &= E[\text{cov}(S_{i,t}, S_{i,u})|\Theta_i] + \text{cov}(E[S_{i,t}], E[S_{i,u})] \\
+&= E_{\theta}[\delta_{t,u} \times var(S_{i,t}|\Theta_i)] + \text{cov}_{\theta_i}(\mu(\theta_i), \mu(\theta_i))\\
+&= \delta_{t,u} E_{\theta}[ \sigma^2(\theta_i)] + \text{var}_{\theta_i}(\mu(\theta_i))\\
+&= \delta_{t,u}\times S^2 + a 
+\end{align*}
+\begin{equation}
+\label{eq:hypothed}
+\text{cov}(S_{i,t},S_{i,u})= \delta_{t,u}\times S^2 + a 
+\end{equation}
+\item[e)]
+\begin{align*}
+\text{cov}(\mu(\theta_i), S_{i,t}) &= E[\text{cov}(\mu(\theta_i), S_{i,t})] + \text{cov}(E[\mu(\theta_i)|\theta_i], E[S_{i,t}|\theta_i]) \\
+&= E[0] + \text{cov}(\mu(\theta_i), \mu(\theta_i))\\
+&= \text{var}(\mu(\theta_i))\\
+&= a
+\end{align*}
+\begin{equation}
+\label{eq:hypothee}
+\text{cov}(\mu(\theta_i),S_{i,t})=  a 
+\end{equation}
+\end{itemize}
+
+\section{Hypothèses du modèle Bühlmann}
+\label{sec:hypo:buhl}
+On considère un portefeuille (ou un sous-portefeuille, exemple : une cellule de tarification) composé de I contrats et observé pendant n années.
+
+Le i-iéme contrat possède un niveau de risque associé à l'hétérogénéité résiduelle quantifiée par la v.a. non observée $\theta_i$ et qui génère les observations $S_{i,1}...S_{i,n} $, i = 1...I.
+
+Chaque contrat est indépendant quant à son niveau d'hétérogénéité résiduelle $(\theta_1 \perp \theta_2 \perp...\perp\theta_I)$.
+
+Les v.a. $S_{i,t}$ représentant les sinistres totaux payés pour l'assuré i durant l'année t, et sont tel que:
+\begin{align*}
+E[\text{var}(S_{i,t}|\theta_i)] &= \mu(\Theta_i) \\
+\text{cov}(S_{i,t}, S_{i,u}|\theta_i) &= \delta_{t,u} \times \sigma^2(\theta_i)
+\end{align*}
+Ainsi, l'idée du modèle de Bühlmann est de trouver la meilleure approximation de $\mu(\theta_i)$ de l'assuré i qui est linéaire selon les observations passées $S_{i,1}...S_{i,n} $ de cet assuré.
+En mathématique, ceci veut dire de trouver $\beta_0$ et $\beta_1$ qui minimisent les moindres carrées espérés, c'est-à-dire minimiser
+\begin{align*}
+\phi &= E[\big( \mu(\theta_i) - \lbrace\beta_0 + \beta_1 \overline{S}\rbrace \big)^2] \\
+\end{align*}
+Où $\beta_0 = (1 - Z)m$ et $\beta_1 =Z$
+\\
+
+Problème : Trouver  $\beta_0 $ et $\beta_1$ qui minimisent $$\phi = E[\big( \mu(\theta_i) - \lbrace\beta_0 + \beta_1 \overline{S}\rbrace \big)^2]$$
+Où $\overline{S} = \frac{\sum_{t=1}^{n} S_{i,t}}{n}$
+\begin{align*}
+\frac{\partial \phi}{\partial \beta_0} = 0 \Rightarrow &  E[\big( \mu(\theta_i) - \lbrace\beta_0 + \beta_1 \overline{S}\rbrace \big)^2] = 0 \\
+0 &= E[\mu(\theta_i)] - \beta_0 - \beta_1 E[\overline{S}_i]\\
+\end{align*}
+\begin{equation}
+\beta_0 = E[\mu(\theta_i)] - \beta_1 E[\overline{S}_i]
+\end{equation}
+\begin{align*}
+\frac{\partial \phi}{\partial \beta_1} = 0 \Rightarrow &  E[\big( \mu(\theta_i) - \lbrace\beta_0 + \beta_1 \overline{S}\rbrace \big)^2] = 0 \\
+0 &= E[\mu(\theta_i)\overline{S}_i] - \beta_0E[\overline{S}_i] - \beta_1 E[\overline{S}_i\overline{S}_i]\\
+0 &= E[\mu(\theta_i)\overline{S}_i] - \Big[E[\mu(\theta_i)] - \beta_1 E[\overline{S}_i] \Big] E[\overline{S}_i] - \beta_1 E[\overline{S}_i\overline{S}_i]\\
+E[\mu(\theta_i)\overline{S}_i] - E[\mu(\theta_i)]E[\overline{S}_i] &= \beta_1 \Big[E[\overline{S}_i\overline{S}_i] - E[\overline{S}_i]E[\overline{S}_i] \Big] \\
+\text{cov}(\mu(\theta_i), \overline{S}_i) &= \beta_1 \text{cov}( \overline{S}_i, \overline{S}_i) \\
+\text{cov}(\mu(\theta_i), \frac{\sum_{t=1}^{n} S_{i,t}}{n}) &= \beta_1 \text{cov}\Bigg( \frac{\sum_{t=1}^{n} S_{i,t}}{n}, \frac{\sum_{u=1}^{n} S_{i,u}}{n}\Bigg) \\
+\frac{1}{n} \sum_{t=1}^{n}\text{cov}(\mu(\theta_i),  S_{i,t}) &= \frac{\beta_1}{n^2} \sum_{t=1}^{n}\sum_{u=1}^{n}\text{cov}\Bigg( S_{i,t}, S_{i,u}\Bigg)
+\end{align*}
+Selon l'équation \ref{eq:hypothed} et l'équation \ref{eq:hypothee} de la section \ref{sec:4.1}
+\begin{align*}
+\frac{1}{n} \sum_{t=1}^{n} a &= \frac{\beta_1}{n^2} \sum_{t=1}^{n}\sum_{u=1}^{n}(a + \delta_{t,u} - S^2)\\
+\frac{n}{n} a &= \frac{\beta_1}{n^2} (n^2a + nS^2)\\
+&= \beta_1 a + \frac{\beta_1 S^2}{n}\\
+&= \beta_1 (a + \frac{S^2}{n})\\
+&= \beta_1 \times \frac{an+ S^2}{n}\\
+\beta_1 &=  \frac{a\times n}{an+ S^2}\\
+\beta_1 &=  \frac{n}{n+ \frac{S^2}{a}}\\
+\beta_1 &=  \frac{n}{n+ k}\\
+\end{align*}
+Où $k = \frac{S^2}{a} = \frac{E[\text{var}(S_{i,t}|\theta_i)]}{\text{var}(E[S_{i,t}|\theta_i)]}$
+
+\begin{align*}
+\beta_0 &= E[\mu(\theta_i)] - \beta_1 E[\overline{S}_i] \\
+&= E[E[S_{i,t}|\theta_i)]] - \beta_1 E[\frac{\sum_{t=1}^{n} S_{i,t}}{n}] \\
+&= E[S_{i,t}] - \beta_1 \frac{1}{n} \times n E[S_{i,t}] \\
+&= m - \frac{n}{n+k} \times m \\
+&= m (1 - \frac{n}{n+k})
+\end{align*}
+Conclusion : la meilleure approximation linéaire de $\mu(\theta_1)$ qui minimalise $\phi$ est :
+\begin{align*}
+\prod_{i,n+1}^{B} &= \beta_0 + \beta_1 \overline{S}_i \\
+&= m (1 - \frac{n}{n+k}) +  \frac{n}{n+k} \overline{S}_i \\
+&= Z \overline{S}_i + (1 -Z)m,
+\end{align*}
+Où 
+\begin{align*}
+Z &=  \frac{n}{n+k} \\
+k &= \frac{S^2}{a}\\
+\overline{S}_i &= \frac{\sum_{t=1}^{n} S_{i,t}}{n} \\
+m &= E[S_{i,t}]  \text{ (=Prime collective)}
+\end{align*}
+
+\section{Approche 1 : Paramétrique}
+Dans un premier temps, on peut considérer que les distributions de $S_{i,t}|\theta_i$ et de $\theta_i$ sont connues (comme en crédibilité Bayesienne) mais on veut le modèle de Bühlmann pour trouver la prime de crédibilité approximative linéairement.
+
+Exemple : 
+\begin{align*}
+(S_{i,t}|\theta_i) & \sim \text{Bern}(\theta_i) \\
+\theta_i & \sim \text{U} ]a,b[, 0 < a<b<1
+\end{align*}
+Dans ce cas, la prime Bayesienne est très complexe à calculer.
+Par contre, la prime de Bühlmann est très simple et donne une excellente approximation de l'équation \ref{eq:prime bayesienne}.
+\begin{itemize}
+\item[i)] $\prod_{i,n+1}^{B} = Z \overline{S}_i + (1 -Z)m$ où $Z = \frac{n}{n + \frac{S^2}{a}}$
+\item[ii)] $m = E[\mu(\theta_i)] = E[E[S_{i,t}|\theta_i]] = E[\theta_i] = \frac{a+b}{2}$
+\item[iii)] \begin{align*}
+S^2 &= E[\sigma^2(\theta_i)] \\
+&= E[\text{var}(S_{i,t}|\theta_i)] \\
+&= E[\theta_i(1 - \theta_i)] \\
+&= E[\theta_i]E[\theta_{i}^{2}] \\
+&= \frac{a+b}{2} - \frac{a^2 + ab + b^2}{3}
+\end{align*}
+\item[iv)] $a =\text{var}(\mu(\theta_i)) = \text{var}(E[S_{i,t}|\theta_i]) = \text{var}(\theta_i) = \frac{(b - a)^2}{12}$
+\item[v)] $ \prod_{i,n+1}^{B} = Z \overline{S}_i + (1 -Z)m$
+
+Où 
+\begin{align*}
+Z &=  \frac{n}{n+k} \\
+k &= \frac{S^2}{a} = \frac{\frac{a+b}{2} - \frac{a^2 + ab + b^2}{3}}{\frac{(b - a)^2}{12}} \\
+m &= \frac{a + b}{2}\\
+\end{align*}
+\end{itemize}
+
+\section{Approche non paramétrique}
+En pratique, les lois de $S_{i,t}|\Theta_i$ et de $\theta_i$ sont rarement connues. Dans ce cas, pourvu que l'on soit en mesure d'estimer les paramètres de structure (m, $S^2$ et a), on pourra obtenir une prime de crédibilité linéaire (\ref{eq:crédipartie}) et très précise avec le modèle de Bühlmann.
+
+\begin{equation}
+E^{cred}[X|\Theta] = \widehat{Z} (\overline{X|\theta}) + (1 - \widehat{Z}) \widehat{m}
+\end{equation}
+\subsection{Estimateur de m:}
+\begin{align*}
+m \overset{\text{def}}{=}& E[\mu(\Theta_i)] = \text{moyenne du portefeuille de la cellule} \\
+=& \frac{1}{I} \times \frac{1}{n} \sum_{i=1}^{I} \sum_{t=1}^{n} S_{i,t}
+\end{align*}
+Remarque :
+\begin{align*}
+E[\widehat{m}] &= \frac{1}{I} \times \frac{1}{n} \sum_{i=1}^{I} \sum_{t=1}^{n} E[S_{i,t}] \\
+&= \frac{1}{I} \times \frac{1}{n} \times I \times n \times m \\
+&= m \Rightarrow \text{Sans biais}
+\end{align*}
+
+\subsection{Estimateur de $S^2$:}
+\begin{align*}
+S^2 \overset{\text{def}}{=}& E[\sigma^2(\Theta_i)] = \text{moyenne des variances de chaque contrat} \\
+=& \frac{1}{I}  \sum_{i=1}^{I} \widehat{\sigma^2}(\Theta_i) \\
+=& \frac{1}{n-1} \times  \frac{1}{I}  \sum_{i=1}^{I} \sum_{t=1}^{n} \big( S_{i,t} -\overline{S}_i \big)^2 \\
+\end{align*}
+Remarque :
+\begin{align*}
+E[\widehat{S}^2] &= \frac{1}{n-1} \times  \frac{1}{I}  \sum_{i=1}^{I} \sum_{t=1}^{n} E \Big[   \big( S_{i,t} -\overline{S}_i \big)^2 \Big]\\
+&= \frac{1}{I} \times \frac{1}{n}  \sum_{i=1}^{I} \sum_{t=1}^{n} \frac{n-1}{n} S^2 \\
+&= S^2 \Rightarrow \text{Sans biais}
+\end{align*}
+
+\subsection{Estimateur de a:}
+\begin{align*}
+a \overset{\text{def}}{=}& \text{Var}(\mu(\Theta_i)) = \text{variance de $\mu(\Theta_i)$ d'un assuré à l'autre (between)} \\
+\end{align*}
+Intuitivement, on pourrait penser à
+\begin{align*}
+\widehat{a} &= \frac{1}{I-1} \sum_{i=1}^{I} \big( S_{i,t} -\overline{S}_i \big)^2
+\end{align*}
+mais il ne s'agit pas d'un bon estimateur, car il est biaisé.
+
+Par contre, on remarque intuitivement que
+\begin{align*}
+E[\widehat{a}] &= \frac{1}{I - 1}\sum_{i=1}^{I}\Bigg( E\Big[  \big( \overline{S}_i - \overline{S} \big)^2 \Big]\Bigg) \\
+&= \frac{1}{I - 1}\sum_{i=1}^{I}\Bigg( \text{Var}(\overline{S}_i - \overline{S}) + E[\overline{S}_i - \overline{S}]^2 \Bigg) \\
+&= \frac{1}{I - 1}\sum_{i=1}^{I}\Bigg( \text{Var}(\overline{S}_i) + \text{Var}(\overline{S}) -2 \text{Cov}(\overline{S}_i, \overline{S}) \Bigg) \\
+\end{align*}
+On développe la Covariance et la variance,
+\begin{align*}
+\text{Cov}(\overline{S}_i, \overline{S}) &= \text{Cov}\Big(\overline{S}_i, \frac{1}{I}\sum_{j=1}^{I} \overline{S}_j\Big) \\
+&= \frac{1}{I} \sum_{j=1}^{I} \text{Cov}\Big(\overline{S}_i,\overline{S}_j\Big) \\
+&= \frac{1}{I} \sum_{j=1}^{I} \delta_{i,j} \text{Var}(\overline{S}_i) \\
+\end{align*}
+\begin{align*}
+\text{Var}(\overline{S}) &= \text{Var}\Big(\frac{1}{I}\sum_{j=1}^{I} \overline{S}_j\Big) \\
+&= \frac{I}{I^2} \text{Var}\Big(\overline{S}_i\Big) \\
+&= \frac{\text{Var}\Big(\overline{S}_i\Big)}{I}  \\
+\end{align*}
+On obtient ainsi,
+\begin{align*}
+E[\widehat{a}] &= \frac{1}{I - 1}\sum_{i=1}^{I}\Bigg( \text{Var}(\overline{S}_i) + \frac{\text{Var}\Big(\overline{S}_i\Big)}{I} - \frac{2}{I} \text{Var}(\overline{S}_i) \Bigg) \\
+&=  \frac{1}{I - 1}\sum_{i=1}^{I}\Bigg(\frac{I - 1}{I} \text{Var}(\overline{S}_i)\Bigg) \\
+&= \text{Var}(\overline{S}_i) \\
+&= E[\text{var}(S_{i,t}|\theta_i)] + \text{Var}(E[(S_{i,t}|\theta_i)]) \\
+&= E\Big[ \frac{\sigma^2(\theta_i)}{n}\Big] + \text{Var}(\mu(\theta_i)) \\
+&= \frac{S^2}{n} + a
+\end{align*}
+On obtient ainsi un résultat asymptotiquement sans biais.
+
+\begin{align*}
+E[\widehat{a}] &= a + \frac{S^2}{n}
+\end{align*}
+
+
+\subsubsection*{Solution alternative}
+Des alternatives ont été proposées,
+\begin{itemize}
+\item[•] $\widehat{a}^{'} = \widehat{a} - \frac{S^2}{n}$ Par contre, cet estimateur peut prendre des valeurs négatives (impossible pour une variance). On obtient l'estimateur suivant 
+\begin{align*}
+\widehat{a}^{'} &= \widehat{a} - \frac{\widehat{S}^2}{n} \\
+&= \frac{1}{I-1} \sum_{i=1}^{I} \big( S_{i,t} -\overline{S}_i \big)^2 - \frac{\widehat{S}^2}{n} \\
+\end{align*}
+\item[•] $\widehat{a}^{''} = \text{max}\lbrace \widehat{a}^{'}, 0 \rbrace$ Cet estimateur est biaisé et illogique, car $Z = \frac{n}{n + \frac{S^2}{a}} {\not\forall}  \text{ ,si } \widehat{a}^{''} = 0 $.
+\end{itemize}
+
+\subsubsection*{Exemple}
+Soit le portefeuille suivant où I = 3 et n = 6.
+
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+  \hline
+   & \multicolumn{6}{c|}{Années d'expériences} & \\
+  \hline
+  Contrat & 1 & 2 & 3 & 4 & 5 & 6 & $\overline{S}_i$ \\
+  \hline
+  1 & 0 & 1 & 2 & 1 & 2 & 0 & 1\\
+  2 & 3 & 4 & 2 & 1 & 4 & 4 & 3\\
+  3 & 3 & 3 & 2 & 1 & 2 & 1 & 2\\
+  \hline
+\end{tabular}
+
+\bigskip
+On obtient les calculs suivants:
+\begin{align*}
+\overline{S} &= \widehat{m} = 2 \\
+\widehat{S}^2 &= \frac{1}{3} \frac{1}{6-1} \sum_{i=1}^{3} \sum_{t=1}^{6} \Big(S_{i,t} - \overline{S}_i \Big)^2 = \frac{16}{15} \\
+\widehat{a} &= \frac{1}{3-1} \sum_{i=1}^{3} \Big(S_{i,t} - \overline{S}_i \Big)^2 - \frac{\frac{16}{15}}{6}= \frac{37}{45} \\
+\widehat{K} &= \frac{\widehat{S}^2}{\widehat{a}} \approx 1.30 \\
+\Pi_{i,7}^{B} &= Z \overline{S}_i + (1 - Z) m \\
+&= Z \overline{S}_i + (1 - Z) \times 2 \\
+Z &= \frac{n}{n +k} \\
+&= \frac{6}{6 + 1.30} \\
+&= 0.82\\
+\end{align*}
+Ainsi,
+\begin{align*}
+\Pi_{1,6+1}^{B} &= 0.82 \times 1 + (1 - 0.82) \times 2 = 1.18 \\
+\Pi_{2,6+1}^{B} &= 0.82 \times 3 + (1 - 0.82) \times 2 = 2.82 \\
+\Pi_{3,6+1}^{B} &= 0.82 \times 2 + (1 - 0.82) \times 2 = 2 \\
+\end{align*}

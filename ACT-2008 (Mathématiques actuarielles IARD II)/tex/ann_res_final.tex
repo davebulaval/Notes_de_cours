@@ -1,0 +1,460 @@
+\chapter{Résumé examen final}
+
+\subsection*{But et notation} 
+
+\begin{itemize}
+\item Évaluation des réserves: Rôle de l'actuaire \textbf{corporatif}
+\item Réserve IARD: Montant nécessaire pour payer les \textbf{sinistres déjà survenus à la date d'évaluation} (Sinistres dont le développement n'est pas complet)
+\item Les réserves doivent être signées par un \textbf{actuaire désigné}
+\item Les réserves \textbf{doivent} être évaluées au 31 décembre, mais plusieurs compagnies les évaluent au \textbf{trimestre} ou au \textbf{mois}
+\end{itemize}
+
+Il est important de bien évaluer les réserves, car
+
+\textbf{Si les réserves sont surévaluées }:
+\begin{itemize}
+  \item Dépenses $\nearrow$
+  \item Profits $\searrow$
+  \item Impôts à payer $\searrow$
+  \item Surplus de l'assureur $\searrow$
+  \item Valeur de la compagnie (prix de l'action) $\searrow$
+\end{itemize}
+
+
+\textbf{Si les réserves sont sous-évaluées}
+\begin{itemize}
+  \item Surévalue la santé financière de la compagnie
+  \item Expose l'assuré à ne pas être payé en cas de réclamation
+  \item Expose l'assureur à la ruine
+\end{itemize}
+
+
+\subsection*{Définitions}
+
+\textbf{Dossier de sinistre}:
+\begin{itemize}
+  \item Un dossier est ouvert à chaque fois qu'un assuré fait une réclamation.
+  \item Ce dossier contient toutes les informations relatives à la réclamation (date d'accident, date de réclamation, montants et moments de chaque paiement, information qualitative).
+\end{itemize}
+
+\textbf{Case Reserves}:
+\begin{itemize}
+  \item Une \textit{Case Reserve} est la meilleure estimation d'un montant de sinistre avant même qu'un paiement soit fait (\textbf{expert en sinistre} ou \textbf{modèle prédictif}).
+  \item Les \textit{Case Reserves} sont la somme des Case Reserves individuelles.
+\end{itemize}
+
+\textbf{Gross IBNR (ou Bulk Reserve)}
+\begin{itemize}
+  \item IBNR = Incurred but not Reported
+  \item Contiens les provisions pour:
+  \begin{itemize}
+    \item Développement futur des sinistres
+    \item Sinistres fermés pouvant rouvrir
+    \item Sinistres encourus, mais non rapportés (Pure IBNR)
+    \item Sinistres rapportés, mais non codés dans le système informatique
+  \end{itemize}
+\end{itemize}
+ 
+\textbf{Réserve totale}:
+$$\text{Réserve totale} = \text{Case Reserves} + \text{Gross IBNR}$$
+
+\textbf{Développement}:
+\begin{itemize}
+\item Changement temporel de la somme des paiements effectués sur tous les dossiers de sinistre (Prestations payées durant une période)
+\end{itemize}
+  
+\textbf{Paid Age-to-Age}
+\begin{itemize}
+\item Développement entre deux dates données (on suit généralement après chaque année ou mois d'âge successifs)
+\end{itemize}
+ 
+\textbf{Age-to-ultimate Development}
+\begin{itemize}
+\item Développement des sinistres ayant atteint un certain âge jusqu'à l'ultime.
+\end{itemize}
+
+\textbf{Paid Loss Development Factor ($\text{PLDF}_{j-1,j}$)}
+
+$$\text{PLDF}_{j-1,j} = \frac{\text{Somme des paiements faits par l'assureur sur tous les dossiers de sinistres à t=j}}{\text{Somme des paiements faits par l'assureur sur tous les dossiers de sinistres à t=j-1}}$$
+
+\textbf{Sinistres en suspend ($SS$)}
+\begin{itemize}
+  \item Somme des \textit{Case Reserves} qui ne sont pas encore fermées à une date donnée.
+ \end{itemize}
+\textbf{Sinistres payés ($SP$)}
+\begin{itemize}
+  \item Somme des indemnités versées aux réclamants (\textbf{inclus les frais de règlement})
+ \end{itemize} 
+\textbf{Sinistres encourus ($SE$)}
+\begin{itemize}
+  \item Somme des montants engendrés par un sinistre (Passé + Futur)
+\end{itemize}
+$$SE = SP + SS$$
+
+\textbf{Incurred Loss Development Factor ($\text{ILDF}_{j-1,j}$)}
+
+$$\text{ILDF}_{j-1,j}=\frac{\sum SE@j}{\sum SE@j-1}=\frac{C_j}{C_{j-1}}=\frac{\text{Encouru cumulatif @ t=j}}{\text{Encouru cumulatif @ t=j-1}}$$
+
+\textbf{Notation en triangles cumulatifs}
+
+Il est commode de noter $C_{i,j}$, le total des sinistres survenus dans l'année i développés pendant j années de la façon suivante:
+
+\begin{tabular}{|c|c|c|c|c|c|}
+  \hline
+   i/j & Age 1 & Age 2 & Age 3 & Age 4 & Age 5 \\
+  \hline
+1 & $C_{1,1}$ & $C_{1,2}$ & \color{red} $C_{1,3}$ & $C_{1,4}$ & $C_{1,5}$ \\
+2 & $C_{2,1}$ & \color{red} $C_{2,2}$ & $C_{2,3}$ & $C_{2,4}$ & \\
+3 & \color{red} $C_{3,1}$ & $C_{3,2}$ & $C_{3,3}$ &  & \\
+4 & $C_{4,1}$ & $C_{4,2}$ &  &  & \\
+5 & $C_{5,1}$ &  &  &  & \\
+  \hline
+\end{tabular}\\
+
+
+$\Rightarrow$ \color{red} Année de calendrier 3 \color{black}
+
+\subsection*{Méthode de Chain-Ladder}
+
+\subsubsection*{Notions mathématiques}
+
+Pour la méthode de Chain-Ladder, on assume tout simplement que $LDF_j$, le taux de développement pour l'année j est le même pour toutes les années de sinistres. On a donc
+$$C_{i,j+1} = C_{i,j} \times LDF_j$$
+
+Avec
+$$\widehat{LDF}_j = \frac{\sum_{i=1}^{n-j} C_{i,j+1}}{\sum_{i=1}^{n-j} C_{i,j}}, \forall j=1,...,n-1$$
+
+Pour le calcul de la réserve IBNR, on s'intéresse à la différence entre les coûts à l'ultime, soit les coûts totaux lorsque les sinistres seront pleinement développés, et les prestations qui ont été payé jusqu'à la date d'évaluation. Il est donc crucial de bien calcul $C_{i,n}$. Pour Chain-Ladder, on a
+$$\widehat{C}_{i,n} = (\widehat{LDF}_{n+1-i}\times...\times\widehat{LDF}_{n-1})\times C_{i,n+1-i}$$
+
+Et la réserve pour l'année i est
+$$\widehat{R}_i=\widehat{C}_{i,n}-C_{i,n+1-i},\forall i=2,...,n$$
+Et la réserve totale est
+$$\widehat{R}=\sum_{i=2}^{n} \widehat{R}_i$$
+
+\subsubsection*{Remarques}
+
+\begin{itemize}
+\item Cette méthode suppose que les années d'accident sont indépendantes entre elles.
+\item On assume aussi implicitement que l'âge des sinistres est la seule variable explicative du développement des sinistres.
+\item On fait l'hypothèse simplificatrice que $LDF_{i,j}=LDF_j$. Ceci n'est pas nécessairement vrai, car plusieurs facteurs peuvent venir influencer la vitesse de développement de l'année i:
+	\begin{itemize}
+	\item Changements internes dans les procédures de la compagnie
+	\item Changement de loi
+	\item ...
+	\end{itemize}
+\item Avec Chain-Ladder, la réserve de l'année d'accident la plus récente est sujette à une forte incertitude, car elle dépend seulement des paiements effectués dans l'année de calendrier la plus récente.
+\end{itemize}
+
+
+\subsection*{Méthode de Bornhuetter-Ferguson}
+
+\subsubsection*{Notions mathématiques}
+
+La méthode de B-F se fait en trois grandes étapes
+
+\subsubsection*{ Étape 1: Estimation des sinistres ultimes}
+
+On assume que le \textbf{taux de sinistre} (Loss Ratio) est connu pour chaque année d'accident. Ainsi, soit $LR_i$ le taux de sinistre de l'année i et $PA_i$ les primes acquises pour l'année d'accident i, on a
+$$\boxed{\widehat{C}_{i,n}^{(B-F)}=\widehat{LR_i} \times PA_i}$$
+
+\subsubsection*{ Étape 2: Calcul des facteurs de développement }
+
+Le calcul des facteurs de développement est exactement le même que pour Chain-Ladder, c'est à dire
+$$\widehat{LDF}_j=\frac{\sum_{i=1}^{n-j} C_{i,j+1}}{\sum_{i=1}^{n-j} C_{i,j}}$$
+
+\subsubsection*{ Étape 3: Calcul de la réserve }
+
+Pour B-F, on a 
+
+$$\boxed{\widehat{R}_i^{(B-F)}=\widehat{C}_{i,n}^{(B-F)}\times \left(1 - \frac{1}{\prod_{j=n+1-i}^{n-1} \widehat{LDF}_j} \right)}$$
+
+\subsubsection*{  Remarques }
+
+\begin{enumerate}
+\item L'avantage de cette méthode est qu'elle permet une meilleure stabilité des réserves des années de survenance récentes.
+\item L'inconvénient majeur de cette méthode est qu'elle requiert l'utilisation de données externes ($LR_i$, $PA_i$) qui introduisent de la subjectivité.
+\item Dans cette méthode, c'est comme si on assumait que l'âge n'affecte pas le développement du sinistre
+\end{enumerate}
+
+$$\widehat{C}_{i,n}^{(B-F)}=PA_i \times LR_i = a_i \Rightarrow \text{ordonnée à l'origine}$$
+$$\begin{aligned}
+\widehat{C}_{i,n}^{(C-L)}&=C_{i,n+1-i} \times \left(\prod_{j=n+1-i}^{n-1} LDF_j \right) \\
+                    &= C_{i,n+1-i} \times B_i \Rightarrow \text{Pente}
+\end{aligned}$$
+
+Il serait donc intéressant de mélanger C-L et B-F afin d'obtenir une régression linéaire avec pente et ordonnée à l'origine.
+
+\subsection*{Méthode de Mack}
+
+Essentiellement, la méthode de Mack est simplement la méthode de Chain-Ladder, mais avec un cadre statistique plus solide qui permet une estimation de la variance des réserves qui peut être très utile afin d'avoir une meilleure idée du risque auquel s'expose la compagnie.
+
+\subsubsection*{ Hypothèses du modèle de Mack}
+
+\begin{enumerate}
+\item $\{C_{1,1},...,C_{1,n} \}\perp\!\!\!\perp \{C_{2,1},...,C_{2,n} \} \perp\!\!\!\perp...\perp\!\!\!\perp \{C_{n,1},...,C_{n,n} \}$
+\item $ E(C_{i,k+1} | C_{i,1},...,C_{i,k})=LDF_k$
+\item $Var(C_{i,k+1} | C_{i,1},...,C_{i,k}) = \sigma_k^2 \times C_{i,k}$
+\end{enumerate}
+
+
+\subsubsection*{ Estimation des LDF}
+
+Notons tout d'abord $H_i$ les données historiques pour l'année d'accident i et $D$ le triangle de données complet. Comme pour le modèle Chain-Ladder, on a
+$$\widehat{LDF}_j=\frac{\sum_{i=1}^{n-j} C_{i,j+1}}{\sum_{i=1}^{n-j} C_{i,j}}$$
+
+De plus, le cadre théorique du modèle de Mack nous permet de prouver que:
+
+$$E(C_{i,j}|D)=C_{i,n+1-i} \times LDF_{n+1-i}\times...\times LDF_{j-1}$$
+
+On a aussi, avec $D_k$, le triangle tronqué à l'âge k, 
+$$E(C_{i,k+1}|D_k) \overset{H2}{=} C_{i,k} \times LDF_k$$
+et 
+$$E(\widehat{LDF}_k|D_k)= \frac{\sum_{i=1}^{n-k} C_{i,k}LDF_k}{\sum_{i=1}^{n-k} C_{i,k}}=LDF_k$$
+
+Un autre résultat important que l'on peut prouver par la méthode de Mack est que
+$$\text{Cov}(\widehat{LDF}_k,\widehat{LDF}_j)=0$$
+
+et
+$$E(\widehat{R}_i)=R_i$$
+
+\subsubsection*{ Estimation des $\sigma_j^2$}
+
+L'estimateur non-biaisé de $\sigma^2$ est
+$$\boxed{\widehat{\sigma}_j^2 = \frac{1}{n-j-1}\sum_{i=1}^{n-j}C_{i,j} \times \left(\frac{C_{i,j+1}}{C_{i,j}}-\widehat{LDF}_j \right)^2}$$
+Qui correspond à l'équation \ref{eq:est:sigm}.
+
+De plus, comme on peut le voir, le calcul de $\widehat{\sigma}^2$ est problématique pour $j=n-1$. On utilise donc l'approximation suivante:
+$$\boxed{\widehat{\sigma}_{n-1}^2=min \left(\frac{\widehat{\sigma}_{n-2}^4}{\widehat{\sigma}_{n-3}^2},min \left(\widehat{\sigma}_{n-3}^2,\widehat{\sigma}_{n-2}^2 \right) \right)}$$
+
+\subsubsection*{Estimation de l'erreur quadratique moyenne}
+
+Tout d'abord, puisque $\widehat{R}_i$ est un estimateur non biaisé de $R$, on a $Var(\widehat{R}_i)=MSE(\widehat{R}_i)$
+
+$$\boxed{\begin{aligned}
+MSE(\widehat{R}_i) &= E\left((\widehat{R}_i-R_i)^2 | D \right) \\
+MSE(\widehat{R}_i) &= \widehat{C}_{i,n}^2 \times \sum_{k=n-i+1}^{n-1} \frac{\widehat{\sigma}_k^2}{\widehat{LDF}_k^2} \times \left(\frac{1}{\widehat{C}_{i,k}}+ \frac{1}{\sum_{j=1}^{n-k} C_{j,k}} \right)
+\end{aligned}}$$
+
+\subsubsection*{ Intervalles de confiance}
+
+En ayant maintenant estimé l'erreur quadratique moyenne des réserves calculées, il est possible de poser des hypothèses quant à la loi suivie par la réserve afin de construire une intervalle de confiance.
+
+\subsubsection*{ Hypothèse de normalité}
+
+Puisqu'on assume ici
+$$\widehat{R}_i \sim N(E[\widehat{R}_i], \widehat{MSE}(\widehat{R}_i))$$
+Ce qui impose
+$$\boxed{I.C.^N(\widehat{R}_i)=\left[\widehat{R}_i - Z_{\frac{\alpha}{2}} \times \sqrt{\widehat{MSE}(\widehat{R}_i)}, \widehat{R}_i + Z_{\frac{\alpha}{2}} \times \sqrt{\widehat{MSE}(\widehat{R}_i)} \right]}$$
+
+\subsubsection*{ Hypothèse de log-normalité}
+
+On suppose ici
+$$R_i \sim LN(\mu_i, \sigma_i^2)$$
+Avec
+$$\begin{aligned}
+E[R_i] &= \widehat{R}_i = e^{\mu_i + \frac{\sigma^2}{2}} \\
+MSE(R_i) &= E(R_i)^2 \times \left(e^{\sigma_i^2}-1 \right) \\ \\
+\Leftrightarrow \mu_i &= ln(\widehat{R}_i)-\frac{\sigma_i^2}{2} \\
+\Leftrightarrow \sigma_i^2 &= ln \left(1 + \left(\frac{\sqrt{\widehat{MSE}(\widehat{R}_i)}}{\widehat{R}_i}\right)^2 \right)
+\end{aligned}$$
+
+Ce qui impose
+$$\boxed{I.C.^{LN}(\widehat{R}_i) = \left[e^{\mu_i - Z_{\frac{\alpha}{2}}\sigma_i}, e^{\mu_i + Z_{\frac{\alpha}{2}}\sigma_i} \right]}$$
+
+\subsubsection*{ Variabilité de la réserve totale}
+
+On a tout simplement 
+$$\begin{aligned}
+MSE(\widehat R) &= E\left[(\widehat{R}-R)^2|D \right] \\
+   &= E\left(\left(\sum_{i=2}^n \widehat R_i - \sum_{i=2}^n R_i\right)^2|D \right)
+\end{aligned}$$
+
+$$\boxed{\widehat{MSE}(\widehat{R}) = \sum_{i=2}^n \left( \widehat{MSE}(\widehat{R}_i) + \widehat{C}_{i,n} \times \left(\sum_{j=i+1}^n \widehat{C}_{j,n} \right) \times \sum_{k=n-i+1}^{n-1} \frac{\frac{2\widehat{\sigma}_k^2}{\widehat{LDF}_k^2}}{\sum_{j=1}^{n-k} C_{j,k}} \right) }$$
+
+\subsection*{ Méthode GLM}
+
+\begin{itemize}
+\item La méthode GLM ne se limite pas à la loi normale. En effet, on peut utiliser n'importe quelle loi de la famille exponentielle. (Normale, Log-Normale, Binomiale, Poisson, Gamma, Exponentielle, Inverse Gaussienne,...)
+\item Permets d'incorporer au modèle des variables explicatives autres que l'âge et l'année d'accident. (Changement de VP, Changement de loi, catastrophe naturelle)
+\item Permets de faire des réserves granulaires au lieu d'agréger les données par âge et année d'accident.
+\end{itemize}
+
+\subsubsection*{Remarques}
+\begin{enumerate}
+\item Avec les GLM, on utilise le triangle des sinistres incrémentaux ($Y_{i,j}$) et non cumulatifs ($C_{i,j}$).
+\item En pratique, on utilise une loi de la famille exponentielle selon la variance observée dans les $Y_{i,j}$.
+\end{enumerate}
+
+%% Voir document goulet pour bien faire le tableau 
+\begin{tabular}{|c|c|c|}
+  \hline
+   Loi & Fonction de variance & Utilisation en réserves  \\
+  \hline
+  Normale & $\sigma^2 \neq f(u)$ & Très rare, car la variance diminue avec l'âge j \\
+  Poisson & $\mu$ & Souvent \\
+  Gamma & var $ = f(\mu^2)$ & Moins souvent \\
+  Inverse Gaussienne & var $ = f(\mu^3)$ & Très rare  \\
+  \hline
+\end{tabular}\\
+\subsubsection*{Le modèle de base}
+
+Si on ne se sent pas exotique, on peut passer un modèle GLM sans variables explicatives autres que l'âge et l'année d'accident. Dans ce cas, on a donc
+$$\begin{aligned}
+\alpha_1 &= \beta_1 = 0 \\
+E[Y_{i,j}] &= \mu_{i,j} = e^{\mu + \alpha_i + \beta_j} 
+\end{aligned}$$
+
+Où on obtient ici $\tilde{\beta}=[\mu, \alpha_2,...,\alpha_n,\beta_2,...,\beta_n]$ par maximum de vraisemblance.
+
+\subsubsection*{Un modèle plus élaboré}
+
+Si on se sent aventurier, on peut ajouter d'autres variables explicatives à notre modèle de calcul des réserves. On pourrait par exemple ajouter la variable indicatrice d'un changement de VP $X_{i,j}$ et on obtiendrait ainsi:
+$$E[Y_{i,j}]=\mu_{i,j} = e^{\mu + \alpha_i + \beta_j + \gamma X_{i,j}}$$
+
+\subsubsection*{Théorème de Taylor multidimensionnel (nice...)}
+
+Soit $Y=g(X_1,X_2,...,X_n)$ une fonction statistique des variables aléatoires ($X_1,...,X_n$), on a 
+
+$$\boxed{E[Y] \approx g(E[X_1],...,E[X_n])+\frac{1}{2}\sum_{i=1}^n \sum_{j=1}^n \frac{\partial^2 g(E[X_1],..,E[X_n])}{\partial x_i \partial x_j}\text{Cov}(X_i,X_j)}$$
+et
+$$\boxed{Var(Y) \approx \sum_{i=1}^n \sum_{j=1}^n \left(\frac{\partial}{\partial x_i}\ g(E[X_1],...,E[X_n]) \right) \left(\frac{\partial}{\partial x_j}\ g(E[X_1],...,E[X_n]) \right) \text{Cov}(X_i, X_j)}$$
+
+Malheureusement, puisque $Y$ peut facilement être une quantité souvent utilisée telle $\widehat{R}_i$, il faut le sentir.
+
+\subsubsection*{Estimation des coefficients}
+
+Tel que vu en ACT-2003, la meilleure façon d'estimer les coefficients nécessaires au calcul des réserves IARD est le maximum de vraisemblance. Dans le cas Poisson, on aurait donc
+
+$$\begin{aligned}
+\mu_{i,j} &= e^{\mu + \alpha_i + \beta_j} \\
+l(\Theta) &= \sum_{(i,j) \in \rhd} ln\left(\frac{e^{-\mu_{i,j}}(\mu_{i,j})^{y_{i,j}}}{(y_{i,j})!} \right) \\
+ &= \sum_{(i,j) \in \rhd} \left(y_{i,j} \ln(\mu_{i,j}) - \mu_{i,j} - \ln(y_{i,j}!) \right) \\
+ &\propto \sum_{(i,j) \in \rhd} \left(y_{i,j}\ln(\mu_{i,j}) - \mu_{i,j} \right)
+\end{aligned}$$
+
+On utilise le log-vraisemblance proportionnelle pour éviter les problèmes numériques que pourraient poser le calcul de $2000!$ par exemple. 
+Maintenant que la fonction à optimiser est posée, il ne reste plus qu'à la maximiser par la méthode de Newton-Raphson. On a donc
+
+\[
+\Theta = 
+\begin{bmatrix}
+\mu \\
+\alpha_2 \\
+... \\
+\alpha_n \\
+\beta_2 \\
+... \\
+\beta_n
+\end{bmatrix}
+\]
+
+$$\boxed{\Theta^{(i+1)}=\Theta^{(i)}+I(\Theta^{(i)})^{-1}S(\Theta^{(i)})}$$
+avec
+$$\boxed{\begin{aligned}
+S(\Theta) &= X^T W,W=Y-\widehat Y \\
+I(\Theta) &=X^T H X
+\end{aligned}}$$
+
+\[
+H = 
+\begin{bmatrix}
+e^{X_1 \beta} & 0 & ... & 0 \\
+0 & e^{X_2 \beta} & ... & 0 \\
+... & ... & ... & ... \\
+0 & 0 & ... & e^{X_n \beta}
+\end{bmatrix}
+\]
+
+\subsubsection*{Quantités importantes dans le cas Poisson (Sûrement à l'examen)}
+
+Maintenant que nous avons estimé les coefficients, on peut se laisser aller. Ainsi, soit $X^*$, la matrice schéma servant à prédire la partie inférieure du triangle de données, on a:
+$$\widehat{R}=e^{X_1^* \beta}+e^{X_2^* \beta}+...+e^{X_n^* \beta}$$
+
+$$\boxed{E[\widehat{R}]  = g(\widehat{\beta}) + \frac{1}{2} \sum_{i=0}^8 \sum_{j=0}^8 \left(\frac{\partial^2 R}{\partial \widehat{\beta}^2}  \right)_{i+1,j+1} I^{-1}(\widehat{\beta})_{i+1,j+1}}$$
+Avec
+$$\frac{\partial^2 R}{\partial \widehat{\beta}^2}=(X^*)^T W X^*$$
+\[
+W = 
+\begin{bmatrix}
+e^{X_1^* \widehat{\beta}} & 0 & ... & 0 \\
+0 & e^{X_2^* \widehat{\beta}}  & ... & 0 \\
+... & ... & ... & ... \\
+0 & 0 & ... & e^{X_n^* \widehat{\beta}}
+\end{bmatrix}
+\]
+
+$$\boxed{\begin{aligned}
+Var(\widehat{R}) &= \sum_{i=0}^8 \sum_{j=0}^8 \left(\frac{\partial \widehat{R}}{\partial \widehat{\beta}} \right)_{i+1} I^{-1}(\widehat{\beta})_{i+1,j+1} \left(\frac{\partial \widehat{R}}{\partial \widehat{\beta}} \right)_{j+1} \\
+ &= \left(\frac{\partial \widehat{R}}{\partial \widehat{\beta}} \right)^T I^{-1}(\widehat{\beta}) \left(\frac{\partial \widehat{R}}{\partial \widehat{\beta}} \right)
+\end{aligned}}$$
+
+De plus, il est important de noter que
+
+$$\left(\frac{\partial \widehat{R}}{\partial \widehat{\beta}} \right)_{i+1} = [X_1^*]_{i+1}e^{X_1^* \beta} + [X_2^*]_{i+1}e^{X_2^* \beta} + ... + [X_n^*]_{i+1}e^{X_n^* \beta}$$
+
+$$\boxed{\left(\frac{\partial \widehat{R}}{\partial \widehat{\beta}} \right) = (X^*)^T M}$$
+\[
+M = 
+\begin{bmatrix}
+e^{X_1^* \beta} \\
+e^{X_2^* \beta} \\
+... \\
+e^{X_n^* \beta}
+\end{bmatrix}
+\]
+
+\subsubsection*{Tests d'hypothèses avec les GLM (\#TBT)}
+
+Cette section est exactement la même matière que vue en ACT-2003. On a donc les cas suivants:
+
+\begin{enumerate}
+\item $H_0$: Un sous-modèle de M1 (noté M0) est acceptable
+\item $H_1$: Il est nécessaire d'utiliser le modèle complet (noté M1)
+\end{enumerate}
+
+Pour tester $H_0$ contre $H_1$, on utilise la statistique:
+
+$$\chi^2_{\text{obs}}=2\left(l(H_1) - l(H_0) \right)$$
+
+et on rejette $H_0$ au niveau $100(1- \alpha)$\% si
+
+$$\chi^2_{\text{obs}} \ge \chi_\alpha^2(\Delta \text{Nombre de paramètres})$$
+
+\subsection*{Méthode de réserves IARD basée sur la théorie de la crédibilité}
+
+Comme on a vu précédemment, Chain-Ladder est inefficace pour estimer la réserve des années d'accident récentes alors que Bornhutter-Ferguson est plutôt inefficace pour estimer les vieilles années d'accident. La méthode basée sur la théorie de la crédibilité cherche donc à estimer la réserve pour l'année d'accident $i$ en faisant une pondération entre les réserves obtenues par C-L et B-F de sorte à surpondérer la méthode la plus adéquate.
+
+En évitant une majeure partie du développement mathématique, on retrouve donc
+
+$$\boxed{\begin{aligned}
+\widehat{R}_i^{\text{cred}} &= c_i \widehat{R}_i^{\text{C-L}} + (1-c_i) \widehat{R}_i^{\text{B-F}} \\
+ &= ... \\
+ &= \left[c_i \widehat{C}_{i,n}^{C-L} + (1-c_i) U_i \right](1 - \beta_{n-i+1})
+\end{aligned}}$$
+
+De plus, Benktander et Hovinen ont posé les hypothèses suivantes:
+\begin{enumerate}
+\item $U_i(1-\beta_{n-i+1}) = \widehat{R}_i^{B-F}$
+\item $\widehat{R}_i^{B-F} = U_i - C_{i,n-i+1}$
+\end{enumerate}
+
+Qui nous permettent de faire un lien entre les deux méthodes et donc d'obtenir
+
+$$\boxed{\widehat{C}_{i,n}^{B-H}=\beta_{n-i+1} \widehat{C}_{i,n}^{C-L} + (1-\beta_{n-i+1}) \widehat{C}_{i,n}^{B-F}}$$
+Avec
+$$\boxed{c_i = \beta_{n-i+1}= \frac{1}{\prod_{j=n-i+1}^{n-1} LDF_j}}$$
+
+On appelle aussi cette méthode la méthode Bornhuetter-Ferguson itérée
+
+\subsection*{Actualisation des réserves IARD}
+
+Cette section est très simple. L'idée est simplement que l'on doit actualiser les flux monétaires selon les années de calendrier et non par année d'accident. On suit donc les étapes suivantes:
+
+\begin{enumerate}
+\item Développer le triangle (partie inférieure) avec la méthode souhaitée (C-L, B-F, Mack, GLM, B-H).
+\item Calculer les sinistres incrémentaux $Y_{i,j}$ dans la partie inférieure du triangle,
+\item Sommer les $Y_{i,j}$ de l'étape 2 par CY.
+\item Actualiser par CY avec la structure à terme du problème.
+\end{enumerate}
+

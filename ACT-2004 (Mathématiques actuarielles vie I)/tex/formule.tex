@@ -1,0 +1,25 @@
+\chapter{Formules}
+\section{Rappel des relations de la théorie des taux d'intérêt}
+\begin{align*}
+\ddot{a}_{\annuity{n}} &= (1+i)a_{\annuity{n}}\\
+i &= \frac{d}{1-d} \Leftrightarrow d = \frac{i}{1+i}\\
+\delta &= ln(1+i) \\
+\Bigg( 1+ \frac{i^m}{m}\Bigg)^m &= 1+i = \frac{1}{1 - d} = \Bigg( 1 - \frac{d^m}{m}\Bigg)^{-m} = e^{\delta}
+\end{align*}
+\section{Loi De Moivre}
+\begin{align*}
+S_X(x) &= 1 - \frac{x}{•\omega} \\
+\indiceGauche{t|u}{q}_x &= \frac{u}{\omega - x} \\
+\mu_x &= \frac{1}{\omega - x} \\
+\indiceGauche{t}{q}_x &= \frac{t}{\omega - x}
+\end{align*}
+\section{Notions supplémentaire sur les tables de mortalité}
+\begin{align*}
+\indiceGauche{n}{q}_x &= \frac{\indiceGauche{n}{d}_x}{l_x} \\
+\indiceGauche{n}{P}_x &= \frac{\indiceGauche{n}{l}_{x+n}}{\indiceGauche{n}{l}_x} \\
+\indiceGauche{n}{l}_{x+n} &= \indiceGauche{n}{l}_{x} - \indiceGauche{n}{d}_{x} \\
+\indiceGauche{n}{d}_{x} &= \indiceGauche{n}{l}_{x} - \indiceGauche{n}{l}_{x+n} \\
+\indiceGauche{n}{l}_{x} &= \sum_{y=x}^{\infty} d_y
+\end{align*}
+Où $d_{x}$ est le nombre de décès entre l'année x et x+1 et $l_{x}$ correspond au nombre de survivant au début de l'année x.
+

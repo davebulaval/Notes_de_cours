@@ -1,0 +1,193 @@
+
+\chapter{Crédibilité de stabilité}
+\section{Introduction par un exemple}
+\label{chap:intro:ex}
+On utilise l'exemple suivant pour introduire la théorie de la crédibilité de stabilité.
+Vous travaillez dans une compagnie d'assurance ayant 2 agents:
+\begin{itemize}
+\item Agent 1 : Ouvert depuis 10 ans;
+\item Agent 2 : Nouvellement ouvert cette année.
+\end{itemize}
+On veut comparer les \textit{taux de succès} $\Big(S = \frac{\text{Nombre de ventes}}{\text{Nombre de soumissions}}\Big)$:
+
+\bigskip
+\begin{tabular}{|c|c|c|c|}
+  \hline
+  Agent & Nombre de soumissions & Nombre de ventes & Taux de succès   \\
+  \hline
+  1 & 5000 & \numprint{2500} & 50$\%$  \\
+  2 & 50 & 25 & 50$\%$ \\
+  \hline
+\end{tabular}\\
+\bigskip
+
+\subsection*{Question principale en crédibilité de stabilité :}
+À partir de quelle taille (n) est-ce que $S$ est statistiquement stable ($\Rightarrow$ crédible) ?
+\subsection*{Traitement mathématique :}
+On dit que la statistique (dans notre cas présent $S$) est \emph{crédible} (ou \emph{statistiquement stable}) à l'ordre (\textit{k, P}) lorsque:
+\begin{equation}
+\label{sec:eq:normale}
+P \Big \lbrace(1 - k) \times E[s] \leq S \leq(1 + k)\times E[s]\Big\rbrace \geq P
+\end{equation}
+Où \emph{k} est petit (ex.: 5\%) et \emph{P} est près de 100 \% (ex.: 95\%). 
+\\
+
+On peut interpréter l'équation \ref{sec:eq:normale} comme étant la probabilité p\% d'être à l'extérieur de notre intervalle autour de la statistique  S. 
+\\
+
+Selon notre exemple initial :
+\begin{align*}
+S &= \frac{\text{Nombre de ventes}}{\text{Nombre de soumissions}} \\
+&= \frac{\sum_{i = 1}^{n} I_{i}}{n} \\
+& \Rightarrow \Bigg(\frac{\sum_{i = 1}^{n} I_{i}}{n} \Bigg) \sim \text{Bin(n,p)}
+\end{align*}
+À partir de quelle valeur de n (taille) est-ce que :
+\begin{align*}
+P \Big \lbrace(1 - k) \times E[s] \leq S \leq(1 + k)\times E[s]\Big\rbrace \geq P
+\end{align*}
+Puisqu'on s'attend à un n grand, on utilise l'approximation normale. En assumant que le \textit{vrai} taux de succès est de 50 \% et que (k = 5\%, p = 90 \%), l'équation devient:
+\begin{align*}
+P\Bigg(0.95 \times  0.5 \times  n &\leq \frac{\sum_{i = 1}^{n} I_{i}}{n} \leq 1.05 \times  0.5 \times  n \Bigg) \geq P\\
+P\Bigg(0.475 \times  n &\leq \frac{\sum_{i = 1}^{n} I_{i}}{n} \leq 0.525 \times  n\Bigg) \geq0.9 \\
+P\Bigg( \frac{0.475n - 0.5n}{\sqrt{n \times  0.5 \times 0.5}} &\leq \frac{\sum_{i = 1}^{n} I_{i}}{n} \leq \frac{0.525n - 0.5n}{\sqrt{n \times  0.5 \times 0.5}}\Bigg) \geq0.9 \\
+P \Big \lbrace -0.05 &\sqrt{n} \leq Z \leq 0.05\sqrt{n} \Big \rbrace \geq 0.9 \\
+\Phi \big (0.05 \sqrt{n}) &- \Phi\big (-0.05 \sqrt{n}\big) \geq0.9 \\
+\Phi\big (0.05 \sqrt{n}\big) &- \Big(1 - \Phi(-0.05 \sqrt{n}\big)\Big) \geq0.9 \\
+2 \Phi\big (0.05 \sqrt{n}\big) &- 1 \geq0.9 \\
+\Phi\big (0.05 \sqrt{n}\big) & \geq 0.95 \\
+0.05 \sqrt{n} & \geq \Phi^{-1}\big (0.95\big) \\
+&n \geq 1082.41
+\end{align*}
+Pour conclure, à partir d'environ $\approx$ 1083  soumissions, on peut \textit{croire} au taux de succès des agents de 50\%.
+
+\section{Crédibilité complète d'ordre $(k,p)$}
+En crédibilité complète, un contrat (ou un portefeuille de contrat) est \emph{crédible} si son expérience est stable. Intuitivement, cette stabilité va de pair avec la \emph{taille} du contrat ou du portefeuille.
+
+Ainsi, une crédibilité complète d'ordre $(k,p)$ est attribuée à l'expérience $S$ d'un contrat ou portefeuille si les paramètres de la distribution sont tels que 
+\begin{align*}
+P\Bigg( \frac{(1 - k)E[S] - E[S]}{\sqrt{Var(S)}} \leq \frac{S - E[S]}{\sqrt{Var(S)}} \leq \frac{(1 + k)E[S] - E[S]}{\sqrt{Var(S)}}\Bigg) \geq P \\
+\end{align*}
+est vérifié.
+\subsection{Exemple classique:}
+On considère le modèle classique du risque IARD:
+\begin{equation}
+	S =
+     \left\{
+     \begin{array}{rl}
+      \sum_{i = 1}^{n} X_{i} &, \text{si } N > 0 \\
+      0 &, \text{si }N = 0
+     \end{array}
+     \right.
+\end{equation}
+\begin{itemize}
+\item[S:] Coûts totaux d'un portefeuille d'assurance IARD pour 1 an
+\item[N:] Nombre de sinistres en 1 an $ \sim$Poisson($\lambda$)
+\item[$X_i:$] Coût du sinistre \emph{iid} avec $F_X(x),f_X(x), E[X], Var(X)...$
+\end{itemize}
+On sait que:
+\begin{align*}
+E[S] &= E[N] E[X] \\
+&= \lambda E[X]\\
+\end{align*}
+ainsi que,
+\begin{align*}
+Var(S) &= E[N]Var(X) + Var(N)E^{2}[X]\\
+&= \lambda Var(X) + \lambda E^{2}[X]\\
+&= \lambda (Var(X) + E^{2}[X])\\
+&= \lambda E[X^2]
+\end{align*} 
+On reprend l'équation \emph{générale} \ref{sec:eq:normale} :
+\begin{align*}
+P \Big \lbrace(1 - k) \times E[s] \leq S \leq(1 + k)\times E[s]\Big\rbrace \geq P
+\end{align*}
+
+Par conséquent, on cherche la taille n ($\lambda$) à partir de laquelle les \textit{résultats} $(S)$ sont statistiquement stables (\textit{Also Know As} crédibles) d'année en année. À partir de l'équation \ref{sec:eq:normale}, on effectue une approximation par la loi Normale
+\begin{equation}
+P\Bigg( \frac{(1 - k)E[S] - E[S]}{\sqrt{Var(S)}} \leq \frac{S - E[S]}{\sqrt{Var(S)}} \leq \frac{(1 + k)E[S] - E[S]}{\sqrt{Var(S)}}\Bigg) \geq P \\
+\end{equation}
+À partir de la forme générale \ref{sec:eq:normale}, on obtient:
+\begin{align*}
+P\Bigg( \frac{ k \lambda E[S]}{\sqrt{\lambda E[X^2]}} &\leq Z \leq \frac{k \lambda E[X]}{\sqrt{\lambda E[X^2]}}\Bigg) \geq P \\
+2 \Phi\Bigg(k \sqrt{\lambda} &\frac{E[X]}{\sqrt{E[X^2]}}\Bigg) -1 \geq P \\
+\Phi \Bigg( k \sqrt{\lambda}& \frac{E[X]}{\sqrt{E[X^2]}}\Bigg) \geq \frac{P + 1}{2}\\
+\Bigg(\frac{k \sqrt{\lambda} E[X]}{\sqrt{E[X^2]}} &\Bigg) \geq \Phi^{-1}\Bigg(\frac{P + 1}{2}\Bigg)\\
+\lambda \geq  \Bigg(\frac{\sqrt{E[X^2]}}{E[X] k } &\Bigg) \Phi^{-1}\Bigg(\frac{P + 1}{2}\Bigg)^2\\
+\lambda  \geq \Bigg(\frac{\Phi^{-1}(\frac{P + 1}{2})^2}{k}& \Bigg) \Bigg(\frac{Var(X) + E^2[X]}{E^2[X]}\Bigg)\\
+\end{align*}
+On obtient l'équation finale suivante 
+\begin{equation}
+\lambda  \geq \Bigg(\frac{\Phi^{-1}(\frac{P + 1}{2})^2}{k^2} \Bigg) (1 + CV^2(X))
+\end{equation}
+Remarques:
+\begin{itemize}
+\item[1)]Dans ce cas-ci, la \textit{taille} du portefeuille est exprimée en \textit{nombre de sinistres espérés annuellement ($\lambda$)} et non en nombre d'assurés, afin de rendre la théorie portable dans plusieurs lignes d'affaires (auto, habitations, ...).
+\item[2)]Plus la distribution de X (sévérité) est volatile (plus CV(X) $\nearrow$) plus la \textit{taille} doit être grande pour atteindre la crédibilité complète.
+\item[3)]En assumant:
+		\begin{itemize}
+		\item k = 5\%
+		\item P = 90\%
+		\item La sévérité est non aléatoire (densité dégénérée) $\Rightarrow$ CV(X) = 0
+		\end{itemize}
+		On obtient,
+		\begin{align*}
+		\lambda &\geq \Bigg(\frac{\Phi^{-1}(0.95)}{0.05}\Bigg)^{2} (1 + 0^2)\\
+		&\geq 1082.41
+		\end{align*}
+\end{itemize}
+
+\section{Crédibilité partielle}
+Que fait-on lorsque la \textit{taille} est inférieure au seuil de crédibilité complète?
+\begin{itemize}
+\item[• Option 1: ]Ne pas considérer les chiffres
+\item[• Option 2: ]Whitney (1918) proposa de pondérer l'expérience individuelle avec un complément crédible (ex. prime collective). 
+\\
+Soit :
+\begin{equation}
+\label{eq:crédipartie}
+\pi = Z \times  \overline{S} + (1 - Z) \times  m
+\end{equation}
+	\begin{itemize}
+	\item $\pi$  est la statistique $S$ crédibiliser
+	\item Z est le facteur de pourcentage de crédibilité
+	\item $\overline{S}$ est l'expérience observée par la statistique \textit{S}
+	\item m est le complément crédible
+	\end{itemize}
+\end{itemize}
+Sans trop développer de théorie, Whitney proposa diverses formes pour Z. 
+\\
+
+Z peut correspond à :
+\begin{itemize}
+\item[i)]
+	\begin{align*}
+	Z = \text{min} \Bigg( \sqrt{\frac{\text{taille}(n)}{\text{taille de crédibilité complète}(n_0)}} ; 1 \Bigg)
+	\end{align*}
+\item[ii)]
+	\begin{align*}
+	Z = \frac{n}{n + k}, \text{ où n = taille, k = constante arbitraite}
+	\end{align*}
+\end{itemize}
+\subsubsection*{Retour sur l'exemple \ref{chap:intro:ex}:}
+On choisit la formule (i) pour Z, sachant que $n_0 = 1083$, alors
+\begin{align*}
+Z &= \text{min} \Bigg( \sqrt{\frac{n}{n_0}} ; 1 \Bigg)\\
+&=\text{min} \Bigg( \sqrt{\frac{50}{1083}} ; 1 \Bigg)
+\end{align*} 
+On suppose que le taux de succès de toutes les agences au Canada est de 45 \%, assez crédible pour être choisi comme \textit{complément}, car l'ensemble du Canada correspond à un échantillon de grande \textit{taille}.
+
+\bigskip
+\begin{tabular}{|l|l|c|c|r|r|}
+  \hline
+  Agent & n & $\sum_{i =1}^{n} X_i$ & S & Z & $\pi$   \\
+  \hline
+  1 & \numprint{5000} & \numprint{2500} & 50$\%$ & 100\% & 50\% \\
+  2 & 50 & 25 & 50$\%$ & 21.5\%  & 46.1\% \\
+  \hline
+\end{tabular}\\
+\bigskip
+
+Remarques : 
+\begin{itemize}
+\item Si la moyenne nationale avait été plus élevée, disons 55 \%, alors $\pi_2 = 54\%$, donc on donne le \emph{bénéfice du doute} à l'agent parce qu'il est trop peu crédible.
+\item Le but de la crédibilité partielle est d'incorporer autant d'expérience individuelle dans la prime, pour bien le faire,il faut déterminer les paramètres adéquatement.
+\end{itemize}

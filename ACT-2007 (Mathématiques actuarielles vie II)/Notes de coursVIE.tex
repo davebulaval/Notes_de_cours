@@ -11,6 +11,7 @@
   \usepackage{titlesec}	%package pour modifier les chapitres #2
   \frenchbsetup{ItemLabeli==$>$}
   \usepackage{url}
+  \usepackage{tabularx}
   \usepackage[autolanguage]{numprint}
   \usepackage{tikz}
   \usetikzlibrary{snakes}
@@ -29,8 +30,17 @@
 \scriptstyle #1%
 \end{array}%
 }
-% exemple d'utilisation de la fonction annuity
-% \ddot{a}_{\annuity{n}i} 
+
+% Default Addition of Pictures
+\graphicspath{{./fig/}}
+\newcommand{\addPicture}[5]{
+	\begin{figure}[h]
+		\begin{center}
+			\includegraphics[width=#1\textwidth, height=#2\textheight,keepaspectratio]{#3}
+			\caption{#4}
+			\label{fig:#5}
+		\end{center}
+	\end{figure}}
 
 %fonction pour indice a gauche 
 \newcommand{\indiceGauche}[2]{{\vphantom{#2}}_{#1}#2}
@@ -84,10 +94,10 @@
     \vfill
   \end{titlepage}
 \makeatother
-
-
-\tableofcontents
 \newpage
+\input{tex/license}
+\tableofcontents
+
 \chapter*{Preface}
 \addcontentsline{toc}{chapter}{Preface}
 Modification à la version 3: \\

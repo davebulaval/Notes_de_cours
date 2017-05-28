@@ -1,0 +1,97 @@
+\chapter{Introduction à la théorie de la crédibilité}
+\label{chap:1:intro}
+
+On considère une cellule de tarification (un sous-portefeuille du portefeuille complet, mais qui a les mêmes caractéristiques \textit{au sens des questions que l'assureur pose à l'émission du contrat}).
+
+Afin d'avoir une tarification équitable, l'assureur veut:
+\begin{enumerate}
+\item Charger assez de primes pour payer les sinistres, les frais et dégager un profit. Ça revient à fixer le bon niveau GLOBAL des taux;
+\item Distribuer les primes collectées équitablement entre les assurés en fonction du risque (GLM + jugement):
+	\begin{itemize}
+	\item Structure de tarification
+	\item Tarification basée sur l'expérience $\Rightarrow$ Théorie de la crédibilité
+	\end{itemize}	 
+\end{enumerate}
+
+\subsection*{Remarque}
+En pratique, toutes les lignes d'affaires(auto, habitation, etc.) basent leur tarification sur une indication globale et sur une structure de tarification. 
+Comme l'assureur ne peut généralement pas poser toutes les questions requises pour bien quantifier le risque, la plupart des cellules de tarification demeurent hétérogènes \footnote{Distribution répartie de façon inégale.}. 
+
+Dans certains autres cas, par exemple la CNESST (anciennement appeler la CSST), l'assureur base sa tarification sur la prime globale (ou bien sous une segmentation très restreinte/minimale). Dans ce cas-ci, il y aura aussi présence d'hétérogénéité. Comme un fort volume de sinistre est généré en assurance contre les accidents de travail, la CNESST peut se permettre d'incorporer une composante \emph{basée sur l'expérience}.
+
+La théorie de la crédibilité ajustera la prime en fonction de l'expérience des assurés de ces cellules hétérogènes. (\textit{On définit une prime de globale selon des hypothèses et on ajuste avec l'observation du risque dans le temps})
+
+\section{Exemple 1}
+
+La CNESST est l'organisme étatique qui assure dans le domaine des accidents en milieu de travail. Pour cet exemple, on s'intéresse au sinistre (accidents de travail) dans les usines.
+\subsection{Mise en situation}
+\begin{itemize}
+\item Elle assure 10 assurés, $ \Longrightarrow $ 10 usines qui emploient des travailleurs (usines possiblement différentes).
+\item Les actuaires procèdent alors à une analyse globale du niveau de taux avec une fréquence estimée $\lambda = 25 \%$;
+\item Ils estiment également que la sévérité estimée $\mu$ = \numprint{100000} \$/réclamation; 
+\item La prime unique uniforme $\lambda$ = \numprint{25000}  \$/employeur.
+\item On remarque que dans ce cas-ci, on suppose que la CNESST a décidé de ne pas faire d'analyse de structure de tarification. La prime ne varie pas selon les caractéristiques de l'employeur.
+\end{itemize}
+\bigskip
+Observation des sinistres sur 10 ans:
+\\
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+  \hline
+  Usine & $N_1$ & $S_1$ & $N_2$ & $S_2$ & $\ldots$ & $N_{total}$ & $S_{total}$  \\
+  \hline
+  1 & 0 & 0 & 1 & \numprint{125000} & $\ldots$ & 6 & \numprint{125000} \\
+  2 & 0 & 0 & 1 & \numprint{184000} & $\ldots$ & 3 & \numprint{600000} \\
+  3 & 0 & 0 & 0 & 0 & $\ldots$ & 2 & \numprint{180000} \\
+  4 & 0 & 0 & 0 & 0 & $\ldots$ & 2 & \numprint{190750} \\
+  5 & 0 & 0 & 0 & 0 & $\ldots$ & 1 & \numprint{3000} \\
+  6 & 0 & 0 & 0 & 0 & $\ldots$ & 2 & \numprint{120000} \\
+  7 & 0 & 0 & 0 & 0 & $\ldots$ & 0 & 0 \\
+  8 & 0 & 0 & 0 & 0 & $\ldots$ & 0 & 0 \\
+  9 & 1 & \numprint{85000} & 1 & \numprint{82500} & $\ldots$& 10 & \numprint{850000} \\
+  10 & 0 & 0 & 0 & 0 & $\ldots$ & 0 & 0 \\
+  \hline
+\end{tabular}\\
+
+Nous avons donc après 1 an selon nos observations que :
+\begin{align*}
+\widehat{\lambda}(1) &= \frac{1}{10} = 10 \% \\
+\widehat{\mu}(1) &= \frac{\numprint{85000}\$}{1}
+\end{align*}
+
+Est-ce que la prime est juste? Est-elle trop élevée?
+On ne peut pas conclure que la prime n'est pas adéquate, il manque de données pour assurer une crédibilité à notre expérience.
+\\
+
+Après 2 ans, nous avons que:
+\begin{align*}
+\widehat{\lambda}(2) &= \frac{4 \text{ sinistres}}{20 \text{ unités}} = 20\% \\
+\widehat{\mu}(2) &= \frac{\numprint{476500}\$}{4 \text{ sinistres}} > \numprint{100000}\$
+\end{align*}
+
+Il y a encore trop peu de données pour affirmer que la prime est trop élevée.
+
+Après 10 ans, nous avons que :
+
+\begin{align*}
+\widehat{\lambda}(10) &= \frac{26 \text{ sinistres}}{100 \text{ unités}} = 26 \% \\
+\widehat{\mu}(10) &= \frac{\numprint{2600000}\$}{26\text{ sinistres}} = \numprint{100000}\$
+\end{align*}
+
+Pour conclure, on note que la fréquence, $\widehat{\lambda} = 26\% $ converge vers la valeur estimée $\lambda = 25 \%$ et que la gravité converge aussi vers la valeur théorique.
+Par contre, on peut remarquer que la fréquence et la gravité ne sont pas identiques pour chacune des entreprises. Un ajustement de prime devra être effectué selon le risque de l'entreprise.
+\\
+\subsection*{Motivation pour l'utilisation de la crédibilité chez la CNESST}
+\begin{itemize}
+\item La prime collective est adéquate globalement (l'analyse globale des taux est correcte).
+\item En revanche, la prime n'est pas équitable d'un assureur à l'autre.
+\item Besoin d'une technique de tarification basée sur l'expérience pour allouer adéquatement la prime entre les différents assurés.
+\end{itemize}
+\bigskip
+
+Deux catégories de théorie de crédibilité:
+\begin{itemize}
+\item[1)]Crédibilité de stabilité (\textit{Limited fluctuation}): On ne considère l'expérience de sinistre des assurés qu'à partir d'une \emph{\textit{taille} donnée}. Autrement dit, on peut prendre des conclusions seulement lorsque l'expérience devient stable dans le temps.\\
+
+\item[2)]Crédibilité de précision(\textit{Greatest acccuracy}): On considère partiellement \emph{l'expérience de sinistre} de chaque assuré pour ajuster sa prime. Autrement dit, on considère l'expérience \emph{partiellement} pour prendre des conclusions. En donnant plus de poids à l'expérience à mesure que celle-ci devient stable.
+\end{itemize}

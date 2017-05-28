@@ -1,0 +1,124 @@
+\chapter{Notions supplémentaires sur l'assurance vie}
+
+\section{Assurance vie continue}
+
+\subsection{Assurance vie  temporaire n-années croissant annuellement}
+Versement d'une prestation de décès de 1\$ la première année, 2 \$ la deuxième année et ainsi de suite jusqu'à n\$.
+\begin{align*}
+(I\overline{A})_{\overset{1}{x}:\annuity{n}} &= \int_{0}^{n}([t] +1 )v^t \times \indiceGauche{t}{P}_{x} \times\mu_{x+t}dt \\
+{}^2(I\overline{A})_{\overset{1}{x}:\annuity{n}} &= \int_{0}^{n}([t] +1 )^2v^{2t} \times \indiceGauche{t}{P}_{x}\times \mu_{x+t}dt \\
+\end{align*}
+
+\subsection{Assurance vie entière croissant annuellement}
+Versement d'une prestation de décès de 1\$ la première année, 2 \$ la deuxième année et ainsi de suite jusqu'à $\omega - x$ \$.
+\begin{align*}
+(I\overline{A})_{x} &= \int_{0}^{\omega - x}([t] +1 )v^t \times \indiceGauche{t}{P}_{x}\times\mu_{x+t}dt \\
+{}^2(I\overline{A})_{x} &= \int_{0}^{\omega - x}([t] +1 )^2v^{2t} \times \indiceGauche{t}{P}_{x} \times\mu_{x+t}dt \\
+\end{align*}
+
+\subsection{Assurance vie temporaire n-années croissant m-fois par année}
+Versement d'une prestation de décès de $\frac{1}{m}$ \$ la première année, $\frac{2}{m}$ \$ la deuxième année et ainsi de suite jusqu'à n\$.
+\begin{align*}
+(I^{(m)}\overline{A})_{\overset{1}{x}:\annuity{n}} &= \int_{0}^{n}\frac{1}{m}([t\times m] +1 )v^t \times \indiceGauche{t}{P}_{x}\times \mu_{x+t}dt \\
+{}^2(I^{(m)}\overline{A})_{\overset{1}{x}:\annuity{n}} &= \int_{0}^{n}\frac{1}{m}([t\times m] +1 )^2v^{2t} \times \indiceGauche{t}{P}_{x}\times \mu_{x+t}dt \\
+\end{align*}
+
+\subsection{Assurance vie temporaire n-années croissant continûment}
+Versement d'une prestation de décès de t \$ la première année, $\frac{2}{m}$ \$ la deuxième année et ainsi de suite jusqu'à n\$.
+\begin{align*}
+(\overline{IA})_{\overset{1}{x}:\annuity{n}} &= \int_{0}^{n} t\times v^t \times \indiceGauche{t}{P}_{x}\times \mu_{x+t}dt \\
+{}^2(\overline{IA})_{\overset{1}{x}:\annuity{n}} &= \int_{0}^{n}t v^{2t} \times \indiceGauche{t}{P}_{x}\times \mu_{x+t}dt \\
+\end{align*}
+
+\subsection{Assurance vie  entière croissant pendant n-années}
+Verse une prestation comme une vie entière mais arrête à n-années et paye n jusqu'au décès.
+\begin{align*}
+(I_{\annuity{n}}\overline{A})_{x} &= \int_{0}^{n}([t] +1 )v^t \times \indiceGauche{t}{P}_{x} \times\mu_{x+t}dt + \int_{n}^{\omega - x}n \times v^t \times \indiceGauche{t}{P}_{x} \times\mu_{x+t}dt \\
+(I_{\annuity{n}}\overline{A})_{x} &= (I\overline{A})_{\overset{1}{x}:\annuity{n}} + n \times \indiceGauche{n|}{\overline{A}}_x\\
+\end{align*}
+
+\subsection{Assurance vie  temporaire n-années décroissant annuellement}
+Versement d'une prestation de décès de n\$ la première année, (n-1)\$ la deuxième année et ainsi de suite jusqu'à 1\$.
+\begin{align*}
+(D\overline{A})_{\overset{1}{x}:\annuity{n}} &= \int_{0}^{n}(n - [t] )v^t \times \indiceGauche{t}{P}_{x} \times\mu_{x+t}dt \\
+\end{align*}
+
+\subsection{Assurance vie temporaire n-années décroissant m-fois par année}
+Versement d'une prestation de décès de n \$ la première année, $\frac{n-1}{m}$ \$ la deuxième année et ainsi de suite jusqu'à $\frac{1}{m}$\$.
+\begin{align*}
+(D^{(m)}\overline{A})_{\overset{1}{x}:\annuity{n}} &= \int_{0}^{n}\Big(n - \frac{m \times t}{m}\Big)v^t \times \indiceGauche{t}{P}_{x}\times \mu_{x+t}dt \\
+\end{align*}
+
+\subsection{Assurance vie temporaire n-années décroissant continûment}
+Versement d'une prestation de décès de n \$ la première année, $\frac{2}{m}$ \$ la deuxième année et ainsi de suite jusqu'à 0\$.
+\begin{align*}
+(\overline{DA})_{\overset{1}{x}:\annuity{n}} &= \int_{0}^{n} (n - t) v^t \times \indiceGauche{t}{P}_{x}\times \mu_{x+t}dt \\
+{}^2(\overline{IA})_{\overset{1}{x}:\annuity{n}} &= \int_{0}^{n}(n - t) v^{2t} \times \indiceGauche{t}{P}_{x}\times \mu_{x+t}dt \\
+\end{align*}
+
+\subsection{Relations entre assurances croissantes et décroissantes}
+\begin{align*}
+(D\overline{A})_{\overset{1}{x}:\annuity{n}} + (I\overline{A})_{\overset{1}{x}:\annuity{n}} &= (n+1) \overline{A}_{\overset{1}{x}:\annuity{n}} \\
+(D^{(m)}\overline{A})_{\overset{1}{x}:\annuity{n}} + (I^{(m)}\overline{A})_{\overset{1}{x}:\annuity{n}} &= \Big(n + \frac{1}{m} \Big) \overline{A}_{\overset{1}{x}:\annuity{n}} \\
+(\overline{DA})_{\overset{1}{x}:\annuity{n}} + (\overline{IA})_{\overset{1}{x}:\annuity{n}} &= n \overline{A}_{\overset{1}{x}:\annuity{n}} \\
+(D\overline{A})_{\overset{1}{x}:\annuity{n-1}} + (I_{\annuity{n}}\overline{A})_{x} &= n \overline{A}_{x} \\
+\end{align*}
+
+\section{Assurance vie discret}
+
+
+\subsection{Assurance vie  temporaire n-années croissant annuellement}
+Prestation de t\$ payable que si le décès a lieu dans les n-premières années.
+\begin{align*}
+(IA)_{\overset{1}{x}:\annuity{n}} &= \sum_{t=0}^{n-1}(t +1 )v^{t+1} \times \indiceGauche{t}{P}_{x} \times q_{x+t}\\
+\end{align*}
+
+\subsection{Assurance vie entière croissant annuellement}
+Paye une prestation de t\$ pour tout décès se produisant dans la kieme année.
+\begin{align*}
+(IA)_{x} &= \sum_{t=0}^{\omega - x-1}(t + 1)v^{t+1} \times \indiceGauche{t}{P}_{x} \times q_{x+t}\\
+\end{align*}
+
+\subsection{Assurance vie  entière croissant pendant n-années}
+Prestation croît pendant n-années et est payable peu importe quand le décès survient et la prestation est constante de n\$ à partir de la nieme année.
+\begin{align*}
+(I_{\annuity{n}}A)_{x} &= \sum_{t=0}^{n-1}(t +1 )v^{t+1} \times \indiceGauche{t}{P}_{x} \times q_{x+t}  + \sum_{t =n}^{\omega - x - 1}n \times v^{t+1} \times \indiceGauche{t}{P}_{x} \times q_{x+t}  \\
+(I_{\annuity{n}}A)_{x} &= (IA)_{\overset{1}{x}:\annuity{n}} + n \times \indiceGauche{n|}{A}_x\\
+\end{align*}
+
+
+\subsection{Assurance vie  temporaire n-années décroissant annuellement}
+Versement d'une prestation de décès de n - t -1\$ lsi le décès a lieu à la kieme année et des les n premières années.
+\begin{align*}
+(DA)_{\overset{1}{x}:\annuity{n}} &= \sum_{t = 0}^{n-1}(n - t )v^{t+1} \times \indiceGauche{t}{P}_{x} \times q_{x+t} \\
+(DA)_{\overset{1}{x}:\annuity{n}} &= \sum_{t = 1}^{n} A_{\overset{1}{x}:\annuity{t}}
+\end{align*}
+
+\subsection{Relations entre assurances croissantes et décroissantes}
+\begin{align*}
+(DA)_{\overset{1}{x}:\annuity{n}} + (IA)_{\overset{1}{x}:\annuity{n}} &= (n+1) A_{\overset{1}{x}:\annuity{n}} \\
+(DA)_{\overset{1}{x}:\annuity{n-1}} + (I_{\annuity{n}}A)_x &= n A_{x} \\
+(DA)_{\overset{1}{x}:\annuity{n-1}} + (IA)_{\overset{1}{x}:\annuity{n}} &= n A_{\overset{1}{x}:\annuity{n}} \\
+\end{align*}
+
+\section{Relations entres les assurances discrètes et continues}
+\begin{align*}
+\overline{A}_x &= \frac{i}{\delta}A_x \\
+\indiceGauche{m|}{\overline{A}}_{\overset{1}{x}:\annuity{n}} &= \frac{i}{\delta} \indiceGauche{m|}{A}_{\overset{1}{x}\annuity{n}} \\
+\overline{A}_{x:\annuity{n}} &= \frac{i}{\delta} A_{\overset{1}{x}:\annuity{n}} + A_{x:\overset{1}{\annuity{n}}} \\
+(I_{\annuity{m}}\overline{A})_{\overset{1}{x}\annuity{n}} &= \frac{i}{\delta} (I_{\annuity{m}}A)_{\overset{1}{x}\annuity{n}} \\
+(D\overline{A})_{\overset{1}{x}:\annuity{n}} &= \frac{i}{\delta}(DA)_{\overset{1}{x}:\annuity{n}} \\
+(I\overline{A})_x &= \frac{i}{\delta}(IA)_x \\
+(\overline{IA})_x &= \frac{i}{\delta}\Big[ (IA)_x - A_x\big( \frac{1}{d} - \frac{1}{\delta}\big) \Big]  \\
+(\overline{DA})_{\overset{1}{x}:\annuity{n}} &= \frac{i}{\delta}\Big[ (DA)_{\overset{1}{x}:\annuity{n}} - A_{\overset{1}{x}:\annuity{n}}\big( \frac{1}{d} - \frac{1}{\delta}\big) \Big]  \\
+\end{align*}
+
+\section{Approximation}
+Pour passer de $\frac{1}{m}$ à annuellement
+\begin{align*}
+A_x^{(m)} \approx (1+i)^{\frac{m-1}{2m}}A_x
+\end{align*}
+Pour passer de continu à discret
+\begin{align*}
+\overline{A}_x \approx (1+i)^{\frac{1}{2}}A_x
+\end{align*}

@@ -1,0 +1,89 @@
+
+\chapter{Notions supplémentaires sur les rentes}
+
+\section{Rentes continues}
+
+\subsection{Relations de récurrence pour les rentes continues}
+\begin{align*}
+\overline{a}_x &= \overline{a}_{x:\annuity{1}} + v^1 p_x \overline{a}_{x+1} \\
+\overline{a}_{x:\annuity{n}} &= \overline{a}_{x:\annuity{1}} + v^1 p_x \overline{a}_{x+1:\annuity{n-1}} \\
+\indiceGauche{n|}{\overline{a}}_x &= 0 +  v^1 p_x \indiceGauche{n-1|}{\overline{a}}_{x+1} \\
+\end{align*}
+
+\subsection{Rente viagère croissant annuellement}
+\begin{align*}
+(I\overline{a})_x &= \sum_{k=0}^{\omega - x -1} \indiceGauche{k|}{\overline{a}}_x
+\end{align*}
+
+\subsection{Rente temporaire n-années croissant annuellement}
+\begin{align*}
+(I\overline{a})_{x:\annuity{n}} &= \sum_{k=0}^{n -1} \indiceGauche{k|}{\overline{a}}_{x:\annuity{n-k}} \\
+&= \int_{0}^{n} [t+1]v^t \indiceGauche{t}{p}_x dt \\
+\end{align*}
+
+\subsection{Rente viagère croissant annuellement pendant n-années}
+\begin{align*}
+(I_{\annuity{n}}\overline{a})_{x} &= \sum_{k=0}^{n -1} \indiceGauche{k|}{\overline{a}}_{x} \\
+\end{align*}
+
+\subsection{Rente temporaire n-années décroissant annuellement}
+\begin{align*}
+(D\overline{a})_{x:\annuity{n}} &= \sum_{k=0}^{n -1} \overline{a}_{x:\annuity{k}} \\
+&= \int_{0}^{n} (n-[t])v^t \indiceGauche{t}{p}_x dt \\
+\end{align*}
+
+\subsection{Rente viagère croissant continûment}
+\begin{align*}
+(\overline{Ia})_x &= \int_{0}^{\omega - x}(\overline{Ia})_t \times \indiceGauche{t}{p}_x \times \mu_{x+t}dt \\
+&=  \int_{0}^{\omega - x} t v^t \times \indiceGauche{t}{p}_x dt \\
+\end{align*}
+
+\subsection{Rente temporaire n-années croissant continûment}
+\begin{align*}
+(\overline{Ia})_{x:\annuity{n}} &= \int_{0}^{n}(\overline{Ia})_t \times \indiceGauche{t}{p}_x \times \mu_{x+t}dt + (\overline{Ia})_{\annuity{n}} \indiceGauche{n}{p}_x\\
+&=  \int_{0}^{n} t v^t \times \indiceGauche{t}{p}_x dt \\
+\end{align*}
+
+\subsection{Rente viagère croissant continûment pendant n-années}
+\begin{align*}
+(\overline{I}_{\annuity{n}}\overline{a})_{x} &= \int_{0}^{n}(\overline{Ia})_{\annuity{t}} \times \indiceGauche{t}{p}_x \times \mu_{x+t}dt + \int_{n}^{\omega - x}\Big( (\overline{Ia})_{\annuity{n}} + nv^n \overline{a}_{\annuity{t-n}} \Big)\times \indiceGauche{t}{p}_x \times \mu_{x+t}dt \\
+&= (\overline{Ia})_{x:\annuity{n}} + n \times \indiceGauche{n|}{\overline{a}}_x \\
+&=  \int_{0}^{n} t v^t \times \indiceGauche{t}{p}_x dt + n \int_{n}^{\omega - x}v^t \times \indiceGauche{t}{p}_x dt\\
+\end{align*}
+
+\subsection{Rente temporaire n-années décroissant continûment}
+\begin{align*}
+(\overline{Da})_{x:\annuity{n}} &= \int_{0}^{n}\Big( n \overline{a}_{\annuity{t}} - (\overline{Ia})_{\annuity{t}} \Big) \times \indiceGauche{t}{p}_x \times \mu_{x+t}dt + (\overline{Da})_{x:\annuity{n}} \indiceGauche{n}{p}x \\
+&=  \int_{0}^{n} (n-t) v^t \times \indiceGauche{t}{p}_x dt\\
+\end{align*}
+
+\subsection{Relation entre les rentes croissantes et décroissantes}
+\begin{align*}
+(I\overline{a})_{x:\annuity{n}}  + (D\overline{a})_{x:\annuity{n}}  &= (n+1) \overline{a}_{x:\annuity{n}} \\
+(\overline{Ia})_{x:\annuity{n}}  + (\overline{Da})_{x:\annuity{n}}  &= n \overline{a}_{x:\annuity{n}} \\
+(I_{\annuity{n}}\overline{a})_{x}  + (D\overline{a})_{x:\annuity{n-1}}  &= n\overline{a}_{x} \\
+(\overline{I}_{\annuity{n}}\overline{a})_{x}  + (\overline{Da})_{x:\annuity{n}}  &= n\overline{a}_{x} \\
+\end{align*}
+
+\section{Rentes discrètes}
+
+\subsection{Rente viagère croissant annuellement}
+\begin{align*}
+(I\ddot{a})_x &= 1 + v \times p_x ( (I\ddot{a})_{x+1} + \ddot{a}_{x+1}  )
+\end{align*}
+
+\subsection{Rente temporaire n-années croissant annuellement}
+\begin{align*}
+(I\ddot{a})_{x:\annuity{n}} &= \sum_{k=0}^{n -1} (k+1) v^k \times \indiceGauche{k}{p}_{x} \\
+\end{align*}
+
+\subsection{Rente viagère croissant annuellement pendant n-années}
+\begin{align*}
+(I_{\annuity{n}}\ddot{a})_{x} &= \sum_{k=0}^{n -1} (k+1) v^k \times  \indiceGauche{k}{p}_{x} +  \sum_{k=n}^{\omega - x -1} n v^k \times  \indiceGauche{k}{p}_{x}\\
+\end{align*}
+
+
+\subsection{Rente temporaire n-années décroissant annuellement}
+\begin{align*}
+(D\ddot{a})_{x:\annuity{n}} &= n + v \times p_x  (D\ddot{a})_{x + 1:\annuity{n -1}}\\
+\end{align*}
