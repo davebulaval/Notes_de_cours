@@ -9,7 +9,7 @@ La présente archive contient le matériel des différentes notes de cours et do
 
 
 
-## Auteur
+## Auteur principal
 
 [David Beauchemin](david.beauchemin.5@ulaval.ca)
 
