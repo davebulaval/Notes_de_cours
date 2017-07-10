@@ -6,7 +6,11 @@ La présente archive contient le matériel d'étude composé pour le cours ACT-2
 
 [David Beauchemin](david.beauchemin.5@ulaval.ca)
 
+## Auteur des résumées
+Samuel Lévesque
+
 ## Professeur
+
 [Frédérick Guillot]([frederick.guillot.1@ulaval.ca])
 
 
