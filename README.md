@@ -19,4 +19,4 @@ La présente archive contient le matériel des différentes notes de cours et do
 - ACT-1002 : Deux résumés en Word des lois connues en prob. Espérance, variance FGM, MXT, densité et répartition. <br/>
 - ACT-2004 : LaTeX. Document de résumé du cours de mathématique actuarielle vie I. <br/>
 - ACT-2007 : LaTeX. Solution des exercices. Incomplètes.<br/>
-- ACT-2008 : LaTeX. Notes de cours complète du coours de mathématique actuarielle IARD II. <br/>
+- ACT-2008 : LaTeX. Notes de cours complète du cours de mathématique actuarielle IARD II. <br/>
